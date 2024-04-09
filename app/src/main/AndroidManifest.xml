@@ -13,6 +13,9 @@
         android:theme="@style/Theme.AplikacjaTestowa"
         tools:targetApi="31">
         <activity
+            android:name="naszeAktywnosci.RegistrationActivity"
+            android:exported="false" />
+        <activity
             android:name="naszeAktywnosci.LoginActivity"
             android:exported="false"
             android:label="@string/title_activity_login"
