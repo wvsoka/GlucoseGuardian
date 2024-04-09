@@ -50,8 +50,8 @@
         android:layout_marginBottom="37dp"
         android:background="@color/blue"
         android:ems="10"
+        android:hint="[j.m.]"
         android:inputType="number"
-        android:text="@string/j_m"
         android:textColor="@color/dark_blue" />
 
     <Button
