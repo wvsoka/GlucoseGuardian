@@ -21,11 +21,6 @@
             android:label="@string/title_activity_login"
             android:theme="@style/Theme.AplikacjaTestowa" />
         <activity
-            android:name="naszeAktywnosci.LoginViewActivity"
-            android:exported="false"
-            android:label="@string/title_activity_login_view"
-            android:theme="@style/Theme.AplikacjaTestowa" />
-        <activity
             android:name="naszeAktywnosci.AddInsulinActivity"
             android:exported="false" />
         <activity
