@@ -8,17 +8,6 @@
     android:background="@color/white"
     tools:context="naszeAktywnosci.AddGlucoseMeasurmentActivity">
 
-    <Button
-        android:id="@+id/button_addmeal"
-        android:layout_width="70dp"
-        android:layout_height="39dp"
-        android:layout_alignParentStart="false"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginEnd="37dp"
-        android:layout_marginBottom="30dp"
-        android:background="@color/red"
-        android:text="Add" />
 
     <TextView
         android:id="@+id/textView_meal"
@@ -76,8 +65,8 @@
         android:layout_marginBottom="30dp"
         android:background="@color/blue"
         android:ems="10"
+        android:hint="[WW]"
         android:inputType="number"
-        android:text="[WW]"
         android:textColor="@color/dark_blue" />
 
     <Button
@@ -107,8 +96,8 @@
         android:layout_marginBottom="117dp"
         android:background="@color/blue"
         android:ems="10"
+        android:hint="Meal name"
         android:inputType="text"
-        android:text="Name"
         android:textColor="@color/dark_blue" />
 
     <Button
