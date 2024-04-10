@@ -1,13 +1,13 @@
 {
   "project_info": {
-    "project_number": "778213904857",
-    "project_id": "glucose-guardian",
-    "storage_bucket": "glucose-guardian.appspot.com"
+    "project_number": "787821344838",
+    "project_id": "glucose-guardian-a82c9",
+    "storage_bucket": "glucose-guardian-a82c9.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:778213904857:android:3406bd1b26203f92ed09c8",
+        "mobilesdk_app_id": "1:787821344838:android:8b8e1ce9fffaf3eb697247",
         "android_client_info": {
           "package_name": "com.example.aplikacjatestowa"
         }
@@ -15,7 +15,7 @@
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyDWeD7N61JfGkMkWM79kCXeiv4eGqUyKgI"
+          "current_key": "AIzaSyAl4NeYL480G4s6YyFfKi9MUUhxLylfkHs"
         }
       ],
       "services": {
