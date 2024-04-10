@@ -13,6 +13,11 @@
         android:theme="@style/Theme.AplikacjaTestowa"
         tools:targetApi="31">
         <activity
+            android:name="naszeAktywnosci.BaseActivity"
+            android:exported="false"
+            android:label="@string/title_activity_base"
+            android:theme="@style/Theme.AplikacjaTestowa" />
+        <activity
             android:name="naszeAktywnosci.RegistrationActivity"
             android:exported="false" />
         <activity
