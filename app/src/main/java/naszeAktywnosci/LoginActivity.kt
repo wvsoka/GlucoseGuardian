@@ -6,13 +6,11 @@ import android.text.TextUtils
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
-import androidx.appcompat.app.AppCompatActivity
 import com.example.aplikacjatestowa.R
-import com.example.firebaselogin.BaseActivity
 import com.google.firebase.auth.FirebaseAuth
 
 
-class LoginActivity : BaseActivity(), View.OnClickListener {
+open class LoginActivity : BaseActivity(), View.OnClickListener {
     private lateinit var editTextLogin : EditText
     private lateinit var editTextPassword : EditText
     private lateinit var buttonLogin : Button

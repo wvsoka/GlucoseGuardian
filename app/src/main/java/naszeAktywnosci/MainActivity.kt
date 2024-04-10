@@ -8,6 +8,7 @@ import com.example.aplikacjatestowa.R
 
 
 
+
 class MainActivity : AppCompatActivity() {
     // widok z wykresem
 
@@ -31,6 +32,12 @@ class MainActivity : AppCompatActivity() {
         button6h = findViewById(R.id.button_6h)
         button12h = findViewById(R.id.button_12h)
         button24h = findViewById(R.id.button_24h)
+
+        // Pobierz intent, który uruchomił tę aktywność
+        val intent = intent
+
+        // Sprawdź, czy intent zawiera dodatkowe dane o nazwie "uID"
+        val userID = intent.getStringExtra("uID")
 
         //obsluga przycisku do zmieniania widoku na user info
         buttonMenu.setOnClickListener {
