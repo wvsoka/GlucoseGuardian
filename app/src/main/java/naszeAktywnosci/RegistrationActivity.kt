@@ -5,10 +5,7 @@ import android.text.TextUtils
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
-import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import com.example.aplikacjatestowa.R
 import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseAuth
@@ -17,7 +14,7 @@ import android.content.Intent
 import com.google.android.gms.tasks.OnCompleteListener
 
 
-class RegistrationActivity : AppCompatActivity() {
+class RegistrationActivity : BaseActivity() {
     // Deklaracje zmiennych dla pól widoku
     private lateinit var registerButton: Button
     private lateinit var inputEmail: EditText
@@ -37,7 +34,7 @@ class RegistrationActivity : AppCompatActivity() {
         inputRepPass = findViewById(R.id.editTextTextRepeatPassword)
 
         // Ustawienie nasłuchiwacza kliknięć dla przycisku rejestracji
-        registerButton?.setOnClickListener{
+        registerButton.setOnClickListener{
             registerUser()
         }
     }
