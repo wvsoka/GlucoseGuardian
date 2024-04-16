@@ -13,25 +13,28 @@ import com.example.aplikacjatestowa.R
 import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
+import android.content.Intent
+import com.google.android.gms.tasks.OnCompleteListener
+
 
 class RegistrationActivity : AppCompatActivity() {
     // Deklaracje zmiennych dla pól widoku
-    private var registerButton: Button? = null
-    private var inputEmail: EditText? = null
-    private var inputName: EditText? = null
-    private var inputPassword: EditText? = null
-    private var inputRepPass: EditText? = null
+    private lateinit var registerButton: Button
+    private lateinit var inputEmail: EditText
+    private lateinit var inputName: EditText
+    private lateinit var inputPassword: EditText
+    private lateinit var inputRepPass: EditText
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_register)
+        setContentView(R.layout.activity_registration)
 
         // Inicjalizacja pól widoku
-        registerButton = findViewById(R.id.registerButton)
-        inputEmail = findViewById(R.id.inputLEmaill)
-        inputName = findViewById(R.id.inputName)
-        inputPassword = findViewById(R.id.inputPassword2)
-        inputRepPass = findViewById(R.id.inputPassword2repeat)
+        registerButton = findViewById(R.id.button_signin)
+        inputEmail = findViewById(R.id.editTextTextEMail)
+        inputName = findViewById(R.id.editTextTextName)
+        inputPassword = findViewById(R.id.editTextTextPassword)
+        inputRepPass = findViewById(R.id.editTextTextRepeatPassword)
 
         // Ustawienie nasłuchiwacza kliknięć dla przycisku rejestracji
         registerButton?.setOnClickListener{
@@ -42,29 +45,30 @@ class RegistrationActivity : AppCompatActivity() {
     // Walidacja danych rejestracji
     private fun validateRegisterDetails(): Boolean {
         return when {
-            TextUtils.isEmpty(inputEmail?.text.toString().trim{ it <= ' '}) -> {
+            TextUtils.isEmpty(inputEmail.text.toString().trim{ it <= ' '}) -> {
                 showErrorSnackBar(resources.getString(R.string.err_msg_enter_email), true)
                 false
             }
-            TextUtils.isEmpty(inputName?.text.toString().trim{ it <= ' '}) -> {
+            TextUtils.isEmpty(inputName.text.toString().trim{ it <= ' '}) -> {
                 showErrorSnackBar(resources.getString(R.string.err_msg_enter_name), true)
                 false
             }
-            TextUtils.isEmpty(inputPassword?.text.toString().trim{ it <= ' '}) -> {
+            TextUtils.isEmpty(inputPassword.text.toString().trim{ it <= ' '}) -> {
                 showErrorSnackBar(resources.getString(R.string.err_msg_enter_password), true)
                 false
             }
-            TextUtils.isEmpty(inputRepPass?.text.toString().trim{ it <= ' '}) -> {
+            TextUtils.isEmpty(inputRepPass.text.toString().trim{ it <= ' '}) -> {
                 showErrorSnackBar(resources.getString(R.string.err_msg_enter_reppassword), true)
                 false
             }
-            inputPassword?.text.toString().trim {it <= ' '} != inputRepPass?.text.toString().trim{it <= ' '} -> {
+            inputPassword.text.toString().trim {it <= ' '} != inputRepPass?.text.toString().trim{it <= ' '} -> {
                 showErrorSnackBar(resources.getString(R.string.err_msg_password_mismatch), true)
                 false
             }
             else -> true
         }
     }
+
 
     // Przejście do aktywności logowania
     fun goToLogin(view: View) {
