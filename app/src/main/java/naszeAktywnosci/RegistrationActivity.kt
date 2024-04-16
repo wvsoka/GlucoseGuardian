@@ -5,7 +5,6 @@ import android.text.TextUtils
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
-import androidx.appcompat.app.AppCompatActivity
 import com.example.aplikacjatestowa.R
 import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseAuth
@@ -58,7 +57,7 @@ class RegistrationActivity : BaseActivity() {
                 showErrorSnackBar(resources.getString(R.string.err_msg_enter_reppassword), true)
                 false
             }
-            inputPassword.text.toString().trim {it <= ' '} != inputRepPass?.text.toString().trim{it <= ' '} -> {
+            inputPassword.text.toString().trim {it <= ' '} != inputRepPass.text.toString().trim{it <= ' '} -> {
                 showErrorSnackBar(resources.getString(R.string.err_msg_password_mismatch), true)
                 false
             }

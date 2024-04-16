@@ -30,6 +30,10 @@ open class LoginActivity : BaseActivity(), View.OnClickListener {
             logInRegisteredUser()
         }
 
+        buttonSignUp.setOnClickListener {
+            goToRegistration()
+        }
+
     }
 
     override fun onClick(view: View?) {
@@ -81,6 +85,11 @@ open class LoginActivity : BaseActivity(), View.OnClickListener {
                     }
                 }
         }
+    }
+
+    private fun goToRegistration(){
+        val intent = Intent(this, RegistrationActivity::class.java)
+        startActivity(intent)
     }
 
     // Przejście do aktywności głównej
