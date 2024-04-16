@@ -13,13 +13,24 @@
         android:theme="@style/Theme.AplikacjaTestowa"
         tools:targetApi="31">
         <activity
+            android:name="naszeAktywnosci.BaseActivity"
+            android:exported="false"
+            android:label="@string/title_activity_base"
+            android:theme="@style/Theme.AplikacjaTestowa" />
+        <activity
             android:name="naszeAktywnosci.RegistrationActivity"
             android:exported="false" />
         <activity
             android:name="naszeAktywnosci.LoginActivity"
-            android:exported="false"
+            android:exported="true"
             android:label="@string/title_activity_login"
-            android:theme="@style/Theme.AplikacjaTestowa" />
+            android:theme="@style/Theme.AplikacjaTestowa">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
         <activity
             android:name="naszeAktywnosci.AddInsulinActivity"
             android:exported="false" />
@@ -34,14 +45,7 @@
             android:exported="false" />
         <activity
             android:name="naszeAktywnosci.MainActivity"
-            android:exported="true"
-            android:label="@string/app_name">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+            android:exported="false" />
     </application>
 
 </manifest>
