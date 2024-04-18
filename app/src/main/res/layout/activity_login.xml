@@ -11,9 +11,9 @@
     <EditText
         android:id="@+id/editText_password"
         android:layout_width="211dp"
-        android:layout_height="38dp"
-        android:layout_marginTop="32dp"
-        android:layout_marginBottom="16dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="20dp"
         android:background="@color/white"
         android:backgroundTint="@color/white"
         android:ems="10"
@@ -28,10 +28,10 @@
     <EditText
         android:id="@+id/editText_login"
         android:layout_width="210dp"
-        android:layout_height="33dp"
+        android:layout_height="48dp"
         android:layout_marginStart="100dp"
         android:layout_marginEnd="100dp"
-        android:layout_marginBottom="16dp"
+        android:layout_marginBottom="20dp"
         android:background="@color/white"
         android:backgroundTint="@color/white"
         android:ems="10"
@@ -108,7 +108,7 @@
 
     <TextView
         android:id="@+id/textView_or"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="195dp"
         android:layout_marginTop="10dp"
