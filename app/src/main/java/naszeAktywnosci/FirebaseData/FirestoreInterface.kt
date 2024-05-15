@@ -1,9 +1,9 @@
 package naszeAktywnosci.FirebaseData
 
 interface FirestoreInterface {
-    fun addData()
-    fun updateData()
-    fun getData()
-    fun deleteData()
+    suspend fun addData()
+    suspend fun updateData()
+    suspend fun getData()
+    suspend fun deleteData()
 
 }
