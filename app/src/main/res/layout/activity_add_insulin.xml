@@ -20,7 +20,7 @@
         android:layout_marginStart="22dp"
         android:layout_marginTop="22dp"
         android:layout_marginBottom="148dp"
-        android:text="Dodaj insulinę"
+        android:text="Add Insulin"
         android:textColor="@color/dark_blue"
         android:textSize="22sp" />
 
@@ -35,7 +35,7 @@
         android:layout_marginStart="25dp"
         android:layout_marginTop="94dp"
         android:layout_marginBottom="86dp"
-        android:text="Wprowadź dawkę insuliny"
+        android:text="Enter Insulin Dose"
         android:textColor="@color/dark_blue" />
 
     <EditText
@@ -51,7 +51,7 @@
         android:layout_marginBottom="37dp"
         android:background="@color/blue"
         android:ems="10"
-        android:hint="[j.m.]"
+        android:hint="[U]"
         android:inputType="number"
         android:textColor="@color/dark_blue" />
 
