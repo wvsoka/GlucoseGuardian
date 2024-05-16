@@ -3,13 +3,17 @@ package naszeAktywnosci
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
+import android.widget.EditText
+import android.widget.SeekBar
+import android.widget.Switch
 import androidx.appcompat.app.AppCompatActivity
 import com.example.aplikacjatestowa.R
 
 class UserInfoActivity : AppCompatActivity() {
 
-    private lateinit var buttonBack : Button // do cofania do widoku glownego
-
+    private lateinit var buttonBack: Button
+    private lateinit var editTextName: EditText
+    private lateinit var editTextDate: EditText
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -20,6 +24,11 @@ class UserInfoActivity : AppCompatActivity() {
         buttonBack.setOnClickListener {
             openActivityMain()
         }
+
+        editTextName = findViewById(R.id.editText_name)
+        editTextDate = findViewById(R.id.editText_date)
+
+
 
     }
 
