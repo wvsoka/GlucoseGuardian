@@ -20,7 +20,7 @@
         android:layout_marginStart="22dp"
         android:layout_marginTop="22dp"
         android:layout_marginBottom="248dp"
-        android:text="Dodaj pomiar"
+        android:text="Add Measurement"
         android:textColor="@color/dark_blue"
         android:textSize="22sp" />
 
@@ -35,7 +35,7 @@
         android:layout_marginStart="23dp"
         android:layout_marginTop="132dp"
         android:layout_marginBottom="148dp"
-        android:text="Wprowadź pomiar glukozy"
+        android:text="Enter Glucose Measurement"
         android:textColor="@color/dark_blue" />
 
     <EditText
@@ -57,15 +57,15 @@
 
     <Button
         android:id="@+id/button_addinsert"
-        android:layout_width="70dp"
-        android:layout_height="39dp"
+        android:layout_width="80dp"
+        android:layout_height="40dp"
         android:layout_alignParentStart="false"
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
         android:layout_marginStart="22dp"
         android:layout_marginTop="153dp"
-        android:layout_marginEnd="35dp"
+        android:layout_marginEnd="22dp"
         android:layout_marginBottom="108dp"
         android:background="@color/red"
         android:text="Add" />
@@ -81,7 +81,7 @@
         android:layout_marginStart="23dp"
         android:layout_marginTop="212dp"
         android:layout_marginBottom="68dp"
-        android:text="Wprowadź plik z pomiarem"
+        android:text="Enter Measurement File"
         android:textColor="@color/dark_blue" />
 
 
@@ -101,13 +101,13 @@
 
     <Button
         android:id="@+id/button_backToMainFromGlucose"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="80dp"
+        android:layout_height="40dp"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginStart="203dp"
+        android:layout_marginStart="218dp"
         android:layout_marginTop="12dp"
         android:layout_marginEnd="22dp"
         android:layout_marginBottom="240dp"

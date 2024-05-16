@@ -21,7 +21,7 @@
         android:layout_marginStart="22dp"
         android:layout_marginTop="22dp"
         android:layout_marginBottom="248dp"
-        android:text="Dodaj posiłek"
+        android:text="Add Meal"
         android:textColor="@color/dark_blue"
         android:textSize="22sp" />
 
@@ -36,7 +36,7 @@
         android:layout_marginStart="20dp"
         android:layout_marginTop="122dp"
         android:layout_marginBottom="158dp"
-        android:text="Wprowadź nazwę posiłku"
+        android:text="Enter Meal Name"
         android:textColor="@color/dark_blue" />
 
     <TextView
@@ -50,7 +50,7 @@
         android:layout_marginStart="22dp"
         android:layout_marginTop="210dp"
         android:layout_marginBottom="70dp"
-        android:text="Wymiennik węglowodanowy"
+        android:text="Carbohydrates"
         android:textColor="@color/dark_blue" />
 
     <EditText
@@ -66,7 +66,7 @@
         android:layout_marginBottom="30dp"
         android:background="@color/blue"
         android:ems="10"
-        android:hint="[WW]"
+        android:hint="[g]"
         android:inputType="number"
         android:textColor="@color/dark_blue" />
 
@@ -74,9 +74,8 @@
         android:id="@+id/button_addmeal"
         android:layout_width="70dp"
         android:layout_height="39dp"
-        android:layout_alignParentStart="false"
-        android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
+        android:layout_alignParentTop="true"
         android:layout_alignParentBottom="true"
         android:layout_marginTop="231dp"
         android:layout_marginEnd="37dp"
@@ -113,6 +112,6 @@
         android:layout_marginTop="12dp"
         android:layout_marginEnd="11dp"
         android:layout_marginBottom="240dp"
-        android:text="@string/back" />
+        android:text="Back" />
 
 </RelativeLayout>
