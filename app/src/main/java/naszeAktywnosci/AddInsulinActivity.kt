@@ -30,3 +30,6 @@ class AddInsulinActivity : AppCompatActivity() {
         startActivity(intent)
     }
 }
+
+//@+id/editTextNumber_insulin - wpisanie podanej dawki insuliny
+//@+id/button_addinsulin - dodanie tej dawki

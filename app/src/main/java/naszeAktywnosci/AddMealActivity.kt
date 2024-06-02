@@ -25,3 +25,7 @@ class AddMealActivity : AppCompatActivity() {
         startActivity(intent)
     }
 }
+
+//@+id/editText_meal - wpisanie nazwy posiłku
+//@+id/editTextNumber_WW - wpisanie g węglowodanów
+//@+id/button_addmeal - dodanie posiłku

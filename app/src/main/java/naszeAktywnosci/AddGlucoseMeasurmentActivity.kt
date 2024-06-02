@@ -26,3 +26,7 @@ class AddGlucoseMeasurmentActivity : AppCompatActivity() {
         startActivity(intent)
     }
 }
+
+//@+id/editTextNumber_insert - wpisanie pomiaru glukozy
+//@+id/button_addinsert - dodanie pojedynczego pomiaru
+//@+id/button_addfile - dodanie pliku z pomiarami
