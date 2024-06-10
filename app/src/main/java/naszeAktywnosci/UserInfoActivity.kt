@@ -27,9 +27,6 @@ class UserInfoActivity : AppCompatActivity() {
 
         editTextName = findViewById(R.id.editText_name)
         editTextDate = findViewById(R.id.editText_date)
-
-
-
     }
 
     //Metoda powrotu do main activity

@@ -3,6 +3,7 @@ package naszeAktywnosci
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
+import android.widget.EditText
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -12,6 +13,10 @@ import com.example.aplikacjatestowa.R
 class AddGlucoseMeasurmentActivity : AppCompatActivity() {
 
     private lateinit var buttonBack : Button
+    private lateinit var buttonAddInsert : Button
+    private lateinit var buttonAddFile : Button
+    private lateinit var numberInsert : EditText
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -19,6 +24,10 @@ class AddGlucoseMeasurmentActivity : AppCompatActivity() {
 
         buttonBack = findViewById(R.id.button_backToMainFromGlucose)
         buttonBack.setOnClickListener { openActivityMain() }
+
+        buttonAddFile = findViewById(R.id.button_addfile)
+        buttonAddInsert = findViewById(R.id.button_addinsert)
+        numberInsert = findViewById(R.id.editTextNumber_insert)
     }
 
     private fun openActivityMain() {

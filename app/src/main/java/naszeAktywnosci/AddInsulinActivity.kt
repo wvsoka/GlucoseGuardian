@@ -3,6 +3,7 @@ package naszeAktywnosci
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
+import android.widget.EditText
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -12,6 +13,8 @@ import com.example.aplikacjatestowa.R
 class AddInsulinActivity : AppCompatActivity() {
 
     private lateinit var buttonBack : Button
+    private lateinit var buttonAddInsulin: Button
+    private lateinit var numberInsulin : EditText
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -22,6 +25,9 @@ class AddInsulinActivity : AppCompatActivity() {
         buttonBack.setOnClickListener{
             openActivityMain()
         }
+
+        buttonAddInsulin = findViewById(R.id.button_addinsulin)
+        numberInsulin = findViewById(R.id.editTextNumber_insulin)
 
     }
 
