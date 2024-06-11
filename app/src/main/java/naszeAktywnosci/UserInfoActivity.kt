@@ -6,6 +6,7 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.SeekBar
 import android.widget.Switch
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.aplikacjatestowa.R
 import com.google.firebase.firestore.firestore
@@ -120,10 +121,11 @@ class UserInfoActivity : AppCompatActivity() {
 
         CoroutineScope(Dispatchers.Main).launch {
             try {
-                db.collection("users").document(userId).set(updatedUser).await()
-                // Optionally show a success message
+                dbOperations.updateUser(userId, updatedUser)
+                Toast.makeText(this@UserInfoActivity, "User data saved successfully", Toast.LENGTH_SHORT).show()
             } catch (e: Exception) {
-                // Handle the exception
+                Toast.makeText(this@UserInfoActivity, "Failed to save user data", Toast.LENGTH_SHORT).show()
+            // Handle the exception
             }
         }
     }

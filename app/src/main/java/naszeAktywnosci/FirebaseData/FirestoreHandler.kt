@@ -5,8 +5,22 @@ import kotlinx.coroutines.tasks.await
 
 import android.util.Log
 import java.lang.Exception
+import java.util.UUID
 
 class FirestoreHandler(private val db: FirebaseFirestore) : FirestoreInterface{
+
+    suspend fun generateId(db: FirebaseFirestore, collectionPath: String): String {
+        val id = UUID.randomUUID().toString()
+        val documentSnapshot = db.collection(collectionPath).document(id).get().await()
+        return if (documentSnapshot.exists()) {
+            // If document with generated ID already exists, generate a new one recursively
+            generateId(db, collectionPath)
+        } else {
+            // If document with generated ID doesn't exist, return the generated ID
+            id
+        }
+    }
+
     override suspend fun addUser(userId: String, user: User) {
         try {
             db.collection("users").document(userId).set(user).await()
