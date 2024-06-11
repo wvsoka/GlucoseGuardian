@@ -5,8 +5,9 @@ import android.os.Bundle
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
 import com.example.aplikacjatestowa.R
-
-
+import com.google.firebase.firestore.firestore
+import com.google.firebase.Firebase
+import naszeAktywnosci.FirebaseData.FirestoreHandler
 
 
 class MainActivity : AppCompatActivity() {
@@ -19,6 +20,8 @@ class MainActivity : AppCompatActivity() {
     private var button6h : Button? = null
     private var button12h : Button? = null
     private var button24h : Button? = null
+
+    private lateinit var userId: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,7 +40,7 @@ class MainActivity : AppCompatActivity() {
         val intent = intent
 
         // Sprawdź, czy intent zawiera dodatkowe dane o nazwie "uID"
-        val userID = intent.getStringExtra("uID")
+        userId = intent.getStringExtra("uID").toString()
 
         //obsluga przycisku do zmieniania widoku na user info
         buttonMenu.setOnClickListener {
@@ -62,21 +65,25 @@ class MainActivity : AppCompatActivity() {
     //Metoda do otwierania UserInfo
     private fun openActivityUserInfo(){
         val intent = Intent(this, UserInfoActivity::class.java)
+        intent.putExtra("uID", userId)
         startActivity(intent)
     }
 
     private fun openActivityAddInsulin(){
         val intent = Intent(this, AddInsulinActivity::class.java)
+        intent.putExtra("uID", userId)
         startActivity(intent)
     }
 
     private fun openActivityAddGlucose(){
         val intent = Intent(this, AddGlucoseMeasurmentActivity::class.java)
+        intent.putExtra("uID", userId)
         startActivity(intent)
     }
 
     private fun openActivityAddMeal(){
         val intent = Intent(this, AddMealActivity::class.java)
+        intent.putExtra("uID", userId)
         startActivity(intent)
     }
 }
