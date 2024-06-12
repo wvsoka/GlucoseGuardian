@@ -20,6 +20,7 @@ class MainActivity : AppCompatActivity() {
     private var button6h : Button? = null
     private var button12h : Button? = null
     private var button24h : Button? = null
+    private lateinit var buttonNotification : Button
 
     private lateinit var userId: String
 
@@ -35,6 +36,8 @@ class MainActivity : AppCompatActivity() {
         button6h = findViewById(R.id.button_6h)
         button12h = findViewById(R.id.button_12h)
         button24h = findViewById(R.id.button_24h)
+        buttonNotification = findViewById(R.id.button_notifications)
+
 
         // Pobierz intent, który uruchomił tę aktywność
         val intent = intent
@@ -57,6 +60,7 @@ class MainActivity : AppCompatActivity() {
 
         buttonMeal.setOnClickListener { openActivityAddMeal() }
 
+        buttonNotification.setOnClickListener { openScheduleNotificationsActivity() }
 
 
 
@@ -83,6 +87,12 @@ class MainActivity : AppCompatActivity() {
 
     private fun openActivityAddMeal(){
         val intent = Intent(this, AddMealActivity::class.java)
+        intent.putExtra("uID", userId)
+        startActivity(intent)
+    }
+
+    private fun openScheduleNotificationsActivity(){
+        val intent = Intent(this, ScheduleNotificationsActivity::class.java)
         intent.putExtra("uID", userId)
         startActivity(intent)
     }

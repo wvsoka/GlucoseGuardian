@@ -12,4 +12,8 @@
     <string name="err_msg_password_mismatch">Passwords mismatch</string>
     <string name="login_successfull">You are logged in successfully</string>
     <string name="title_activity_base">BaseActivity</string>
+    <string name="title_activity_main2">MainActivity2</string>
+    <string name="tile">Tile</string>
+    <string name="message">Message</string>
+    <string name="schedule_notification">Schedule Notification</string>
 </resources>
