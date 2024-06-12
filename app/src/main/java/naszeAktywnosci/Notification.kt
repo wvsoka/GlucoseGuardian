@@ -20,6 +20,7 @@ class Notification : BroadcastReceiver() {
             .setSmallIcon(R.drawable.ic_launcher_foreground)
             .setContentTitle(intent.getStringExtra(titleExtra))
             .setContentText(intent.getStringExtra(messageExtra))
+            .setPriority(NotificationCompat.PRIORITY_DEFAULT)
             .build()
 
         val manager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager

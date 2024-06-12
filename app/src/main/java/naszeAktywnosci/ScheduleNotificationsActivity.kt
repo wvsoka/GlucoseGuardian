@@ -38,7 +38,6 @@ class ScheduleNotificationsActivity : AppCompatActivity() {
 
     }
 
-    @SuppressLint("ScheduleExactAlarm")
     private fun scheduleNotification() {
         val intent = Intent(applicationContext, Notification::class.java)
         val title = binding.EditTextTitle.text.toString()
@@ -96,16 +95,19 @@ class ScheduleNotificationsActivity : AppCompatActivity() {
         return calendar.timeInMillis
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
+
     private fun createNotificationChannel() {
-        val name = "Notif Channel"
-        val desc = "A description of the channel"
-        val importance = NotificationManager.IMPORTANCE_DEFAULT
-        val channel = NotificationChannel(channelId, name, importance)
-        channel.description = desc
-
-        val notificationManager = getSystemService(NOTIFICATION_SERVICE) as NotificationManager
-        notificationManager.createNotificationChannel(channel)
-
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val name = "Notif Channel"
+            val desc = "A description of the channel"
+            val importance = NotificationManager.IMPORTANCE_DEFAULT
+            val channel = NotificationChannel(channelId, name, importance).apply {
+                description = desc
+            }
+            // Register the channel with the system.
+            val notificationManager: NotificationManager =
+                getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+            notificationManager.createNotificationChannel(channel)
+        }
     }
 }
