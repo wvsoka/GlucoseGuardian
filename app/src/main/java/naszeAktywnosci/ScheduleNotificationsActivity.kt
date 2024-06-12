@@ -36,6 +36,15 @@ class ScheduleNotificationsActivity : AppCompatActivity() {
         createNotificationChannel()
         binding.buttonSubmitNotification.setOnClickListener { scheduleNotification() }
 
+        binding.buttonBackToManFromNotif.setOnClickListener {
+            openActivityMain()
+        }
+
+    }
+
+    private fun openActivityMain() {
+        val intent = Intent(this, MainActivity::class.java)
+        startActivity(intent)
     }
 
     private fun scheduleNotification() {

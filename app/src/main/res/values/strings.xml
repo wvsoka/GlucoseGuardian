@@ -16,4 +16,5 @@
     <string name="tile">Tile</string>
     <string name="message">Message</string>
     <string name="schedule_notification">Schedule Notification</string>
+    <string name="Back">Back</string>
 </resources>
