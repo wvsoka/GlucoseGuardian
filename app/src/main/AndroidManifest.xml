@@ -5,6 +5,7 @@
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
     <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" />
     <uses-permission android:name="android.permission.USE_EXACT_ALARM" />
+
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -15,8 +16,14 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AplikacjaTestowa"
         tools:targetApi="31">
-        <receiver android:name="naszeAktywnosci.Notification"
+        <activity
+            android:name="naszeAktywnosci.RecyclerView"
+            android:exported="false" />
+
+        <receiver
+            android:name="naszeAktywnosci.Notification"
             android:enabled="true" />
+
         <activity
             android:name="naszeAktywnosci.ScheduleNotificationsActivity"
             android:exported="false" />
