@@ -65,16 +65,18 @@ class UserInfoActivity : AppCompatActivity() {
             saveUserData()
         }
         userId = intent.getStringExtra("uID") ?: ""
-        if (userId.isNotEmpty()) {
-            loadUserData()
-        } else {
+        if (userId.isEmpty()) {
             val intent = Intent(this, LoginActivity::class.java)
             startActivity(intent)
             finish()
         }
+    }
 
-        loadUserData()
-
+    override fun onResume() {
+        super.onResume()
+        if (userId.isNotEmpty()) {
+            loadUserData()
+        }
     }
 
     //Metoda powrotu do main activity
@@ -95,10 +97,20 @@ class UserInfoActivity : AppCompatActivity() {
                     iw.setText(user.insulinWW.toString())
                     hypoglycemia.setText(user.hypoglycaemia.toString())
                     hyperglycemia.setText(user.hyperglycaemia.toString())
-                    // Set other fields here
+                    weight.setText(user.weight.toString())
+                    height.setText(user.height.toString())
                 }
+                Toast.makeText(
+                    this@UserInfoActivity,
+                    "User info saved successfully.",
+                    Toast.LENGTH_SHORT
+                ).show()
             } catch (e: Exception) {
-                // Handle the exception
+                Toast.makeText(
+                    this@UserInfoActivity,
+                    "Failed to load user data",
+                    Toast.LENGTH_SHORT
+                ).show()
             }
         }
     }
@@ -109,6 +121,8 @@ class UserInfoActivity : AppCompatActivity() {
         val insulinWW = iw.text.toString().toDoubleOrNull() ?: 0.0
         val hypoglycaemia = hypoglycemia.text.toString().toDoubleOrNull() ?: 0.0
         val hyperglycaemia = hyperglycemia.text.toString().toDoubleOrNull() ?: 0.0
+        val height = height.text.toString().toDoubleOrNull() ?: 0.0
+        val weight = weight.text.toString().toDoubleOrNull() ?: 0.0
 
         val updatedUser = User(
             name = name,
@@ -116,6 +130,8 @@ class UserInfoActivity : AppCompatActivity() {
             insulinWW = insulinWW,
             hypoglycaemia = hypoglycaemia,
             hyperglycaemia = hyperglycaemia,
+            height = height,
+            weight = weight,
             userId = userId
         )
 

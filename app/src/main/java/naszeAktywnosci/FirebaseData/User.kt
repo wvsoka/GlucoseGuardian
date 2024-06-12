@@ -7,5 +7,7 @@ data class User(
     @get:PropertyName("insulinWW") @set:PropertyName("insulinWW") var insulinWW: Double = 0.00,
     @get:PropertyName("hypoglycaemia") @set:PropertyName("hypoglycaemia") var hypoglycaemia: Double = 0.00,
     @get:PropertyName("hyperglycaemia") @set:PropertyName("hyperglycaemia") var hyperglycaemia: Double = 0.00,
+    @get:PropertyName("weight") @set:PropertyName("weight") var weight: Double = 0.00,
+    @get:PropertyName("height") @set:PropertyName("height") var height: Double = 0.00,
     @get:PropertyName("userId") @set:PropertyName("userId") var userId: String = ""
 )
