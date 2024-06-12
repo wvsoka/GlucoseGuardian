@@ -58,7 +58,7 @@ class AddMealActivity : AppCompatActivity() {
 
         CoroutineScope(Dispatchers.Main).launch {
             try {
-                val mealId = dbOperations.generateId(db, "meal_info") // Generate a unique meal ID
+                val mealId = dbOperations.generateId(db, "meal_info")
                 val mealInfo = MealInfo(
                     name = mealName,
                     date = getCurrentDate(),
@@ -70,7 +70,6 @@ class AddMealActivity : AppCompatActivity() {
                 openActivityMain()
             } catch (e: Exception) {
                 Toast.makeText(this@AddMealActivity, "Failed to add meal", Toast.LENGTH_SHORT).show()
-                // Handle the exception
             }
         }
     }
