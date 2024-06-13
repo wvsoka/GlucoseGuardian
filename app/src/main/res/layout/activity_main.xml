@@ -5,36 +5,28 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="naszeAktywnosci.MainActivity"
-    android:background="@drawable/gradient_background_main">
+    android:background="@drawable/gradient_background_main"
+    tools:context="naszeAktywnosci.MainActivity">
 
     <Button
         android:id="@+id/button_insulin"
         android:layout_width="100dp"
         android:layout_height="60dp"
-        android:layout_marginEnd="44dp"
         android:background="@color/red"
         android:text="Insulin"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toEndOf="@+id/button_glucose"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.895" />
+        app:layout_constraintVertical_bias="0.93"/>
 
     <Button
         android:id="@+id/button_24h"
-        android:layout_width="100dp"
+        android:layout_width="110dp"
         android:layout_height="60dp"
-        android:layout_marginEnd="44dp"
         android:background="@color/red"
         android:text="24h"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toEndOf="@+id/button_12h"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.178" />
+        app:layout_constraintBottom_toTopOf="@+id/imageView_chart"
+        app:layout_constraintStart_toEndOf="@+id/button_12h" />
 
     <ImageView
         android:id="@+id/imageView_chart"
@@ -42,53 +34,42 @@
         android:layout_height="323dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.493"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.419"
         tools:srcCompat="@tools:sample/avatars" />
 
     <Button
         android:id="@+id/button_6h"
-        android:layout_width="100dp"
+        android:layout_width="110dp"
         android:layout_height="60dp"
-        android:layout_marginStart="44dp"
         android:background="@color/red"
         android:text="6h"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/button_12h"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.178" />
+        app:layout_constraintBottom_toTopOf="@+id/imageView_chart"
+        app:layout_constraintEnd_toStartOf="@+id/button_12h" />
 
     <Button
         android:id="@+id/button_12h"
-        android:layout_width="100dp"
+        android:layout_width="110dp"
         android:layout_height="60dp"
         android:background="@color/red"
         android:text="12h"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/imageView_chart"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.178" />
+        app:layout_constraintVertical_bias="1.0" />
 
     <Button
         android:id="@+id/button_meal"
         android:layout_width="100dp"
         android:layout_height="60dp"
-        android:layout_marginStart="44dp"
+
         android:background="@color/red"
         android:text="Meal"
-
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/button_glucose"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.894" />
+        app:layout_constraintVertical_bias="0.93" />
 
     <Button
         android:id="@+id/button_glucose"
@@ -98,46 +79,57 @@
         android:text="Glucose"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.933" />
+        app:layout_constraintVertical_bias="0.97" />
 
     <Button
         android:id="@+id/button_menu"
         android:layout_width="80dp"
         android:layout_height="80dp"
+        android:layout_marginTop="40dp"
+        android:layout_marginEnd="44dp"
         android:background="@drawable/round_button"
         android:text="Menu"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.048"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.024" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/textView_alert"
-        android:layout_width="320dp"
+        android:layout_width="330dp"
         android:layout_height="30dp"
+        android:layout_marginTop="10dp"
         android:background="@color/white"
         android:text="ALERT"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.516"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.74" />
+        app:layout_constraintTop_toBottomOf="@+id/imageView_chart"
+        app:layout_constraintVertical_bias="0.0" />
 
     <Button
         android:id="@+id/button_notifications"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="242dp"
+        android:layout_height="48dp"
+        android:layout_marginEnd="4dp"
         android:text="Schedule notifications"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.751"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/button_menu"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.023" />
+        app:layout_constraintVertical_bias="0.058" />
+
+    <androidx.constraintlayout.widget.Group
+        android:id="@+id/group"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:constraint_referenced_ids="button_meal,button_glucose,button_insulin" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_begin="20dp" />
 </androidx.constraintlayout.widget.ConstraintLayout>
