@@ -141,7 +141,6 @@ class UserInfoActivity : AppCompatActivity() {
                 Toast.makeText(this@UserInfoActivity, "User data saved successfully", Toast.LENGTH_SHORT).show()
             } catch (e: Exception) {
                 Toast.makeText(this@UserInfoActivity, "Failed to save user data", Toast.LENGTH_SHORT).show()
-            // Handle the exception
             }
         }
     }

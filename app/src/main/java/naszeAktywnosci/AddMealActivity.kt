@@ -16,6 +16,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import naszeAktywnosci.FirebaseData.FirestoreHandler
+import naszeAktywnosci.FirebaseData.MealDataActivity
 import naszeAktywnosci.FirebaseData.MealInfo
 
 class AddMealActivity : AppCompatActivity() {
@@ -23,6 +24,7 @@ class AddMealActivity : AppCompatActivity() {
     private lateinit var buttonAddMeal : Button
     private lateinit var meal : EditText
     private lateinit var numberWW : EditText
+    private lateinit var buttonAllMeals : Button
 
     private val db = Firebase.firestore
     private val dbOperations = FirestoreHandler(db)
@@ -38,17 +40,29 @@ class AddMealActivity : AppCompatActivity() {
         buttonAddMeal = findViewById(R.id.button_addmeal)
         meal = findViewById(R.id.editText_meal)
         numberWW = findViewById(R.id.editTextNumber_WW)
+        buttonAllMeals = findViewById(R.id.button_toInfoMeal)
 
         buttonAddMeal.setOnClickListener {
             addMeal()
+        }
+
+        buttonAllMeals.setOnClickListener {
+            openAllMealsActivity()
         }
 
         userId = intent.getStringExtra("uID") ?: ""
 
     }
 
+    private fun openAllMealsActivity() {
+        val intent = Intent(this, MealDataActivity::class.java)
+        intent.putExtra("uID", userId)
+        startActivity(intent)
+    }
+
     private fun openActivityMain() {
         val intent = Intent(this, MainActivity::class.java)
+        intent.putExtra("uID", userId)
         startActivity(intent)
     }
 
