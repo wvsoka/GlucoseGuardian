@@ -33,7 +33,7 @@
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="false"
         android:layout_alignParentBottom="true"
-        android:layout_marginStart="20dp"
+        android:layout_marginStart="22dp"
         android:layout_marginTop="122dp"
         android:layout_marginBottom="158dp"
         android:text="Enter Meal Name"
@@ -70,17 +70,20 @@
         android:inputType="number"
         android:textColor="@color/dark_blue" />
 
+
     <Button
         android:id="@+id/button_addmeal"
         android:layout_width="70dp"
-        android:layout_height="39dp"
+        android:layout_height="40dp"
         android:layout_alignParentEnd="true"
-        android:layout_alignParentTop="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginTop="231dp"
-        android:layout_marginEnd="37dp"
+        android:layout_alignParentTop="true"
+        android:layout_marginEnd="22dp"
         android:layout_marginBottom="30dp"
-        android:background="@color/red"
+        android:layout_marginStart="221dp"
+        android:layout_marginTop="230dp"
+        android:layout_alignParentStart="true"
+
         android:text="Add" />
 
     <EditText
@@ -89,11 +92,12 @@
         android:layout_height="40dp"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
-        android:layout_alignParentEnd="false"
+        android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginStart="20dp"
+        android:layout_marginStart="22dp"
         android:layout_marginTop="143dp"
         android:layout_marginBottom="117dp"
+        android:layout_marginEnd="22dp"
         android:background="@color/blue"
         android:ems="10"
         android:hint="Meal name"
@@ -109,9 +113,22 @@
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
         android:layout_marginStart="221dp"
-        android:layout_marginTop="12dp"
-        android:layout_marginEnd="11dp"
+        android:layout_marginTop="17dp"
+        android:layout_marginEnd="22dp"
         android:layout_marginBottom="240dp"
         android:text="Back" />
+
+    <Button
+        android:id="@+id/button_toInfoMeal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="false"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="22dp"
+        android:layout_marginTop="62dp"
+        android:layout_marginBottom="190dp"
+        android:text="All Meals" />
 
 </RelativeLayout>
