@@ -26,8 +26,9 @@ import java.util.Date
 class ScheduleNotificationsActivity : AppCompatActivity() {
 
     private lateinit var binding : ActivityScheduleNotificationsBinding
+    private lateinit var userId: String
 
-    @RequiresApi(Build.VERSION_CODES.O)
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityScheduleNotificationsBinding.inflate(layoutInflater)
@@ -40,10 +41,18 @@ class ScheduleNotificationsActivity : AppCompatActivity() {
             openActivityMain()
         }
 
+        userId = intent.getStringExtra("uID") ?: ""
+        if (userId.isEmpty()) {
+            val intent = Intent(this, LoginActivity::class.java)
+            startActivity(intent)
+            finish()
+        }
+
     }
 
     private fun openActivityMain() {
         val intent = Intent(this, MainActivity::class.java)
+        intent.putExtra("uID", userId)
         startActivity(intent)
     }
 
