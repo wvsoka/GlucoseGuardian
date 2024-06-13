@@ -17,7 +17,7 @@
         android:theme="@style/Theme.AplikacjaTestowa"
         tools:targetApi="31">
         <activity
-            android:name="naszeAktywnosci.RecyclerView"
+            android:name="naszeAktywnosci.MealDataActivity"
             android:exported="false" />
 
         <receiver
