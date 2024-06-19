@@ -35,7 +35,7 @@ class MealDataActivity : AppCompatActivity() {
 
         buttonBack = findViewById(R.id.back_button)
 
-        recyclerView = findViewById(R.id.recyclerView)
+        recyclerView = findViewById<RecyclerView>(R.id.recyclerView)
 
         recyclerView.layoutManager = LinearLayoutManager(this)
         recyclerView.setHasFixedSize(true)
@@ -61,7 +61,7 @@ class MealDataActivity : AppCompatActivity() {
     }
 
     private fun EventChangeListener() {
-        db.collection("meal_info").
+        db.collection("meal_info").document(userId).collection("meals").
                 addSnapshotListener(object  : EventListener<QuerySnapshot>{
                     override fun onEvent(
                         value: QuerySnapshot?,
@@ -72,10 +72,22 @@ class MealDataActivity : AppCompatActivity() {
                             return
                         }
                         for (dc : DocumentChange in value?.documentChanges!!){
-                            if(dc.type == DocumentChange.Type.ADDED){
-                                mealList.add(dc.document.toObject(MealInfo::class.java))
+                            when (dc.type) {
+                                DocumentChange.Type.ADDED -> {
+                                    mealList.add(dc.document.toObject(MealInfo::class.java))
+                                }
+                                DocumentChange.Type.MODIFIED -> {
+                                    val updatedMeal = dc.document.toObject(MealInfo::class.java)
+                                    val index = mealList.indexOfFirst { it.mealId == updatedMeal.mealId }
+                                    if (index != -1) {
+                                        mealList[index] = updatedMeal
+                                    }
+                                }
+                                DocumentChange.Type.REMOVED -> {
+                                    val removedMeal = dc.document.toObject(MealInfo::class.java)
+                                    mealList.removeAll { it.mealId == removedMeal.mealId }
+                                }
                             }
-
                         }
                         mealAdapter.notifyDataSetChanged()
                     }
