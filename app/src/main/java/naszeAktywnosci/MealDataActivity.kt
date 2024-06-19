@@ -1,26 +1,33 @@
-package naszeAktywnosci.FirebaseData
+package naszeAktywnosci
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.aplikacjatestowa.R
-import com.google.firebase.firestore.FirebaseFirestore
-import kotlinx.coroutines.launch
-import naszeAktywnosci.LoginActivity
-import naszeAktywnosci.MainActivity
+import com.google.firebase.Firebase
+import com.google.firebase.firestore.DocumentChange
+import com.google.firebase.firestore.EventListener
+import com.google.firebase.firestore.FirebaseFirestoreException
+import com.google.firebase.firestore.QuerySnapshot
+import com.google.firebase.firestore.firestore
+import naszeAktywnosci.FirebaseData.FirestoreHandler
+import naszeAktywnosci.FirebaseData.MealInfo
 
 class MealDataActivity : AppCompatActivity() {
 
     private lateinit var recyclerView: RecyclerView
-    private lateinit var mealAdapter: MealInfoAdapter
-    private lateinit var firestoreHandler: FirestoreHandler
+    private lateinit var mealAdapter: MealAdapter
+    private lateinit var mealList : ArrayList<MealInfo>
     private lateinit var buttonBack : Button
-
     private lateinit var userId: String
+
+    private val db = Firebase.firestore
+    private val dbOperations = FirestoreHandler(db)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -29,44 +36,55 @@ class MealDataActivity : AppCompatActivity() {
         buttonBack = findViewById(R.id.back_button)
 
         recyclerView = findViewById(R.id.recyclerView)
+
         recyclerView.layoutManager = LinearLayoutManager(this)
+        recyclerView.setHasFixedSize(true)
 
-        firestoreHandler = FirestoreHandler(FirebaseFirestore.getInstance())
+        mealList = arrayListOf()
 
-        mealAdapter = MealInfoAdapter(emptyList())
+        mealAdapter = MealAdapter(mealList)
+
         recyclerView.adapter = mealAdapter
+
 
         buttonBack.setOnClickListener {
             openActivityMain()
         }
-
         userId = intent.getStringExtra("uID") ?: ""
         if (userId.isEmpty()) {
-            val intent = Intent(this, LoginActivity::class.java)
+            val intent = Intent(this, MainActivity::class.java)
             startActivity(intent)
             finish()
         }
 
+        EventChangeListener()
+    }
 
-        fetchMealInfo()
+    private fun EventChangeListener() {
+        db.collection("meal_info").
+                addSnapshotListener(object  : EventListener<QuerySnapshot>{
+                    override fun onEvent(
+                        value: QuerySnapshot?,
+                        error: FirebaseFirestoreException?
+                    ) {
+                        if (error != null){
+                            Log.e("Firestore error", error.message.toString())
+                            return
+                        }
+                        for (dc : DocumentChange in value?.documentChanges!!){
+                            if(dc.type == DocumentChange.Type.ADDED){
+                                mealList.add(dc.document.toObject(MealInfo::class.java))
+                            }
+
+                        }
+                        mealAdapter.notifyDataSetChanged()
+                    }
+                })
     }
 
     private fun openActivityMain() {
         val intent = Intent(this, MainActivity::class.java)
         intent.putExtra("uID", userId)
         startActivity(intent)
-    }
-
-    private fun fetchMealInfo() {
-        lifecycleScope.launch {
-            try {
-                val userId = "exampleUserId" // Użyj rzeczywistego ID użytkownika
-                val mealList = firestoreHandler.getMealInfo(userId)
-                mealAdapter.updateMealList(mealList)
-            } catch (e: Exception) {
-                // Obsługa błędów
-                e.printStackTrace()
-            }
-        }
     }
 }

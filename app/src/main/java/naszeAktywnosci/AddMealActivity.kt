@@ -5,10 +5,7 @@ import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
-import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import com.example.aplikacjatestowa.R
 import com.google.firebase.Firebase
 import com.google.firebase.firestore.firestore
@@ -16,8 +13,10 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import naszeAktywnosci.FirebaseData.FirestoreHandler
-import naszeAktywnosci.FirebaseData.MealDataActivity
 import naszeAktywnosci.FirebaseData.MealInfo
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 
 class AddMealActivity : AppCompatActivity() {
     private lateinit var buttonBack : Button
@@ -76,6 +75,7 @@ class AddMealActivity : AppCompatActivity() {
                 val mealInfo = MealInfo(
                     name = mealName,
                     date = getCurrentDate(),
+                    time = getCurrentTime(),
                     carbohydrates = carbohydrates,
                     mealId = mealId
                 )
@@ -88,6 +88,11 @@ class AddMealActivity : AppCompatActivity() {
         }
     }
 
+
+    private fun getCurrentTime(): String {
+        val sdf = SimpleDateFormat("HH-mm", Locale.getDefault())
+        return sdf.format(Date())
+    }
 
     private fun getCurrentDate(): String {
         val sdf = java.text.SimpleDateFormat("yyyy-MM-dd", java.util.Locale.getDefault())
