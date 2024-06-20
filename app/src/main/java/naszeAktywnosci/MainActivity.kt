@@ -1,13 +1,22 @@
 package naszeAktywnosci
 
 import android.content.Intent
+import android.graphics.Color
 import android.os.Bundle
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
+import com.androidplot.xy.CatmullRomInterpolator
+import com.androidplot.xy.LineAndPointFormatter
+import com.androidplot.xy.PanZoom
+import com.androidplot.xy.SimpleXYSeries
+import com.androidplot.xy.XYGraphWidget
+import com.androidplot.xy.XYPlot
+import com.androidplot.xy.XYSeries
 import com.example.aplikacjatestowa.R
-import com.google.firebase.firestore.firestore
-import com.google.firebase.Firebase
-import naszeAktywnosci.FirebaseData.FirestoreHandler
+import java.text.FieldPosition
+import java.text.Format
+import java.text.ParsePosition
+import java.util.Arrays
 
 
 class MainActivity : AppCompatActivity() {
@@ -21,7 +30,7 @@ class MainActivity : AppCompatActivity() {
     private var button12h : Button? = null
     private var button24h : Button? = null
     private lateinit var buttonNotification : Button
-
+    private lateinit var plot: XYPlot
     private lateinit var userId: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -37,7 +46,7 @@ class MainActivity : AppCompatActivity() {
         button12h = findViewById(R.id.button_12h)
         button24h = findViewById(R.id.button_24h)
         buttonNotification = findViewById(R.id.button_notifications)
-
+        plot = findViewById(R.id.plot)
 
         // Pobierz intent, który uruchomił tę aktywność
         val intent = intent
@@ -62,8 +71,30 @@ class MainActivity : AppCompatActivity() {
 
         buttonNotification.setOnClickListener { openScheduleNotificationsActivity() }
 
+        val domainLabels = arrayOf<Number>(1, 2, 3, 4, 5, 6)
+        val series1Number = arrayOf<Number>(1, 2, 3, 4, 5, 6)
 
+        val series1: XYSeries = SimpleXYSeries(listOf(*series1Number), SimpleXYSeries.ArrayFormat.Y_VALS_ONLY, "Series 1")
+        val series1Format = LineAndPointFormatter(Color.BLUE, Color.BLACK, null, null)
 
+        series1Format.setInterpolationParams(CatmullRomInterpolator.Params(10, CatmullRomInterpolator.Type.Centripetal))
+
+        plot.addSeries(series1, series1Format)
+        plot.graph.getLineLabelStyle(XYGraphWidget.Edge.BOTTOM).format = object : Format() {
+            override fun format(
+                obj: Any?,
+                toAppendTo: StringBuffer?,
+                pos: FieldPosition?
+            ): StringBuffer {
+                val i = Math.round((obj as Number).toFloat())
+                return toAppendTo!!.append(domainLabels[i.toInt()])
+            }
+
+            override fun parseObject(source: String?, pos: ParsePosition?): Any {
+                throw UnsupportedOperationException("parseObject not supported")
+            }
+        }
+        PanZoom.attach(plot)
     }
 
     //Metoda do otwierania UserInfo

@@ -82,4 +82,7 @@ dependencies {
     implementation("com.google.firebase:firebase-analytics")
     implementation("androidx.recyclerview:recyclerview:1.2.0")
     implementation("androidx.cardview:cardview:1.0.0")
+
+    //ze strony: https://github.com/halfhp/androidplot/blob/master/docs/quickstart.md
+    implementation("com.androidplot:androidplot-core:1.5.10")
 }
