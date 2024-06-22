@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
     tools:context="naszeAktywnosci.MealDataActivity">
 
     <androidx.appcompat.widget.Toolbar
@@ -23,15 +24,22 @@
             android:layout_gravity="center"
             android:text="Meals"
             android:textColor="@android:color/white"
-            android:textSize="20sp" />
+            android:textSize="34sp"
+            android:textStyle="bold"
+            tools:layout_editor_absoluteX="178dp"
+            tools:layout_editor_absoluteY="14dp" />
 
         <Button
             android:id="@+id/back_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
             android:layout_gravity="end"
-            android:text="Back"
-            android:textColor="@android:color/white" />
+            android:textColor="@android:color/white"
+            app:icon="@drawable/ic_back_30"
+            app:iconPadding="0dp"
+            app:iconSize="40dp"
+            tools:layout_editor_absoluteX="323dp"
+            tools:layout_editor_absoluteY="4dp" />
     </androidx.appcompat.widget.Toolbar>
 
     <androidx.recyclerview.widget.RecyclerView

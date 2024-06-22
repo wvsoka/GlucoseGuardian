@@ -7,6 +7,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="@color/white"
     tools:context="naszeAktywnosci.ScheduleNotificationsActivity">
 
 
@@ -22,8 +23,11 @@
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/EditText_title"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/tile" />
+            android:layout_height="50dp"
+            android:hint="@string/tile"
+            android:textColor="@color/dark_blue"
+            android:textColorHint="@color/dark_blue"
+            android:background="@drawable/input_rounded_blue"/>
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
@@ -38,28 +42,31 @@
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/EditText_message"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/message" />
+            android:layout_height="50dp"
+            android:hint="@string/message"
+            android:textColorHint="@color/dark_blue"
+            android:textColor="@color/dark_blue"
+            android:background="@drawable/input_rounded_blue"
+            />
     </com.google.android.material.textfield.TextInputLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop='20dp'>
-        
+
         <DatePicker
             android:id="@+id/datePicker"
             android:layout_width="0dp"
-            android:layout_weight="1"
             android:layout_height="wrap_content"
-            android:datePickerMode="spinner"
-            android:calendarViewShown="false"
             android:layout_gravity="center"
-            android:scaleY="0.7"
-            android:scaleX="0.7"
             android:layout_marginLeft="-30dp"
             android:layout_marginRight="-30dp"
-        />
+            android:layout_weight="1"
+            android:calendarViewShown="false"
+            android:datePickerMode="spinner"
+            android:scaleX="0.7"
+            android:scaleY="0.7" />
 
         <TimePicker
             android:id="@+id/timePicker"
@@ -77,19 +84,20 @@
 
     <Button
         android:id="@+id/button_submitNotification"
-        android:layout_marginTop="20dp"
-        android:layout_gravity="center"
-        android:text="@string/schedule_notification"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        />
+        android:layout_height="50dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/button_rounded_all"
+        android:text="@string/schedule_notification" />
 
     <Button
         android:id="@+id/button_backToManFromNotif"
-        android:layout_marginTop="20dp"
-        android:layout_gravity="center"
-        android:text="@string/Back"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="50dp"
+        android:background="@drawable/button_rounded_all"
+        android:layout_gravity="center"
+        android:layout_marginTop="20dp"
+        android:text="@string/Back" />
 
 </LinearLayout>

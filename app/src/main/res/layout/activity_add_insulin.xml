@@ -57,7 +57,7 @@
             android:layout_alignParentEnd="false"
             android:layout_alignParentBottom="true"
             android:layout_marginTop="10dp"
-            android:background="@drawable/input_rounded"
+            android:background="@drawable/input_rounded_blue"
             android:ems="10"
             android:hint="[U]"
             android:inputType="number"

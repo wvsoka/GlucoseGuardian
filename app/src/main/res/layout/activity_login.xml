@@ -10,14 +10,14 @@
 
     <EditText
         android:id="@+id/editText_password"
-        android:layout_width="211dp"
-        android:layout_height="48dp"
+        android:layout_width="220dp"
+        android:layout_height="50dp"
         android:layout_marginTop="20dp"
         android:layout_marginBottom="20dp"
-        android:background="@color/white"
-        android:backgroundTint="@color/white"
+        android:background="@drawable/input_rounded_white"
         android:ems="10"
-        android:hint="password"
+        android:hint="Password"
+        android:textColorHint="@color/dark_blue"
         android:inputType="textPassword"
         android:textColor="@color/dark_blue"
         app:layout_constraintBottom_toTopOf="@+id/button_login"
@@ -27,13 +27,13 @@
 
     <EditText
         android:id="@+id/editText_login"
-        android:layout_width="210dp"
-        android:layout_height="48dp"
+        android:layout_width="220dp"
+        android:layout_height="50dp"
         android:layout_marginBottom="20dp"
-        android:background="@color/white"
-        android:backgroundTint="@color/white"
+        android:background="@drawable/input_rounded_white"
         android:ems="10"
-        android:hint="e-mail"
+        android:hint="E-mail"
+        android:textColorHint="@color/dark_blue"
         android:inputType="textEmailAddress"
         android:textColor="@color/dark_blue"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -44,8 +44,9 @@
 
     <Button
         android:id="@+id/button_login"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="100dp"
+        android:layout_height="50dp"
+        android:background="@drawable/button_rounded_all"
         android:layout_marginStart="171dp"
         android:layout_marginTop="20dp"
         android:layout_marginEnd="171dp"
@@ -58,8 +59,10 @@
 
     <Button
         android:id="@+id/button_signup"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="100dp"
+        android:layout_height="50dp"
+        android:background="@drawable/button_rounded_all"
+
         android:layout_marginStart="172dp"
         android:layout_marginTop="10dp"
         android:layout_marginEnd="172dp"
@@ -100,6 +103,7 @@
         android:textAlignment="center"
         android:textAppearance="@style/TextAppearance.AppCompat.Body2"
         android:textColor="@color/dark_blue"
+        android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView_welcome" />
@@ -113,6 +117,7 @@
         android:text="OR"
         android:textAlignment="center"
         android:textColor="@color/dark_blue"
+        android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/button_signup"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
