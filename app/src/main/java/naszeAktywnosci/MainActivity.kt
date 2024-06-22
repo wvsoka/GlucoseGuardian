@@ -1,8 +1,10 @@
 package naszeAktywnosci
 
+import android.content.ContentValues.TAG
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
+import android.util.Log
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
 import com.androidplot.xy.CatmullRomInterpolator
@@ -13,10 +15,19 @@ import com.androidplot.xy.XYGraphWidget
 import com.androidplot.xy.XYPlot
 import com.androidplot.xy.XYSeries
 import com.example.aplikacjatestowa.R
+import com.google.firebase.firestore.FirebaseFirestore
 import java.text.FieldPosition
 import java.text.Format
 import java.text.ParsePosition
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import naszeAktywnosci.FirebaseData.FirestoreHandler
+import naszeAktywnosci.FirebaseData.UserMeasurments
+import java.text.SimpleDateFormat
 import java.util.Arrays
+import java.util.Date
+import java.util.Locale
 
 
 class MainActivity : AppCompatActivity() {
@@ -71,30 +82,9 @@ class MainActivity : AppCompatActivity() {
 
         buttonNotification.setOnClickListener { openScheduleNotificationsActivity() }
 
-        val domainLabels = arrayOf<Number>(1, 2, 3, 4, 5, 6)
-        val series1Number = arrayOf<Number>(1, 2, 3, 4, 5, 6)
 
-        val series1: XYSeries = SimpleXYSeries(listOf(*series1Number), SimpleXYSeries.ArrayFormat.Y_VALS_ONLY, "Series 1")
-        val series1Format = LineAndPointFormatter(Color.BLUE, Color.BLACK, null, null)
+        fetchMeasurements()
 
-        series1Format.setInterpolationParams(CatmullRomInterpolator.Params(10, CatmullRomInterpolator.Type.Centripetal))
-
-        plot.addSeries(series1, series1Format)
-        plot.graph.getLineLabelStyle(XYGraphWidget.Edge.BOTTOM).format = object : Format() {
-            override fun format(
-                obj: Any?,
-                toAppendTo: StringBuffer?,
-                pos: FieldPosition?
-            ): StringBuffer {
-                val i = Math.round((obj as Number).toFloat())
-                return toAppendTo!!.append(domainLabels[i.toInt()])
-            }
-
-            override fun parseObject(source: String?, pos: ParsePosition?): Any {
-                throw UnsupportedOperationException("parseObject not supported")
-            }
-        }
-        PanZoom.attach(plot)
     }
 
     //Metoda do otwierania UserInfo
@@ -127,4 +117,59 @@ class MainActivity : AppCompatActivity() {
         intent.putExtra("uID", userId)
         startActivity(intent)
     }
+
+    private fun fetchMeasurements() {
+        val firestoreHandler = FirestoreHandler(FirebaseFirestore.getInstance())
+        CoroutineScope(Dispatchers.Main).launch {
+            try {
+                val measurements = firestoreHandler.getMeasurements(userId)
+                val todayMeasurements = measurements.filter { it.date == getCurrentDate() }
+                updatePlot(todayMeasurements)
+            } catch (e: Exception) {
+                Log.e(TAG, "Error fetching measurements: $e")
+            }
+        }
+    }
+
+    private fun getCurrentDate(): String {
+        val sdf = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+        return sdf.format(Date())
+    }
+
+    private fun updatePlot(measurements: List<UserMeasurments>) {
+        if (measurements.isEmpty()) {
+            Log.d(TAG, "No measurements for today")
+            return
+        }
+
+        val sortedMeasurements = measurements.sortedBy { it.time }
+
+        val domainLabels = sortedMeasurements.map { it.time }.toTypedArray()
+        val seriesValues = sortedMeasurements.map { it.measurment }.toTypedArray()
+
+        val series1: XYSeries = SimpleXYSeries(listOf(*seriesValues), SimpleXYSeries.ArrayFormat.Y_VALS_ONLY, "Today's Measurements")
+        val series1Format = LineAndPointFormatter(Color.BLUE, Color.BLACK, null, null)
+
+        if (seriesValues.size >= 3) {
+            series1Format.setInterpolationParams(CatmullRomInterpolator.Params(10, CatmullRomInterpolator.Type.Centripetal))
+        }
+        plot.clear()
+        plot.addSeries(series1, series1Format)
+        plot.graph.getLineLabelStyle(XYGraphWidget.Edge.BOTTOM).format = object : Format() {
+            override fun format(
+                obj: Any?,
+                toAppendTo: StringBuffer?,
+                pos: FieldPosition?
+            ): StringBuffer {
+                val i = Math.round((obj as Number).toFloat())
+                return toAppendTo!!.append(domainLabels[i.toInt()])
+            }
+
+            override fun parseObject(source: String?, pos: ParsePosition?): Any {
+                throw UnsupportedOperationException("parseObject not supported")
+            }
+        }
+        plot.redraw()
+    }
+
 }

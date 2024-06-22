@@ -52,6 +52,7 @@ class AddGlucoseMeasurmentActivity : AppCompatActivity() {
 
     private fun openActivityMain() {
         val intent = Intent(this, MainActivity::class.java)
+        intent.putExtra("uID", userId)
         startActivity(intent)
     }
 
