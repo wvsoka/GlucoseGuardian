@@ -25,7 +25,7 @@ class AddGlucoseMeasurmentActivity : AppCompatActivity() {
 
     private lateinit var buttonBack : Button
     private lateinit var buttonAddInsert : Button
-    private lateinit var buttonAddFile : Button
+    //private lateinit var buttonAddFile : Button
     private lateinit var numberInsert : EditText
 
     private val db = Firebase.firestore
@@ -40,9 +40,9 @@ class AddGlucoseMeasurmentActivity : AppCompatActivity() {
         buttonBack = findViewById(R.id.button_backToMainFromGlucose)
         buttonBack.setOnClickListener { openActivityMain() }
 
-        buttonAddFile = findViewById(R.id.button_addfile)
+        //buttonAddFile = findViewById(R.id.button_addfile)
         buttonAddInsert = findViewById(R.id.button_addinsert)
-        numberInsert = findViewById(R.id.editTextNumber_insert)
+        numberInsert = findViewById(R.id.editTextNumber_glucose)
 
         val intent = intent
         userId = intent.getStringExtra("uID") ?: ""

@@ -1,9 +1,11 @@
 package naszeAktywnosci
 
+import android.app.Dialog
 import android.content.ContentValues.TAG
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.util.Log
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
@@ -28,6 +30,7 @@ import java.text.SimpleDateFormat
 import java.util.Arrays
 import java.util.Date
 import java.util.Locale
+
 
 
 class MainActivity : AppCompatActivity() {
@@ -95,21 +98,36 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun openActivityAddInsulin(){
-        val intent = Intent(this, AddInsulinActivity::class.java)
-        intent.putExtra("uID", userId)
-        startActivity(intent)
+//        val intent = Intent(this, AddInsulinActivity::class.java)
+//        intent.putExtra("uID", userId)
+//        startActivity(intent)
+        val dialog = Dialog(this)
+        dialog.setContentView(R.layout.activity_add_insulin)
+        dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
+        dialog.setCancelable(false)
+        dialog.show()
     }
 
-    private fun openActivityAddGlucose(){
-        val intent = Intent(this, AddGlucoseMeasurmentActivity::class.java)
-        intent.putExtra("uID", userId)
-        startActivity(intent)
+    private fun openActivityAddGlucose() {
+//        val intent = Intent(this, AddGlucoseMeasurmentActivity::class.java)
+//        intent.putExtra("uID", userId)
+//        startActivity(intent)
+        val dialog = Dialog(this)
+        dialog.setContentView(R.layout.activity_add_glucose_measurment)
+        dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
+        dialog.setCancelable(false)
+        dialog.show()
     }
 
     private fun openActivityAddMeal(){
-        val intent = Intent(this, AddMealActivity::class.java)
-        intent.putExtra("uID", userId)
-        startActivity(intent)
+//        val intent = Intent(this, AddMealActivity::class.java)
+//        intent.putExtra("uID", userId)
+//        startActivity(intent)
+        val dialog = Dialog(this)
+        dialog.setContentView(R.layout.activity_add_meal)
+        dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
+        dialog.setCancelable(false)
+        dialog.show()
     }
 
     private fun openScheduleNotificationsActivity(){

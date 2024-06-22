@@ -1,87 +1,102 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/main"
-    android:layout_width="320dp"
-    android:layout_height="200dp"
-    android:background="@color/white"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
     android:layout_gravity="center"
+    app:cardCornerRadius="20dp"
+    app:cardElevation="6dp"
     tools:context="naszeAktywnosci.AddGlucoseMeasurmentActivity">
 
-    <TextView
-        android:id="@+id/textView_insulin"
-        android:layout_width="wrap_content"
-        android:layout_height="30dp"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentEnd="false"
-        android:layout_alignParentBottom="true"
-        android:layout_marginStart="22dp"
-        android:layout_marginTop="22dp"
-        android:layout_marginBottom="148dp"
-        android:text="Add Insulin"
-        android:textColor="@color/dark_blue"
-        android:textSize="22sp" />
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/main"
+        android:layout_width="320dp"
+        android:layout_height="200dp"
+        android:background="@drawable/popup_rounded"
+        android:layout_gravity="center">
 
-    <TextView
-        android:id="@+id/textView_insert"
-        android:layout_width="wrap_content"
-        android:layout_height="20dp"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentEnd="false"
-        android:layout_alignParentBottom="true"
-        android:layout_marginStart="25dp"
-        android:layout_marginTop="94dp"
-        android:layout_marginBottom="86dp"
-        android:text="Enter Insulin Dose"
-        android:textColor="@color/dark_blue" />
+        <TextView
+            android:id="@+id/textView_insulin"
+            android:layout_width="140dp"
+            android:layout_height="30dp"
+            android:text="Add Insulin"
+            android:textColor="@color/dark_blue"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.088"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.052" />
 
-    <EditText
-        android:id="@+id/editTextNumber_insulin"
-        android:layout_width="165dp"
-        android:layout_height="55dp"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentEnd="false"
-        android:layout_alignParentBottom="true"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="116dp"
-        android:layout_marginBottom="37dp"
-        android:background="@color/blue"
-        android:ems="10"
-        android:hint="[U]"
-        android:inputType="number"
-        android:textColor="@color/dark_blue" />
+        <TextView
+            android:id="@+id/textView_insert"
+            android:layout_width="wrap_content"
+            android:layout_height="20dp"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="false"
+            android:layout_alignParentBottom="true"
+            android:text="Enter Insulin Dose"
+            android:textColor="@color/dark_blue"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.083"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-    <Button
-        android:id="@+id/button_addinsulin"
-        android:layout_width="89dp"
-        android:layout_height="55dp"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginStart="209dp"
-        android:layout_marginTop="112dp"
-        android:layout_marginEnd="22dp"
-        android:layout_marginBottom="34dp"
-        android:background="@color/red"
-        android:text="@string/add" />
+        <EditText
+            android:id="@+id/editTextNumber_insulin"
+            android:layout_width="100dp"
+            android:layout_height="50dp"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="false"
+            android:layout_alignParentBottom="true"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/input_rounded"
+            android:ems="10"
+            android:hint="[U]"
+            android:inputType="number"
+            android:textColor="@color/dark_blue"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.072"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView_insert" />
 
-    <Button
-        android:id="@+id/button_backToMainFromInsulin"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginStart="220dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginEnd="6dp"
-        android:layout_marginBottom="142dp"
-        android:text="@string/back" />
+        <Button
+            android:id="@+id/button_addinsulin"
+            android:layout_width="80dp"
+            android:layout_height="50dp"
+            android:layout_alignParentStart="false"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginStart="5dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/button_rounded_all"
+            android:text="Add"
+            app:layout_constraintStart_toEndOf="@+id/editTextNumber_insulin"
+            app:layout_constraintTop_toBottomOf="@+id/textView_insert" />
 
-</RelativeLayout>
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/button_backToMainFromInsulin"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:background="@drawable/round_button"
+            app:icon="@drawable/ic_close_30"
+            app:iconGravity="textStart"
+            app:iconPadding="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.94"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.064" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.cardview.widget.CardView>

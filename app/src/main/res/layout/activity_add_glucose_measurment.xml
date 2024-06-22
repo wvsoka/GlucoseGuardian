@@ -1,116 +1,102 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/main"
-    android:layout_width="320dp"
-    android:layout_height="300dp"
-    android:background="@color/white"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
     android:layout_gravity="center"
+    app:cardCornerRadius="20dp"
+    app:cardElevation="6dp"
     tools:context="naszeAktywnosci.AddGlucoseMeasurmentActivity">
 
-    <TextView
-        android:id="@+id/textView_glucose"
-        android:layout_width="wrap_content"
-        android:layout_height="30dp"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentEnd="false"
-        android:layout_alignParentBottom="true"
-        android:layout_marginStart="22dp"
-        android:layout_marginTop="22dp"
-        android:layout_marginBottom="248dp"
-        android:text="Add Measurement"
-        android:textColor="@color/dark_blue"
-        android:textSize="22sp" />
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/main"
+        android:layout_width="320dp"
+        android:layout_height="200dp"
+        android:background="@drawable/popup_rounded"
+        android:layout_gravity="center">
 
-    <TextView
-        android:id="@+id/textView_insert"
-        android:layout_width="wrap_content"
-        android:layout_height="20dp"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentEnd="false"
-        android:layout_alignParentBottom="true"
-        android:layout_marginStart="23dp"
-        android:layout_marginTop="132dp"
-        android:layout_marginBottom="148dp"
-        android:text="Enter Glucose Measurement"
-        android:textColor="@color/dark_blue" />
+        <TextView
+            android:id="@+id/textView_glucose"
+            android:layout_width="200dp"
+            android:layout_height="30dp"
+            android:text="Add Measurement"
+            android:textColor="@color/dark_blue"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.133"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.052" />
 
-    <EditText
-        android:id="@+id/editTextNumber_insert"
-        android:layout_width="100dp"
-        android:layout_height="40dp"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentEnd="false"
-        android:layout_alignParentBottom="true"
-        android:layout_marginStart="23dp"
-        android:layout_marginTop="153dp"
-        android:layout_marginBottom="107dp"
-        android:background="@color/blue"
-        android:ems="10"
-        android:hint="[mg/dl]"
-        android:inputType="number"
-        android:textColor="@color/dark_blue" />
+        <TextView
+            android:id="@+id/textView_insert"
+            android:layout_width="wrap_content"
+            android:layout_height="20dp"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="false"
+            android:layout_alignParentBottom="true"
+            android:text="Enter Glucose Measurement"
+            android:textColor="@color/dark_blue"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.134"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-    <Button
-        android:id="@+id/button_addinsert"
-        android:layout_width="80dp"
-        android:layout_height="40dp"
-        android:layout_alignParentStart="false"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginStart="22dp"
-        android:layout_marginTop="153dp"
-        android:layout_marginEnd="22dp"
-        android:layout_marginBottom="108dp"
-        android:background="@color/red"
-        android:text="Add" />
+        <EditText
+            android:id="@+id/editTextNumber_glucose"
+            android:layout_width="100dp"
+            android:layout_height="40dp"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="false"
+            android:layout_alignParentBottom="true"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/input_rounded"
+            android:ems="10"
+            android:hint="[mg/dl]"
+            android:inputType="number"
+            android:textColor="@color/dark_blue"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.072"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView_insert" />
 
-    <TextView
-        android:id="@+id/textView_file"
-        android:layout_width="wrap_content"
-        android:layout_height="20dp"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentEnd="false"
-        android:layout_alignParentBottom="true"
-        android:layout_marginStart="23dp"
-        android:layout_marginTop="212dp"
-        android:layout_marginBottom="68dp"
-        android:text="Enter Measurement File"
-        android:textColor="@color/dark_blue" />
+        <Button
+            android:id="@+id/button_addinsert"
+            android:layout_width="80dp"
+            android:layout_height="40dp"
+            android:layout_alignParentStart="false"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginStart="5dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/button_rounded_all"
+            android:text="Add"
+            app:layout_constraintStart_toEndOf="@+id/editTextNumber_glucose"
+            app:layout_constraintTop_toBottomOf="@+id/textView_insert" />
 
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/button_backToMainFromGlucose"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:background="@drawable/round_button"
+            app:icon="@drawable/ic_close_30"
+            app:iconGravity="textStart"
+            app:iconPadding="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.94"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.064" />
 
-    <Button
-        android:id="@+id/button_addfile"
-        android:layout_width="100dp"
-        android:layout_height="40dp"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentEnd="false"
-        android:layout_alignParentBottom="true"
-        android:layout_marginStart="23dp"
-        android:layout_marginTop="234dp"
-        android:layout_marginBottom="29dp"
-        android:background="@color/red"
-        android:text="File" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <Button
-        android:id="@+id/button_backToMainFromGlucose"
-        android:layout_width="80dp"
-        android:layout_height="40dp"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginStart="218dp"
-        android:layout_marginTop="12dp"
-        android:layout_marginEnd="22dp"
-        android:layout_marginBottom="240dp"
-        android:text="@string/back" />
-
-</RelativeLayout>
+</androidx.cardview.widget.CardView>
