@@ -108,6 +108,7 @@
         app:icon="@drawable/ic_menu_30"
         app:iconGravity="textStart"
         app:iconPadding="0dp"
+        app:iconTint="#FFFFFF"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -137,6 +138,7 @@
         android:background="@drawable/round_button"
         app:icon="@drawable/ic_notification_30"
         app:iconPadding="0dp"
+        app:iconTint="#FFFFFF"
         app:layout_constraintStart_toEndOf="@+id/button_menu"
         app:layout_constraintTop_toTopOf="parent" />
 

@@ -7,7 +7,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
-    android:layout_width="320dp"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
     tools:context="naszeAktywnosci.UserInfoActivity">
@@ -16,10 +16,10 @@
         android:id="@+id/textView_low"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="5dp"
         android:text="Low"
         android:textColor="@color/dark_blue"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.054"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/seekBar_activity" />
 
@@ -27,294 +27,268 @@
         android:id="@+id/imageView5"
         android:layout_width="128dp"
         android:layout_height="128dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="16dp"
         android:background="#FFFFFF"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.083"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.026"
         app:srcCompat="@drawable/ic_person_60" />
 
     <EditText
         android:id="@+id/editText_name"
-        android:layout_width="230dp"
+        android:layout_width="280dp"
         android:layout_height="40dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="5dp"
         android:background="@drawable/input_rounded_blue"
         android:ems="10"
         android:hint="Name Surname"
-        android:textColorHint="@color/dark_blue"
         android:inputType="text"
         android:textColor="@color/dark_blue"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.177"
+        android:textColorHint="@color/dark_blue"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.274" />
+        app:layout_constraintTop_toBottomOf="@+id/text_name" />
 
     <EditText
         android:id="@+id/editText_date"
-        android:layout_width="230dp"
+        android:layout_width="280dp"
         android:layout_height="40dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="5dp"
         android:background="@drawable/input_rounded_blue"
         android:ems="10"
         android:hint="DD/MM/RRRR"
-        android:textColorHint="@color/dark_blue"
         android:inputType="date"
         android:textColor="@color/dark_blue"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.177"
+        android:textColorHint="@color/dark_blue"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.393" />
+        app:layout_constraintTop_toBottomOf="@+id/text_date" />
 
     <SeekBar
         android:id="@+id/seekBar_activity"
-        android:layout_width="230dp"
+        android:layout_width="280dp"
         android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.177"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="5dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.617" />
+        app:layout_constraintTop_toBottomOf="@+id/textView_activity" />
 
     <Switch
         android:id="@+id/switch_pregnancy"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="20dp"
         android:text="Pregnancy"
         android:textColor="@color/dark_blue"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.077"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.724" />
+        app:layout_constraintTop_toBottomOf="@+id/textView_low" />
 
     <Switch
         android:id="@+id/switch_feeding"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="33dp"
+        android:layout_marginTop="20dp"
         android:text="Breastfeeding"
         android:textColor="@color/dark_blue"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.752"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.724" />
+        app:layout_constraintStart_toEndOf="@+id/switch_pregnancy"
+        app:layout_constraintTop_toBottomOf="@+id/textView_high" />
 
     <EditText
         android:id="@+id/editTextNumberDecimal_height"
         android:layout_width="100dp"
         android:layout_height="40dp"
+        android:layout_marginStart="80dp"
+        android:layout_marginTop="5dp"
         android:background="@drawable/input_rounded_blue"
         android:ems="10"
         android:hint="[cm]"
-        android:textColorHint="@color/dark_blue"
         android:inputType="numberDecimal"
         android:textColor="@color/dark_blue"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.663"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.506" />
+        android:textColorHint="@color/dark_blue"
+        app:layout_constraintStart_toEndOf="@+id/editTextNumberDecimal_weight"
+        app:layout_constraintTop_toBottomOf="@+id/textView_height" />
 
     <EditText
         android:id="@+id/editTextNumberDecimal_weight"
         android:layout_width="100dp"
         android:layout_height="40dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="5dp"
         android:background="@drawable/input_rounded_blue"
         android:ems="10"
         android:hint="[kg]"
-        android:textColorHint="@color/dark_blue"
         android:inputType="numberDecimal"
         android:textColor="@color/dark_blue"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.072"
+        android:textColorHint="@color/dark_blue"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.506" />
+        app:layout_constraintTop_toBottomOf="@+id/textView_weight" />
 
     <TextView
         android:id="@+id/text_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="30dp"
         android:text="Name and Surname"
         android:textColor="@color/dark_blue"
-        app:layout_constraintBottom_toTopOf="@+id/editText_name"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.081"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView5" />
 
     <TextView
         android:id="@+id/text_date"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="15dp"
         android:text="Date of birth"
         android:textColor="@color/dark_blue"
-        app:layout_constraintBottom_toTopOf="@+id/editText_date"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.066"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editText_name" />
 
     <TextView
         android:id="@+id/textView_height"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="136dp"
+        android:layout_marginTop="15dp"
         android:text="Height"
         android:textColor="@color/dark_blue"
-        app:layout_constraintBottom_toTopOf="@+id/editTextNumberDecimal_height"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.523"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toEndOf="@+id/textView_weight"
+        app:layout_constraintTop_toBottomOf="@+id/editText_date" />
 
     <TextView
         android:id="@+id/textView_weight"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="15dp"
         android:text="Weight"
         android:textColor="@color/dark_blue"
-        app:layout_constraintBottom_toTopOf="@+id/editTextNumberDecimal_weight"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.057"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editText_date" />
 
     <TextView
         android:id="@+id/textView_activity"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="20dp"
         android:text="Physical activity"
         android:textColor="@color/dark_blue"
-        app:layout_constraintBottom_toTopOf="@+id/seekBar_activity"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.072"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editTextNumberDecimal_weight" />
 
     <TextView
         android:id="@+id/textView_high"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="225dp"
+        android:layout_marginTop="5dp"
         android:text="High"
         android:textColor="@color/dark_blue"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.745"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/textView_low"
         app:layout_constraintTop_toBottomOf="@+id/seekBar_activity" />
 
     <EditText
         android:id="@+id/editTextNumberDecimal3"
         android:layout_width="100dp"
         android:layout_height="40dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="5dp"
         android:background="@drawable/input_rounded_blue"
         android:ems="10"
         android:hint="[mg/dl]"
-        android:textColorHint="@color/dark_blue"
         android:inputType="number"
         android:textColor="@color/dark_blue"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.072"
+        android:textColorHint="@color/dark_blue"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.952" />
+        app:layout_constraintTop_toBottomOf="@+id/textView_hipoglicemy" />
 
     <EditText
         android:id="@+id/editTextNumber_IW"
         android:layout_width="100dp"
         android:layout_height="40dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="5dp"
         android:background="@drawable/input_rounded_blue"
         android:ems="10"
         android:hint="[-]"
-        android:textColorHint="@color/dark_blue"
         android:inputType="numberDecimal"
         android:textColor="@color/dark_blue"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.072"
+        android:textColorHint="@color/dark_blue"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.837" />
+        app:layout_constraintTop_toBottomOf="@+id/textView_IW" />
 
     <EditText
         android:id="@+id/editTextNumber2"
         android:layout_width="100dp"
         android:layout_height="40dp"
+        android:layout_marginStart="80dp"
+        android:layout_marginTop="5dp"
         android:background="@drawable/input_rounded_blue"
         android:ems="10"
         android:hint="[mg/dl]"
-        android:textColorHint="@color/dark_blue"
         android:inputType="number"
         android:textColor="@color/dark_blue"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.663"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.952" />
+        android:textColorHint="@color/dark_blue"
+        app:layout_constraintStart_toEndOf="@+id/editTextNumberDecimal3"
+        app:layout_constraintTop_toBottomOf="@+id/textView_hiperglicemy" />
 
     <TextView
         android:id="@+id/textView_IW"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="20dp"
         android:text="Insulin to carbohydrate ratio"
         android:textColor="@color/dark_blue"
-        app:layout_constraintBottom_toTopOf="@+id/editTextNumber_IW"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.109"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/switch_pregnancy" />
 
     <TextView
         android:id="@+id/textView_hipoglicemy"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="1dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="15dp"
         android:text="Hypoglicemia"
         android:textColor="@color/dark_blue"
-        app:layout_constraintBottom_toTopOf="@+id/editTextNumberDecimal3"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.068"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editTextNumber_IW" />
 
     <TextView
         android:id="@+id/textView_hiperglicemy"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="94dp"
+        android:layout_marginTop="15dp"
         android:text="Hyperglicemia"
         android:textColor="@color/dark_blue"
-        app:layout_constraintBottom_toTopOf="@+id/editTextNumber2"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.634"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toEndOf="@+id/textView_hipoglicemy"
+        app:layout_constraintTop_toBottomOf="@+id/editTextNumber_IW" />
 
     <Button
         android:id="@+id/button_backToMain"
         android:layout_width="80dp"
         android:layout_height="50dp"
-        android:text="@string/back"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
         android:background="@drawable/button_rounded_all"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:text="@string/back"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.681"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.023" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/button_save"
         android:layout_width="80dp"
         android:layout_height="50dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="10dp"
         android:background="@drawable/button_rounded_all"
         android:text="Save"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.681"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button_backToMain" />
+        app:layout_constraintEnd_toStartOf="@+id/button_backToMain"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

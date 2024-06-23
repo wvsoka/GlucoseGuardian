@@ -8,6 +8,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.util.Log
 import android.widget.Button
+import android.widget.EditText
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.androidplot.xy.CatmullRomInterpolator
 import com.androidplot.xy.LineAndPointFormatter
@@ -17,7 +19,9 @@ import com.androidplot.xy.XYGraphWidget
 import com.androidplot.xy.XYPlot
 import com.androidplot.xy.XYSeries
 import com.example.aplikacjatestowa.R
+import com.google.firebase.Firebase
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.firestore
 import java.text.FieldPosition
 import java.text.Format
 import java.text.ParsePosition
@@ -25,6 +29,8 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import naszeAktywnosci.FirebaseData.FirestoreHandler
+import naszeAktywnosci.FirebaseData.InsulinInfo
+import naszeAktywnosci.FirebaseData.MealInfo
 import naszeAktywnosci.FirebaseData.UserMeasurments
 import java.text.SimpleDateFormat
 import java.util.Arrays
@@ -46,6 +52,8 @@ class MainActivity : AppCompatActivity() {
     private lateinit var buttonNotification : Button
     private lateinit var plot: XYPlot
     private lateinit var userId: String
+    private val db = Firebase.firestore
+    private val dbOperations = FirestoreHandler(db)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -74,14 +82,14 @@ class MainActivity : AppCompatActivity() {
         }
 
         buttonInsulin.setOnClickListener{
-            openActivityAddInsulin()
+            openDialogAddInsulin()
         }
 
         buttonGlucose.setOnClickListener {
-            openActivityAddGlucose()
+            openDialogAddGlucose()
         }
 
-        buttonMeal.setOnClickListener { openActivityAddMeal() }
+        buttonMeal.setOnClickListener { openDialogAddMeal() }
 
         buttonNotification.setOnClickListener { openScheduleNotificationsActivity() }
 
@@ -97,54 +105,135 @@ class MainActivity : AppCompatActivity() {
         startActivity(intent)
     }
 
-    private fun openActivityAddInsulin(){
-        val intent = Intent(this, AddInsulinActivity::class.java)
-        intent.putExtra("uID", userId)
-        startActivity(intent)
-
+    private fun openDialogAddInsulin() {
         val dialog = Dialog(this)
         dialog.setContentView(R.layout.activity_add_insulin)
         dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
         dialog.setCancelable(false)
 
+        val buttonAddInsulin: Button = dialog.findViewById(R.id.button_addinsulin)
+        val numberInsulin: EditText = dialog.findViewById(R.id.editTextNumber_insulin)
         val closeButton: Button = dialog.findViewById(R.id.button_backToMainFromInsulin)
-        closeButton.setOnClickListener { dialog.dismiss() }
 
-        //startActivity(intent)
+        closeButton.setOnClickListener {
+            val intent=Intent(this, MainActivity::class.java)
+            intent.putExtra("uID", userId)
+            dialog.dismiss()
+        }
+        buttonAddInsulin.setOnClickListener {
+            val insulinDose = numberInsulin.text.toString().toDoubleOrNull() ?: 0.0
+
+            CoroutineScope(Dispatchers.Main).launch {
+                try {
+                    val insulinId = dbOperations.generateId(db, "insulin_info")
+                    val insulinInfo = InsulinInfo(
+                        date = getCurrentDate(),
+                        time = getCurrentTime(),
+                        measurment = insulinDose,
+                        insulinId = insulinId
+                    )
+                    dbOperations.addInsulinInfo(userId, insulinInfo)
+                    Toast.makeText(this@MainActivity, "Insulin dose added successfully", Toast.LENGTH_SHORT).show()
+                    dialog.dismiss()
+                } catch (e: Exception) {
+                    Toast.makeText(this@MainActivity, "Failed to add insulin dose", Toast.LENGTH_SHORT).show()
+                }
+            }
+        }
+
         dialog.show()
     }
 
-    private fun openActivityAddGlucose() {
-        val intent = Intent(this, AddGlucoseMeasurmentActivity::class.java)
-        intent.putExtra("uID", userId)
-        startActivity(intent)
-
+    private fun openDialogAddGlucose() {
         val dialog = Dialog(this)
         dialog.setContentView(R.layout.activity_add_glucose_measurment)
         dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
         dialog.setCancelable(false)
 
         val closeButton: Button = dialog.findViewById(R.id.button_backToMainFromGlucose)
-        closeButton.setOnClickListener { dialog.dismiss() }
+        val buttonAddInsert: Button = dialog.findViewById(R.id.button_addinsert)
+        val numberInsert: EditText = dialog.findViewById(R.id.editTextNumber_glucose)
 
-        //startActivity(intent)
+        closeButton.setOnClickListener {
+            val intent=Intent(this, MainActivity::class.java)
+            intent.putExtra("uID", userId)
+            dialog.dismiss() }
+        buttonAddInsert.setOnClickListener {
+            val measurementValue = numberInsert.text.toString().toDoubleOrNull() ?: 0.0
+
+            CoroutineScope(Dispatchers.Main).launch {
+                try {
+                    val firestoreHandler = FirestoreHandler(FirebaseFirestore.getInstance())
+                    val measurementId = dbOperations.generateId(db, "user_measurements")
+                    val measurement = UserMeasurments(
+                        measurment = measurementValue,
+                        date = getCurrentDate(),
+                        time = getCurrentTime(),
+                        measurmentID = measurementId
+                    )
+                    firestoreHandler.addMeasurements(userId, measurement)
+                    Toast.makeText(this@MainActivity, "Measurement added successfully", Toast.LENGTH_SHORT).show()
+                    fetchMeasurements() // Refresh the plot
+                    dialog.dismiss()
+                } catch (e: Exception) {
+                    Toast.makeText(this@MainActivity, "Failed to add measurement", Toast.LENGTH_SHORT).show()
+                }
+            }
+        }
+
         dialog.show()
     }
 
-    private fun openActivityAddMeal(){
-        val intent = Intent(this, AddMealActivity::class.java)
-        intent.putExtra("uID", userId)
-        startActivity(intent)
+    private fun getCurrentTime(): String {
+        val sdf = SimpleDateFormat("HH-mm", Locale.getDefault())
+        return sdf.format(Date())
+    }
 
+    private fun openDialogAddMeal() {
         val dialog = Dialog(this)
         dialog.setContentView(R.layout.activity_add_meal)
         dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
         dialog.setCancelable(false)
 
+        val buttonAddMeal: Button = dialog.findViewById(R.id.button_addmeal)
+        val meal: EditText = dialog.findViewById(R.id.editText_meal)
+        val numberWW: EditText = dialog.findViewById(R.id.editTextNumber_WW)
         val closeButton: Button = dialog.findViewById(R.id.button_backToMainFromMeal)
-        closeButton.setOnClickListener { dialog.dismiss() }
+        val buttonAllMeals: Button = dialog.findViewById(R.id.button_toInfoMeal)
 
-        //startActivity(intent)
+        closeButton.setOnClickListener {
+            val intent=Intent(this, MainActivity::class.java)
+            intent.putExtra("uID", userId)
+            dialog.dismiss() }
+        buttonAddMeal.setOnClickListener {
+            val mealName = meal.text.toString()
+            val carbohydrates = numberWW.text.toString().toDoubleOrNull() ?: 0.0
+
+            CoroutineScope(Dispatchers.Main).launch {
+                try {
+                    val mealId = dbOperations.generateId(db, "meal_info")
+                    val mealInfo = MealInfo(
+                        name = mealName,
+                        date = getCurrentDate(),
+                        time = getCurrentTime(),
+                        carbohydrates = carbohydrates,
+                        mealId = mealId
+                    )
+                    dbOperations.addMealInfo(userId, mealInfo)
+                    Toast.makeText(this@MainActivity, "Meal added successfully", Toast.LENGTH_SHORT).show()
+                    dialog.dismiss()
+                } catch (e: Exception) {
+                    Toast.makeText(this@MainActivity, "Failed to add meal", Toast.LENGTH_SHORT).show()
+                }
+            }
+        }
+
+        buttonAllMeals.setOnClickListener {
+            val intent = Intent(this, MealDataActivity::class.java)
+            intent.putExtra("uID", userId)
+            startActivity(intent)
+        }
+
         dialog.show()
     }
 
@@ -207,5 +296,13 @@ class MainActivity : AppCompatActivity() {
         }
         plot.redraw()
     }
+
+    private fun openActivityMain() {
+        val intent = Intent(this, MainActivity::class.java)
+        intent.putExtra("uID", userId)
+        startActivity(intent)
+    }
+
+
 
 }
