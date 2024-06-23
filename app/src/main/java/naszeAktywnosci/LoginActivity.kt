@@ -39,8 +39,6 @@ open class LoginActivity : BaseActivity(), View.OnClickListener {
     override fun onClick(view: View?) {
         if (view != null) {
             when (view.id) {
-                // Jeśli kliknięto registerTextViewClickable (przycisk przejścia do rejestracji), uruchom aktywność rejestracji
-                // aby TextView mogł być klikalny,nalezy ustawić właściwą funkcję w pliku xml.
                 R.id.button_signup -> {
                     val intent = Intent(this, RegistrationActivity::class.java)
                     startActivity(intent)
@@ -49,7 +47,6 @@ open class LoginActivity : BaseActivity(), View.OnClickListener {
         }
     }
 
-    // Walidacja danych logowania
     private fun validateLoginDetails(): Boolean {
         return when {
             TextUtils.isEmpty(editTextLogin.text.toString().trim { it <= ' ' }) -> {
@@ -67,13 +64,11 @@ open class LoginActivity : BaseActivity(), View.OnClickListener {
         }
     }
 
-    // Logowanie zarejestrowanego użytkownika
     private fun logInRegisteredUser() {
         if (validateLoginDetails()) {
             val email = editTextLogin.text.toString().trim() { it <= ' ' }
             val password = editTextPassword.text.toString().trim() { it <= ' ' }
 
-            // Logowanie za pomocą FirebaseAuth
             FirebaseAuth.getInstance().signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener { task ->
                     if (task.isSuccessful) {
@@ -92,7 +87,6 @@ open class LoginActivity : BaseActivity(), View.OnClickListener {
         startActivity(intent)
     }
 
-    // Przejście do aktywności głównej
     open fun goToMainActivity() {
         val user = FirebaseAuth.getInstance().currentUser
         val uid = user?.email.toString()

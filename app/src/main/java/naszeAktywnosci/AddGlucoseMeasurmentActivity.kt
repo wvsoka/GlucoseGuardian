@@ -5,10 +5,7 @@ import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
-import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import com.example.aplikacjatestowa.R
 import com.google.firebase.Firebase
 import com.google.firebase.firestore.firestore
@@ -25,7 +22,6 @@ class AddGlucoseMeasurmentActivity : AppCompatActivity() {
 
     private lateinit var buttonBack : Button
     private lateinit var buttonAddInsert : Button
-    //private lateinit var buttonAddFile : Button
     private lateinit var numberInsert : EditText
 
     private val db = Firebase.firestore

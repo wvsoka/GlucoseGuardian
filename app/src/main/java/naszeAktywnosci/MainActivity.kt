@@ -5,7 +5,6 @@ import android.content.ContentValues.TAG
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.util.Log
 import android.widget.Button
 import android.widget.EditText
@@ -13,7 +12,6 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.androidplot.xy.CatmullRomInterpolator
 import com.androidplot.xy.LineAndPointFormatter
-import com.androidplot.xy.PanZoom
 import com.androidplot.xy.SimpleXYSeries
 import com.androidplot.xy.XYGraphWidget
 import com.androidplot.xy.XYPlot
@@ -33,17 +31,15 @@ import naszeAktywnosci.FirebaseData.InsulinInfo
 import naszeAktywnosci.FirebaseData.MealInfo
 import naszeAktywnosci.FirebaseData.UserMeasurments
 import java.text.SimpleDateFormat
-import java.util.Arrays
 import java.util.Date
 import java.util.Locale
 
 
 
 class MainActivity : AppCompatActivity() {
-    // widok z wykresem
 
-    private lateinit var buttonMenu : Button// przycisk do otworzenia widoku user_info
-    private lateinit var buttonInsulin : Button// przycisk do dodawania dawki insuliny
+    private lateinit var buttonMenu : Button
+    private lateinit var buttonInsulin : Button
     private lateinit var buttonMeal : Button
     private lateinit var buttonGlucose : Button
     private var button6h : Button? = null
@@ -59,7 +55,6 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        // tu implementujemy widgety z ich Id
         buttonMenu = findViewById(R.id.button_menu)
         buttonInsulin = findViewById(R.id.button_insulin)
         buttonMeal = findViewById(R.id.button_meal)
@@ -70,13 +65,10 @@ class MainActivity : AppCompatActivity() {
         buttonNotification = findViewById(R.id.button_notifications)
         plot = findViewById(R.id.plot)
 
-        // Pobierz intent, który uruchomił tę aktywność
         val intent = intent
 
-        // Sprawdź, czy intent zawiera dodatkowe dane o nazwie "uID"
         userId = intent.getStringExtra("uID").toString()
 
-        //obsluga przycisku do zmieniania widoku na user info
         buttonMenu.setOnClickListener {
             openActivityUserInfo()
         }
@@ -93,12 +85,10 @@ class MainActivity : AppCompatActivity() {
 
         buttonNotification.setOnClickListener { openScheduleNotificationsActivity() }
 
-
         fetchMeasurements()
 
     }
 
-    //Metoda do otwierania UserInfo
     private fun openActivityUserInfo(){
         val intent = Intent(this, UserInfoActivity::class.java)
         intent.putExtra("uID", userId)
@@ -302,7 +292,6 @@ class MainActivity : AppCompatActivity() {
         intent.putExtra("uID", userId)
         startActivity(intent)
     }
-
 
 
 }

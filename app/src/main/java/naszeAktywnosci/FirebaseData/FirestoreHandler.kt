@@ -13,10 +13,8 @@ class FirestoreHandler(private val db: FirebaseFirestore) : FirestoreInterface{
         val id = UUID.randomUUID().toString()
         val documentSnapshot = db.collection(collectionPath).document(id).get().await()
         return if (documentSnapshot.exists()) {
-            // If document with generated ID already exists, generate a new one recursively
             generateId(db, collectionPath)
         } else {
-            // If document with generated ID doesn't exist, return the generated ID
             id
         }
     }
@@ -170,13 +168,10 @@ class FirestoreHandler(private val db: FirebaseFirestore) : FirestoreInterface{
         }
     }
 
-
-
     companion object {
         private const val TAG = "FirestoreHandler"
     }
-
-
 }
+
 
 class FirestoreException(message: String, cause: Throwable) : Exception(message, cause)

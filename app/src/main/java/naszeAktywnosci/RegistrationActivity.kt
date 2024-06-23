@@ -14,7 +14,6 @@ import com.google.android.gms.tasks.OnCompleteListener
 
 
 class RegistrationActivity : BaseActivity() {
-    // Deklaracje zmiennych dla pól widoku
     private lateinit var registerButton: Button
     private lateinit var inputEmail: EditText
     private lateinit var inputName: EditText
@@ -25,20 +24,17 @@ class RegistrationActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_registration)
 
-        // Inicjalizacja pól widoku
         registerButton = findViewById(R.id.button_signin)
         inputEmail = findViewById(R.id.editTextTextEMail)
         inputName = findViewById(R.id.editTextTextName)
         inputPassword = findViewById(R.id.editTextTextPassword)
         inputRepPass = findViewById(R.id.editTextTextRepeatPassword)
 
-        // Ustawienie nasłuchiwacza kliknięć dla przycisku rejestracji
         registerButton.setOnClickListener{
             registerUser()
         }
     }
 
-    // Walidacja danych rejestracji
     private fun validateRegisterDetails(): Boolean {
         return when {
             TextUtils.isEmpty(inputEmail.text.toString().trim{ it <= ' '}) -> {
@@ -66,20 +62,17 @@ class RegistrationActivity : BaseActivity() {
     }
 
 
-    // Przejście do aktywności logowania
     fun goToLogin(view: View) {
         val intent = Intent(this, LoginActivity::class.java)
         startActivity(intent)
         finish()
     }
 
-    // Rejestracja użytkownika
     private fun registerUser() {
         if (validateRegisterDetails()) {
             val login: String = inputEmail?.text.toString().trim() {it <= ' '}
             val password: String = inputPassword?.text.toString().trim() {it <= ' '}
 
-            // Utworzenie użytkownika w FirebaseAuth
             FirebaseAuth.getInstance().createUserWithEmailAndPassword(login, password)
                 .addOnCompleteListener(
                     OnCompleteListener<AuthResult> { task ->
@@ -87,7 +80,6 @@ class RegistrationActivity : BaseActivity() {
                             val firebaseUser: FirebaseUser = task.result!!.user!!
                             showErrorSnackBar("You are registered successfully. Your user id is ${firebaseUser.uid}", false)
 
-                            // Wylogowanie użytkownika i zakończenie aktywności
                             FirebaseAuth.getInstance().signOut()
                             finish()
                         } else {
