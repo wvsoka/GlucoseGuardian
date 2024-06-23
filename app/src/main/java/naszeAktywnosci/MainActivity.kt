@@ -10,6 +10,9 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.androidplot.ui.Anchor
+import com.androidplot.ui.HorizontalPositioning
+import com.androidplot.ui.VerticalPositioning
 import com.androidplot.xy.CatmullRomInterpolator
 import com.androidplot.xy.LineAndPointFormatter
 import com.androidplot.xy.SimpleXYSeries
@@ -238,8 +241,15 @@ class MainActivity : AppCompatActivity() {
         CoroutineScope(Dispatchers.Main).launch {
             try {
                 val measurements = firestoreHandler.getMeasurements(userId)
+                val user = firestoreHandler.getUser(userId)
                 val todayMeasurements = measurements.filter { it.date == getCurrentDate() }
-                updatePlot(todayMeasurements)
+                if (user != null) {
+                    val hyperglycemiaLevel = user.hyperglycaemia
+                    val hypoglycemiaLevel = user.hypoglycaemia
+                    updatePlot(todayMeasurements, hyperglycemiaLevel, hypoglycemiaLevel)
+                } else {
+                    Log.e(TAG, "User not found")
+                }
             } catch (e: Exception) {
                 Log.e(TAG, "Error fetching measurements: $e")
             }
@@ -251,7 +261,7 @@ class MainActivity : AppCompatActivity() {
         return sdf.format(Date())
     }
 
-    private fun updatePlot(measurements: List<UserMeasurments>) {
+    private fun updatePlot(measurements: List<UserMeasurments>, hyperglycemiaLevel: Double, hypoglycemiaLevel: Double) {
         if (measurements.isEmpty()) {
             Log.d(TAG, "No measurements for today")
             return
@@ -268,8 +278,28 @@ class MainActivity : AppCompatActivity() {
         if (seriesValues.size >= 3) {
             series1Format.setInterpolationParams(CatmullRomInterpolator.Params(10, CatmullRomInterpolator.Type.Centripetal))
         }
+
+        val hyperglycemiaSeries: XYSeries = SimpleXYSeries(
+            List(seriesValues.size) { hyperglycemiaLevel },
+            SimpleXYSeries.ArrayFormat.Y_VALS_ONLY,
+            "Hyperglycemia Level"
+        )
+        val hyperglycemiaFormat = LineAndPointFormatter(Color.RED, null, null, null)
+
+        val hypoglycemiaSeries: XYSeries = SimpleXYSeries(
+            List(seriesValues.size) { hypoglycemiaLevel },
+            SimpleXYSeries.ArrayFormat.Y_VALS_ONLY,
+            "Hypoglycemia Level"
+        )
+        val hypoglycemiaFormat = LineAndPointFormatter(Color.GREEN, null, null, null)
+
         plot.clear()
         plot.addSeries(series1, series1Format)
+        plot.addSeries(hyperglycemiaSeries, hyperglycemiaFormat)
+        plot.addSeries(hypoglycemiaSeries, hypoglycemiaFormat)
+
+        plot.legend.isVisible = false
+
         plot.graph.getLineLabelStyle(XYGraphWidget.Edge.BOTTOM).format = object : Format() {
             override fun format(
                 obj: Any?,
@@ -286,7 +316,6 @@ class MainActivity : AppCompatActivity() {
         }
         plot.redraw()
     }
-
     private fun openActivityMain() {
         val intent = Intent(this, MainActivity::class.java)
         intent.putExtra("uID", userId)
