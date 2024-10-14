@@ -12,17 +12,6 @@
     android:background="@color/white"
     tools:context="naszeAktywnosci.UserInfoActivity">
 
-    <TextView
-        android:id="@+id/textView_low"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="5dp"
-        android:text="Low"
-        android:textColor="@color/dark_blue"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/seekBar_activity" />
-
     <ImageView
         android:id="@+id/imageView5"
         android:layout_width="128dp"
@@ -63,37 +52,6 @@
         android:textColorHint="@color/dark_blue"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/text_date" />
-
-    <SeekBar
-        android:id="@+id/seekBar_activity"
-        android:layout_width="280dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="5dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView_activity" />
-
-    <Switch
-        android:id="@+id/switch_pregnancy"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="20dp"
-        android:text="Pregnancy"
-        android:textColor="@color/dark_blue"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView_low" />
-
-    <Switch
-        android:id="@+id/switch_feeding"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="33dp"
-        android:layout_marginTop="20dp"
-        android:text="Breastfeeding"
-        android:textColor="@color/dark_blue"
-        app:layout_constraintStart_toEndOf="@+id/switch_pregnancy"
-        app:layout_constraintTop_toBottomOf="@+id/textView_high" />
 
     <EditText
         android:id="@+id/editTextNumberDecimal_height"
@@ -169,28 +127,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editText_date" />
 
-    <TextView
-        android:id="@+id/textView_activity"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="20dp"
-        android:text="Physical activity"
-        android:textColor="@color/dark_blue"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextNumberDecimal_weight" />
-
-    <TextView
-        android:id="@+id/textView_high"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="225dp"
-        android:layout_marginTop="5dp"
-        android:text="High"
-        android:textColor="@color/dark_blue"
-        app:layout_constraintStart_toEndOf="@+id/textView_low"
-        app:layout_constraintTop_toBottomOf="@+id/seekBar_activity" />
-
     <EditText
         android:id="@+id/editTextNumberDecimal3"
         android:layout_width="100dp"
@@ -241,11 +177,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
-        android:layout_marginTop="20dp"
         android:text="Insulin to carbohydrate ratio"
         android:textColor="@color/dark_blue"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/switch_pregnancy" />
+        tools:layout_editor_absoluteY="551dp" />
 
     <TextView
         android:id="@+id/textView_hipoglicemy"

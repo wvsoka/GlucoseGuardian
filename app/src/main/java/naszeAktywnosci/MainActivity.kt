@@ -8,11 +8,9 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.Button
 import android.widget.EditText
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.androidplot.ui.Anchor
-import com.androidplot.ui.HorizontalPositioning
-import com.androidplot.ui.VerticalPositioning
 import com.androidplot.xy.CatmullRomInterpolator
 import com.androidplot.xy.LineAndPointFormatter
 import com.androidplot.xy.SimpleXYSeries
@@ -36,8 +34,6 @@ import naszeAktywnosci.FirebaseData.UserMeasurments
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
-
-
 
 class MainActivity : AppCompatActivity() {
 
@@ -88,7 +84,20 @@ class MainActivity : AppCompatActivity() {
 
         buttonNotification.setOnClickListener { openScheduleNotificationsActivity() }
 
-        fetchMeasurements()
+
+        fetchMeasurements(6)
+
+        button6h?.setOnClickListener {
+            fetchMeasurements(6)
+        }
+
+        button12h?.setOnClickListener {
+            fetchMeasurements(12)
+        }
+
+        button24h?.setOnClickListener {
+            fetchMeasurements(24)
+        }
 
     }
 
@@ -166,12 +175,63 @@ class MainActivity : AppCompatActivity() {
                     )
                     firestoreHandler.addMeasurements(userId, measurement)
                     Toast.makeText(this@MainActivity, "Measurement added successfully", Toast.LENGTH_SHORT).show()
-                    fetchMeasurements() // Refresh the plot
+                    fetchMeasurements(6)
                     dialog.dismiss()
+
+                    checkGlucoseLevelAndShowAlert(measurementValue)
                 } catch (e: Exception) {
                     Toast.makeText(this@MainActivity, "Failed to add measurement", Toast.LENGTH_SHORT).show()
                 }
             }
+        }
+
+        dialog.show()
+    }
+
+
+    private fun checkGlucoseLevelAndShowAlert(measurementValue: Double) {
+        CoroutineScope(Dispatchers.Main).launch {
+            try {
+                val firestoreHandler = FirestoreHandler(FirebaseFirestore.getInstance())
+                val user = firestoreHandler.getUser(userId)
+
+                if (user != null) {
+                    val hyperglycemiaLevel = user.hyperglycaemia
+                    val hypoglycemiaLevel = user.hypoglycaemia
+
+                    if (measurementValue > hyperglycemiaLevel || measurementValue < hypoglycemiaLevel) {
+                        openDialogAlert(measurementValue, hyperglycemiaLevel, hypoglycemiaLevel)
+                    }
+                }
+            } catch (e: Exception) {
+                Log.e(TAG, "Failed to check glucose levels: $e")
+            }
+        }
+    }
+    private fun openDialogAlert(measurementValue: Double, hyperglycemiaLevel: Double, hypoglycemiaLevel: Double) {
+        val dialog = Dialog(this)
+        dialog.setContentView(R.layout.activity_alert)
+        dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
+        dialog.setCancelable(false)
+
+        val closeButton: Button = dialog.findViewById(R.id.button_backToMainFromAlert)
+        val contactButton: Button = dialog.findViewById(R.id.button_contactthedoctor)
+        val alertMessage: TextView = dialog.findViewById(R.id.textView_information)
+
+        val message = when {
+            measurementValue > hyperglycemiaLevel -> "Your glucose level is too high!"
+            measurementValue < hypoglycemiaLevel -> "Your glucose level is too low!"
+            else -> "Your glucose level is within the normal range."
+        }
+
+        alertMessage.text = message
+
+        closeButton.setOnClickListener {
+            dialog.dismiss()
+        }
+
+        contactButton.setOnClickListener {
+            // TODO:
         }
 
         dialog.show()
@@ -236,17 +296,26 @@ class MainActivity : AppCompatActivity() {
         startActivity(intent)
     }
 
-    private fun fetchMeasurements() {
+    private fun fetchMeasurements(hours: Int) {
         val firestoreHandler = FirestoreHandler(FirebaseFirestore.getInstance())
         CoroutineScope(Dispatchers.Main).launch {
             try {
                 val measurements = firestoreHandler.getMeasurements(userId)
                 val user = firestoreHandler.getUser(userId)
-                val todayMeasurements = measurements.filter { it.date == getCurrentDate() }
+
+                val currentTime = System.currentTimeMillis()
+                val cutoffTime = currentTime - hours*3600000
+
+
+                val filteredMeasurements = measurements.filter {
+                    val measurementDate = SimpleDateFormat("yyyy-MM-dd HH-mm", Locale.getDefault()).parse("${it.date} ${it.time}")
+                    measurementDate?.time ?: 0 >= cutoffTime
+                }
+
                 if (user != null) {
                     val hyperglycemiaLevel = user.hyperglycaemia
                     val hypoglycemiaLevel = user.hypoglycaemia
-                    updatePlot(todayMeasurements, hyperglycemiaLevel, hypoglycemiaLevel)
+                    updatePlot(filteredMeasurements, hyperglycemiaLevel, hypoglycemiaLevel)
                 } else {
                     Log.e(TAG, "User not found")
                 }

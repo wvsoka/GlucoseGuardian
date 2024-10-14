@@ -4,8 +4,6 @@ import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
-import android.widget.SeekBar
-import android.widget.Switch
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.aplikacjatestowa.R
@@ -25,9 +23,6 @@ class UserInfoActivity : AppCompatActivity() {
     private lateinit var editTextDate: EditText
     private lateinit var weight : EditText
     private lateinit var height : EditText
-    private lateinit var activity : SeekBar
-    private lateinit var pregnancy : Switch
-    private lateinit var breastfeeding : Switch
     private lateinit var iw : EditText
     private lateinit var hypoglycemia : EditText
     private lateinit var hyperglycemia : EditText
@@ -53,9 +48,6 @@ class UserInfoActivity : AppCompatActivity() {
         editTextDate = findViewById(R.id.editText_date)
         weight = findViewById(R.id.editTextNumberDecimal_weight)
         height = findViewById(R.id.editTextNumberDecimal_height)
-        activity = findViewById(R.id.seekBar_activity)
-        pregnancy = findViewById(R.id.switch_pregnancy)
-        breastfeeding = findViewById(R.id.switch_feeding)
         iw = findViewById(R.id.editTextNumber_IW)
         hypoglycemia = findViewById(R.id.editTextNumberDecimal3)
         hyperglycemia = findViewById(R.id.editTextNumber2)

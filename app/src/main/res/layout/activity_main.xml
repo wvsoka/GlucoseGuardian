@@ -111,23 +111,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/textView_alert"
-        android:layout_width="330dp"
-        android:layout_height="30dp"
-        android:layout_marginTop="10dp"
-        android:background="@drawable/input_rounded_blue"
-        android:paddingTop="4dp"
-        android:paddingBottom="4dp"
-        android:text="ALERT"
-        android:textSize="16sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/plot"
-        app:layout_constraintVertical_bias="0.0" />
-
     <Button
         android:id="@+id/button_notifications"
         android:layout_width="60dp"
