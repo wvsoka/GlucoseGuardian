@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
-    tools:context="naszeAktywnosci.MealDataActivity">
+    tools:context="naszeAktywnosci.MeasurementsDataActivity">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
@@ -22,7 +22,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:text="Meals"
+            android:text="Measurements"
             android:textColor="@android:color/white"
             android:textSize="34sp"
             android:textStyle="bold"
@@ -30,7 +30,7 @@
             tools:layout_editor_absoluteY="14dp" />
 
         <Button
-            android:id="@+id/back_button"
+            android:id="@+id/backFromMeasurementsRV_button"
             android:layout_width="80dp"
             android:layout_height="80dp"
             android:layout_gravity="end"
@@ -43,7 +43,7 @@
     </androidx.appcompat.widget.Toolbar>
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerView"
+        android:id="@+id/recyclerView_measurements"
         android:layout_width="0dp"
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -53,6 +53,6 @@
         app:layout_constraintTop_toBottomOf="@+id/toolbar"
         app:layout_constraintVertical_bias="0.5"
         tools:itemCount="5"
-        tools:listitem="@layout/list_item" />
+        tools:listitem="@layout/measurement_item" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

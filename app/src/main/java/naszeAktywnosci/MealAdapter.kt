@@ -10,7 +10,7 @@ import naszeAktywnosci.FirebaseData.MealInfo
 
 class MealAdapter(private val mealList : ArrayList<MealInfo>) : RecyclerView.Adapter<MealAdapter.MyViewHolder>(){
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MealAdapter.MyViewHolder {
-        val itemView = LayoutInflater.from(parent.context).inflate(R.layout.list_item, parent, false)
+        val itemView = LayoutInflater.from(parent.context).inflate(R.layout.meal_item, parent, false)
         return  MyViewHolder(itemView)
     }
 

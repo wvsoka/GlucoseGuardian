@@ -17,7 +17,8 @@ import com.google.firebase.firestore.firestore
 import naszeAktywnosci.FirebaseData.FirestoreHandler
 import naszeAktywnosci.FirebaseData.MealInfo
 
-class MealDataActivity : AppCompatActivity() {
+//ZMIENIĆ POD INSULIN RV
+class InsulinDataActivity : AppCompatActivity() {
 
     private lateinit var recyclerView: RecyclerView
     private lateinit var mealAdapter: MealAdapter
@@ -32,9 +33,9 @@ class MealDataActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_rv_meals)
 
-        buttonBack = findViewById(R.id.backFromMealsRV_button)
+        buttonBack = findViewById(R.id.backFromInsulinRV_button)
 
-        recyclerView = findViewById<RecyclerView>(R.id.recyclerView_meals)
+        recyclerView = findViewById<RecyclerView>(R.id.recyclerView_insulin)
 
         recyclerView.layoutManager = LinearLayoutManager(this)
         recyclerView.setHasFixedSize(true)
