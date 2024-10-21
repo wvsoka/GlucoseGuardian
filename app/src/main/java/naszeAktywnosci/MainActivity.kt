@@ -31,6 +31,7 @@ import naszeAktywnosci.FirebaseData.FirestoreHandler
 import naszeAktywnosci.FirebaseData.InsulinInfo
 import naszeAktywnosci.FirebaseData.MealInfo
 import naszeAktywnosci.FirebaseData.UserMeasurments
+import naszeAktywnosci.dataActivity.InsulinDataActivity
 import naszeAktywnosci.dataActivity.MealDataActivity
 import java.text.SimpleDateFormat
 import java.util.Date
@@ -117,6 +118,7 @@ class MainActivity : AppCompatActivity() {
         val buttonAddInsulin: Button = dialog.findViewById(R.id.button_addinsulin)
         val numberInsulin: EditText = dialog.findViewById(R.id.editTextNumber_insulin)
         val closeButton: Button = dialog.findViewById(R.id.button_backToMainFromInsulin)
+        val buttonAllDoses: Button = dialog.findViewById(R.id.button_toInfoInsulin)
 
         closeButton.setOnClickListener {
             val intent=Intent(this, MainActivity::class.java)
@@ -142,6 +144,11 @@ class MainActivity : AppCompatActivity() {
                     Toast.makeText(this@MainActivity, "Failed to add insulin dose", Toast.LENGTH_SHORT).show()
                 }
             }
+        }
+        buttonAllDoses.setOnClickListener {
+            val intent = Intent(this, InsulinDataActivity::class.java)
+            intent.putExtra("uID", userId)
+            startActivity(intent)
         }
 
         dialog.show()

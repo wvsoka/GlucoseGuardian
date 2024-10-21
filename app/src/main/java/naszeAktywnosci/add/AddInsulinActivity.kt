@@ -2,6 +2,7 @@ package naszeAktywnosci.add
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
@@ -46,6 +47,7 @@ class AddInsulinActivity : AppCompatActivity() {
         buttonAddInsulin = findViewById(R.id.button_addinsulin)
         numberInsulin = findViewById(R.id.editTextNumber_insulin)
         buttonAllInsulin = findViewById(R.id.button_toInfoInsulin)
+        Log.d("AddInsulinActivity", "buttonAllInsulin initialized successfully")
 
 
         buttonAddInsulin.setOnClickListener {
@@ -53,6 +55,7 @@ class AddInsulinActivity : AppCompatActivity() {
         }
 
         buttonAllInsulin.setOnClickListener {
+            Log.d("AddInsulinActivity", "buttonAllInsulin clicked")
             openAllInsulinActivity()
         }
 
@@ -62,6 +65,7 @@ class AddInsulinActivity : AppCompatActivity() {
     private fun openAllInsulinActivity() {
         val intent = Intent(this, InsulinDataActivity::class.java)
         intent.putExtra("uID", userId)
+        Log.d("AddInsulinActivity", "Navigating to InsulinDataActivity with userId: $userId")
         startActivity(intent)
     }
 

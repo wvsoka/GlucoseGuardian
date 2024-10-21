@@ -13,8 +13,8 @@ class InsulinAdapter(private val insulinList: ArrayList<InsulinInfo>) :
 
     class InsulinViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val insulinDate: TextView = itemView.findViewById(R.id.insulinDate)
-        val insulinTime: TextView = itemView.findViewById(R.id.insuliunTime)
-        val insulinDose: TextView = itemView.findViewById(R.id.insulinName)
+        val insulinTime: TextView = itemView.findViewById(R.id.insulinTime)
+        val insulinMeasurment: TextView = itemView.findViewById(R.id.insulinName)
 
     }
 
@@ -28,7 +28,7 @@ class InsulinAdapter(private val insulinList: ArrayList<InsulinInfo>) :
 
         holder.insulinDate.text = insulin.date
         holder.insulinTime.text = insulin.time
-        holder.insulinDose.text = insulin.measurment.toString()
+        holder.insulinMeasurment.text = insulin.measurment.toString()
     }
 
     override fun getItemCount(): Int {

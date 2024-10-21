@@ -1,6 +1,6 @@
 package naszeAktywnosci.add
 
-import GlucoseMeasurementDataActivity
+import naszeAktywnosci.dataActivity.GlucoseMeasurementDataActivity
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
@@ -16,7 +16,6 @@ import kotlinx.coroutines.launch
 import naszeAktywnosci.FirebaseData.FirestoreHandler
 import naszeAktywnosci.FirebaseData.UserMeasurments
 import naszeAktywnosci.MainActivity
-import naszeAktywnosci.dataActivity.MealDataActivity
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale

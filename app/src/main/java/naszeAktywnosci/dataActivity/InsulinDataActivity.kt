@@ -44,10 +44,14 @@ class InsulinDataActivity : AppCompatActivity() {
         insulinAdapter = InsulinAdapter(insulinList)
         insulinRecyclerView.adapter = insulinAdapter
 
+
+        buttonBack = findViewById(R.id.backFromInsulinRV_button)
         buttonBack.setOnClickListener {
             openActivityMain()
         }
+
         userId = intent.getStringExtra("uID") ?: ""
+        Log.d("InsulinDataActivity", "Received userId: $userId")
         if (userId.isEmpty()) {
             val intent = Intent(this, MainActivity::class.java)
             startActivity(intent)
