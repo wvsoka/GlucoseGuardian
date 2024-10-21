@@ -1,4 +1,4 @@
-package naszeAktywnosci
+package naszeAktywnosci.dataActivity
 
 import android.content.Intent
 import android.os.Bundle
@@ -16,11 +16,12 @@ import com.google.firebase.firestore.QuerySnapshot
 import com.google.firebase.firestore.firestore
 import naszeAktywnosci.FirebaseData.FirestoreHandler
 import naszeAktywnosci.FirebaseData.MealInfo
+import naszeAktywnosci.MainActivity
+import naszeAktywnosci.adapter.MealAdapter
 
-//ZMIENIĆ POD MEASUREMENTS RV
-class MeasurementsDataActivity : AppCompatActivity() {
+class MealDataActivity : AppCompatActivity() {
 
-    private lateinit var recyclerView: RecyclerView
+    private lateinit var mealRecyclerView: RecyclerView
     private lateinit var mealAdapter: MealAdapter
     private lateinit var mealList : ArrayList<MealInfo>
     private lateinit var buttonBack : Button
@@ -33,18 +34,17 @@ class MeasurementsDataActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_rv_meals)
 
-        buttonBack = findViewById(R.id.backFromMeasurementsRV_button)
+        buttonBack = findViewById(R.id.backFromMealsRV_button)
 
-        recyclerView = findViewById<RecyclerView>(R.id.recyclerView_measurements)
+        mealRecyclerView = findViewById(R.id.recyclerView_meals)
 
-        recyclerView.layoutManager = LinearLayoutManager(this)
-        recyclerView.setHasFixedSize(true)
+        mealRecyclerView.layoutManager = LinearLayoutManager(this)
+        mealRecyclerView.setHasFixedSize(true)
 
         mealList = arrayListOf()
 
         mealAdapter = MealAdapter(mealList)
-
-        recyclerView.adapter = mealAdapter
+        mealRecyclerView.adapter = mealAdapter
 
 
         buttonBack.setOnClickListener {

@@ -1,4 +1,4 @@
-package naszeAktywnosci
+package naszeAktywnosci.add
 
 import android.content.Intent
 import android.os.Bundle
@@ -14,6 +14,8 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import naszeAktywnosci.FirebaseData.FirestoreHandler
 import naszeAktywnosci.FirebaseData.MealInfo
+import naszeAktywnosci.MainActivity
+import naszeAktywnosci.dataActivity.MealDataActivity
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
@@ -95,7 +97,7 @@ class AddMealActivity : AppCompatActivity() {
     }
 
     private fun getCurrentDate(): String {
-        val sdf = java.text.SimpleDateFormat("yyyy-MM-dd", java.util.Locale.getDefault())
-        return sdf.format(java.util.Date())
+        val sdf = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+        return sdf.format(Date())
     }
 }

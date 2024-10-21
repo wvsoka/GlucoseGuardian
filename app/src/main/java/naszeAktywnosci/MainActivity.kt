@@ -31,6 +31,7 @@ import naszeAktywnosci.FirebaseData.FirestoreHandler
 import naszeAktywnosci.FirebaseData.InsulinInfo
 import naszeAktywnosci.FirebaseData.MealInfo
 import naszeAktywnosci.FirebaseData.UserMeasurments
+import naszeAktywnosci.dataActivity.MealDataActivity
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale

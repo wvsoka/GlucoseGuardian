@@ -1,4 +1,4 @@
-package naszeAktywnosci
+package naszeAktywnosci.adapter
 
 import android.view.LayoutInflater
 import android.view.View
@@ -8,13 +8,13 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.aplikacjatestowa.R
 import naszeAktywnosci.FirebaseData.MealInfo
 
-class MealAdapter(private val mealList : ArrayList<MealInfo>) : RecyclerView.Adapter<MealAdapter.MyViewHolder>(){
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MealAdapter.MyViewHolder {
+class MealAdapter(private val mealList : ArrayList<MealInfo>) : RecyclerView.Adapter<MealAdapter.MealViewHolder>(){
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MealViewHolder {
         val itemView = LayoutInflater.from(parent.context).inflate(R.layout.meal_item, parent, false)
-        return  MyViewHolder(itemView)
+        return  MealViewHolder(itemView)
     }
 
-    override fun onBindViewHolder(holder: MealAdapter.MyViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: MealViewHolder, position: Int) {
         val meal : MealInfo = mealList[position]
         holder.mealName.text = meal.name
         holder.mealDate.text = meal.date
@@ -26,7 +26,7 @@ class MealAdapter(private val mealList : ArrayList<MealInfo>) : RecyclerView.Ada
         return mealList.size
     }
 
-    public class MyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
+    class MealViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
             val mealName : TextView = itemView.findViewById(R.id.mealName)
             val mealDate : TextView = itemView.findViewById(R.id.mealDate)
             val mealTime : TextView = itemView.findViewById(R.id.mealTime)

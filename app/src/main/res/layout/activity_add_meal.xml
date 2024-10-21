@@ -7,7 +7,7 @@
     android:layout_gravity="center"
     app:cardCornerRadius="20dp"
     app:cardElevation="6dp"
-    tools:context="naszeAktywnosci.AddGlucoseMeasurmentActivity">
+    tools:context="naszeAktywnosci.add.AddGlucoseMeasurmentActivity">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/main"

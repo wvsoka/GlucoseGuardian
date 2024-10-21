@@ -1,4 +1,4 @@
-package naszeAktywnosci
+package naszeAktywnosci.add
 
 import android.content.Intent
 import android.os.Bundle
@@ -14,6 +14,9 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import naszeAktywnosci.FirebaseData.FirestoreHandler
 import naszeAktywnosci.FirebaseData.InsulinInfo
+import naszeAktywnosci.LoginActivity
+import naszeAktywnosci.dataActivity.InsulinDataActivity
+import naszeAktywnosci.MainActivity
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
@@ -23,10 +26,11 @@ class AddInsulinActivity : AppCompatActivity() {
     private lateinit var buttonBack : Button
     private lateinit var buttonAddInsulin: Button
     private lateinit var numberInsulin : EditText
+    private lateinit var buttonAllInsulin : Button
+
 
     private val db = Firebase.firestore
     private val dbOperations = FirestoreHandler(db)
-
     private lateinit var userId: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -41,17 +45,24 @@ class AddInsulinActivity : AppCompatActivity() {
 
         buttonAddInsulin = findViewById(R.id.button_addinsulin)
         numberInsulin = findViewById(R.id.editTextNumber_insulin)
+        buttonAllInsulin = findViewById(R.id.button_toInfoInsulin)
+
 
         buttonAddInsulin.setOnClickListener {
             addInsulin()
         }
 
-        userId = intent.getStringExtra("uID") ?: ""
-        if (userId.isEmpty()) {
-            val intent = Intent(this, LoginActivity::class.java)
-            startActivity(intent)
-            finish()
+        buttonAllInsulin.setOnClickListener {
+            openAllInsulinActivity()
         }
+
+        userId = intent.getStringExtra("uID") ?: ""
+    }
+
+    private fun openAllInsulinActivity() {
+        val intent = Intent(this, InsulinDataActivity::class.java)
+        intent.putExtra("uID", userId)
+        startActivity(intent)
     }
 
     private fun openActivityMain() {
@@ -79,9 +90,10 @@ class AddInsulinActivity : AppCompatActivity() {
                 val insulinId = dbOperations.generateId(db, "insulin_info")
                 val insulinInfo = InsulinInfo(
                     date = getCurrentDate(),
-                    time = getCurrentTime(),
+                    insulinId = insulinId,
                     measurment = insulinDose,
-                    insulinId = insulinId
+                    time = getCurrentTime()
+
                 )
                 dbOperations.addInsulinInfo(userId, insulinInfo)
                 Toast.makeText(this@AddInsulinActivity, "Insulin dose added successfully", Toast.LENGTH_SHORT).show()

@@ -1,5 +1,6 @@
-package naszeAktywnosci
+package naszeAktywnosci.add
 
+import GlucoseMeasurementDataActivity
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
@@ -14,6 +15,8 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import naszeAktywnosci.FirebaseData.FirestoreHandler
 import naszeAktywnosci.FirebaseData.UserMeasurments
+import naszeAktywnosci.MainActivity
+import naszeAktywnosci.dataActivity.MealDataActivity
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
@@ -23,6 +26,7 @@ class AddGlucoseMeasurmentActivity : AppCompatActivity() {
     private lateinit var buttonBack : Button
     private lateinit var buttonAddInsert : Button
     private lateinit var numberInsert : EditText
+    private lateinit var buttonAllMeasurements : Button
 
     private val db = Firebase.firestore
     private val dbOperations = FirestoreHandler(db)
@@ -39,11 +43,23 @@ class AddGlucoseMeasurmentActivity : AppCompatActivity() {
         //buttonAddFile = findViewById(R.id.button_addfile)
         buttonAddInsert = findViewById(R.id.button_addinsert)
         numberInsert = findViewById(R.id.editTextNumber_glucose)
+        buttonAllMeasurements = findViewById(R.id.button_toInfoMeasurements)
+
+        buttonAllMeasurements.setOnClickListener {
+            openAllMeasurementsActivity()
+        }
+
 
         val intent = intent
         userId = intent.getStringExtra("uID") ?: ""
 
         buttonAddInsert.setOnClickListener { addMeasurement() }
+    }
+
+    private fun openAllMeasurementsActivity() {
+        val intent = Intent(this, GlucoseMeasurementDataActivity::class.java)
+        intent.putExtra("uID", userId)
+        startActivity(intent)
     }
 
     private fun openActivityMain() {
