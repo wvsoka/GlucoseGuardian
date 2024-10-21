@@ -61,7 +61,7 @@ class MealDataActivity : AppCompatActivity() {
     }
 
     private fun EventChangeListener() {
-        db.collection("meal_info").document(userId).collection("meals").
+        db.collection("meal_info").document(userId).collection("meals"). //zrobic sortowanie po dacie i godzinie
                 addSnapshotListener(object  : EventListener<QuerySnapshot>{
                     override fun onEvent(
                         value: QuerySnapshot?,

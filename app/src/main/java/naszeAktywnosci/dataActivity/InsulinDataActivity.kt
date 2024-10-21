@@ -62,7 +62,7 @@ class InsulinDataActivity : AppCompatActivity() {
     }
 
     private fun EventChangeListener() {
-        db.collection("insulin_info").document(userId).collection("insulin").
+        db.collection("insulin_info").document(userId).collection("insulin"). //zrobic sortowanie po dacie i godzinie
         addSnapshotListener(object  : EventListener<QuerySnapshot> {
             override fun onEvent(
                 value: QuerySnapshot?,

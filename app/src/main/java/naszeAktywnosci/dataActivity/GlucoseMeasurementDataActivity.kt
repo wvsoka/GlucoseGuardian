@@ -61,7 +61,7 @@ class GlucoseMeasurementDataActivity : AppCompatActivity() {
     }
 
     private fun EventChangeListener() {
-        db.collection("user_measurements").document(userId).collection("measurements").
+        db.collection("user_measurements").document(userId).collection("measurements"). //zrobic sortowanie po dacie i godzinie
         addSnapshotListener(object  : EventListener<QuerySnapshot> {
             override fun onEvent(
                 value: QuerySnapshot?,
