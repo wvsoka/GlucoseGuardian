@@ -31,6 +31,7 @@ import naszeAktywnosci.FirebaseData.FirestoreHandler
 import naszeAktywnosci.FirebaseData.InsulinInfo
 import naszeAktywnosci.FirebaseData.MealInfo
 import naszeAktywnosci.FirebaseData.UserMeasurments
+import naszeAktywnosci.dataActivity.GlucoseMeasurementDataActivity
 import naszeAktywnosci.dataActivity.InsulinDataActivity
 import naszeAktywnosci.dataActivity.MealDataActivity
 import java.text.SimpleDateFormat
@@ -163,6 +164,7 @@ class MainActivity : AppCompatActivity() {
         val closeButton: Button = dialog.findViewById(R.id.button_backToMainFromGlucose)
         val buttonAddInsert: Button = dialog.findViewById(R.id.button_addinsert)
         val numberInsert: EditText = dialog.findViewById(R.id.editTextNumber_glucose)
+        val buttonAllGlucoseMeasurement: Button = dialog.findViewById(R.id.button_toInfoMeasurements)
 
         closeButton.setOnClickListener {
             val intent=Intent(this, MainActivity::class.java)
@@ -191,6 +193,12 @@ class MainActivity : AppCompatActivity() {
                     Toast.makeText(this@MainActivity, "Failed to add measurement", Toast.LENGTH_SHORT).show()
                 }
             }
+        }
+
+        buttonAllGlucoseMeasurement.setOnClickListener {
+            val intent = Intent(this, GlucoseMeasurementDataActivity::class.java)
+            intent.putExtra("uID", userId)
+            startActivity(intent)
         }
 
         dialog.show()

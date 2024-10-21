@@ -24,6 +24,10 @@
             android:name="naszeAktywnosci.dataActivity.InsulinDataActivity"
             android:exported="false"/>
 
+        <activity
+                android:name="naszeAktywnosci.dataActivity.GlucoseMeasurementDataActivity"
+            android:exported="false"/>
+
         <receiver
             android:name="naszeAktywnosci.Notification"
             android:enabled="true" />
