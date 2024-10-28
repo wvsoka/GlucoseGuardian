@@ -5,6 +5,7 @@ plugins {
     alias(libs.plugins.googleAndroidLibrariesMapsplatformSecretsGradlePlugin)
 }
 
+
 android {
     namespace = "com.example.aplikacjatestowa"
     compileSdk = 34
