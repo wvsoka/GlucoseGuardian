@@ -18,6 +18,7 @@ import com.androidplot.xy.XYGraphWidget
 import com.androidplot.xy.XYPlot
 import com.androidplot.xy.XYSeries
 import com.example.aplikacjatestowa.R
+import com.example.googlemapsapplication.MapsActivity
 import com.google.firebase.Firebase
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.firestore
@@ -48,6 +49,7 @@ class MainActivity : AppCompatActivity() {
     private var button12h : Button? = null
     private var button24h : Button? = null
     private lateinit var buttonNotification : Button
+    private lateinit var buttonMaps : Button
     private lateinit var plot: XYPlot
     private lateinit var userId: String
     private val db = Firebase.firestore
@@ -65,6 +67,7 @@ class MainActivity : AppCompatActivity() {
         button12h = findViewById(R.id.button_12h)
         button24h = findViewById(R.id.button_24h)
         buttonNotification = findViewById(R.id.button_notifications)
+        buttonMaps = findViewById(R.id.button_maps)
         plot = findViewById(R.id.plot)
 
         val intent = intent
@@ -87,6 +90,7 @@ class MainActivity : AppCompatActivity() {
 
         buttonNotification.setOnClickListener { openScheduleNotificationsActivity() }
 
+        buttonMaps.setOnClickListener { openMapsActivity() }
 
         fetchMeasurements(6)
 
@@ -308,6 +312,12 @@ class MainActivity : AppCompatActivity() {
 
     private fun openScheduleNotificationsActivity(){
         val intent = Intent(this, ScheduleNotificationsActivity::class.java)
+        intent.putExtra("uID", userId)
+        startActivity(intent)
+    }
+
+    private fun openMapsActivity(){
+        val intent = Intent(this, MapsActivity::class.java)
         intent.putExtra("uID", userId)
         startActivity(intent)
     }
