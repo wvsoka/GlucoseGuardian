@@ -1,10 +1,12 @@
 package com.example.googlemapsapplication
 
 import android.Manifest
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.location.Location
 import android.os.Bundle
 import android.util.Log
+import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import com.android.volley.Response
@@ -21,6 +23,7 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
+import naszeAktywnosci.MainActivity
 import org.json.JSONException
 import org.json.JSONObject
 
@@ -30,10 +33,13 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
     private lateinit var binding: ActivityMapsBinding
     private lateinit var lastLocation: Location
     private lateinit var fusedLocationClient: FusedLocationProviderClient
+    private lateinit var userId: String
+    private lateinit var buttonBack : Button
 
     companion object {
         private const val LOCATION_REQUEST_CODE = 1
     }
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -45,6 +51,13 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
         mapFragment.getMapAsync(this)
 
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
+
+        userId = intent.getStringExtra("uID").toString()
+
+        buttonBack = findViewById(R.id.backFromMaps_button)
+        buttonBack.setOnClickListener {
+            openActivityMain()
+        }
     }
 
     override fun onMapReady(googleMap: GoogleMap) {
@@ -126,4 +139,10 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
     }
 
     override fun onMarkerClick(p0: Marker) = false
+
+    private fun openActivityMain() {
+        val intent = Intent(this, MainActivity::class.java)
+        intent.putExtra("uID", userId)
+        startActivity(intent)
+    }
 }
