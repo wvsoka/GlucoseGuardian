@@ -1,14 +1,19 @@
 package com.example.googlemapsapplication
 
 import android.Manifest
+import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.location.Location
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.widget.Button
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import com.android.volley.Response
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
@@ -64,6 +69,9 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
         mMap = googleMap
         mMap.uiSettings.isZoomControlsEnabled = true
         mMap.setOnMarkerClickListener(this)
+
+        mMap.setInfoWindowAdapter(CustomInfoWindowAdapter(this)) //do popupa
+
         setUpMap()
     }
 
@@ -86,7 +94,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
             if (location != null) {
                 lastLocation = location
                 val currentLatLong = LatLng(location.latitude, location.longitude)
-                placeMarkerOnMap(currentLatLong)
+                //placeMarkerOnMap(currentLatLong) - pinezka do miejsca w ktorym jestesmy
                 mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(currentLatLong, 11f))
                 findNearbyPharmacies(currentLatLong) // zmieniono na wyszukiwanie aptek
             }
@@ -115,10 +123,19 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
                         val lng = latLng.getDouble("lng")
                         val placeName = place.getString("name")
 
+                        var openingHoursText = "Brak informacji o godzinach otwarcia"
+                        var statusText = "Brak informacji o statusie"
+                        if (place.has("opening_hours")) {
+                            val openingHours = place.getJSONObject("opening_hours")
+                            val isOpenNow = openingHours.optBoolean("open_now", false)
+                            statusText = if (isOpenNow) "Otwarte" else "Zamknięte"
+                        }
+
                         mMap.addMarker(
                             MarkerOptions()
                                 .position(LatLng(lat, lng))
                                 .title(placeName)
+                                .snippet(statusText)
                         )
                     }
                 } catch (e: JSONException) {
@@ -140,9 +157,47 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
 
     override fun onMarkerClick(p0: Marker) = false
 
+
+
     private fun openActivityMain() {
         val intent = Intent(this, MainActivity::class.java)
         intent.putExtra("uID", userId)
         startActivity(intent)
     }
+
+
+    class CustomInfoWindowAdapter(private val context: Context) : GoogleMap.InfoWindowAdapter {
+
+        private val window = (context as Activity).layoutInflater.inflate(R.layout.info_pharmacy_window, null)
+
+        private fun render(marker: Marker, view: View) {
+            val title = view.findViewById<TextView>(R.id.textView_InfoPharmacy)
+            val isOpenView = view.findViewById<TextView>(R.id.textView_isopen)
+
+            // Ustawienie nazwy apteki
+            title.text = marker.title
+
+            // Ustawienie statusu otwarcia (snippet)
+            val statusText = marker.snippet ?: "Brak informacji"
+            isOpenView.text = statusText
+
+            // Zmiana koloru tekstu w zależności od statusu
+            if (statusText.contains("Otwarte", true)) {
+                isOpenView.setTextColor(ContextCompat.getColor(context, android.R.color.holo_green_dark))
+            } else if (statusText.contains("Zamknięte", true)) {
+                isOpenView.setTextColor(ContextCompat.getColor(context, android.R.color.holo_red_dark))
+            }
+        }
+
+        override fun getInfoWindow(marker: Marker): View? {
+            render(marker, window)
+            return window
+        }
+
+        override fun getInfoContents(marker: Marker): View? {
+            return null
+        }
+    }
+
+
 }

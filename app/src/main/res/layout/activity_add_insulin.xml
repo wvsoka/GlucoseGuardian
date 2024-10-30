@@ -6,8 +6,7 @@
     android:layout_height="wrap_content"
     android:layout_gravity="center"
     app:cardCornerRadius="20dp"
-    app:cardElevation="6dp"
-    tools:context="naszeAktywnosci.add.AddInsulinActivity">
+    app:cardElevation="6dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/main"
