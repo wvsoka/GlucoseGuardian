@@ -373,15 +373,18 @@ class MainActivity : AppCompatActivity() {
                 val cutoffTime = currentTime - hours*3600000
 
 
+                val dateFormat = SimpleDateFormat("yyyy-MM-dd HH-mm", Locale.getDefault())
                 val filteredMeasurements = measurements.filter {
-                    val measurementDate = SimpleDateFormat("yyyy-MM-dd HH-mm", Locale.getDefault()).parse("${it.date} ${it.time}")
+                    val measurementDate = dateFormat.parse("${it.date} ${it.time}")
                     measurementDate?.time ?: 0 >= cutoffTime
+                }.sortedBy {
+                    dateFormat.parse("${it.date} ${it.time}")
                 }
 
                 if (user != null) {
                     val hyperglycemiaLevel = user.hyperglycaemia
                     val hypoglycemiaLevel = user.hypoglycaemia
-                    updatePlot(filteredMeasurements, hyperglycemiaLevel, hypoglycemiaLevel)
+                    updatePlot(filteredMeasurements, hours, hyperglycemiaLevel, hypoglycemiaLevel)
                 } else {
                     Log.e(TAG, "User not found")
                 }
@@ -401,32 +404,63 @@ class MainActivity : AppCompatActivity() {
         return sdf.format(Date())
     }
 
-    private fun updatePlot(measurements: List<UserMeasurments>, hyperglycemiaLevel: Double, hypoglycemiaLevel: Double) {
+    private fun updatePlot(
+        measurements: List<UserMeasurments>,
+        hours: Int,
+        hyperglycemiaLevel: Double,
+        hypoglycemiaLevel: Double
+    ) {
         if (measurements.isEmpty()) {
             Log.d(TAG, "No measurements for today")
             return
         }
 
-        val sortedMeasurements = measurements.sortedBy { it.time }
+        val dateFormat = SimpleDateFormat("yyyy-MM-dd HH-mm", Locale.getDefault())
+        val currentTime = System.currentTimeMillis()
+        val startTime = currentTime - hours * 3600000
 
-        val domainLabels = sortedMeasurements.map { it.time }.toTypedArray()
-        val seriesValues = sortedMeasurements.map { it.measurment }.toTypedArray()
-
-        val series1: XYSeries = SimpleXYSeries(listOf(*seriesValues), SimpleXYSeries.ArrayFormat.Y_VALS_ONLY, "Today's Measurements")
-        val series1Format = LineAndPointFormatter(Color.BLUE, Color.BLACK, null, null)
-
-        if (seriesValues.size >= 3) {
-            series1Format.setInterpolationParams(CatmullRomInterpolator.Params(10, CatmullRomInterpolator.Type.Centripetal))
+        val intervalMillis = when (hours) {
+            6 -> 30 * 60 * 1000   // 30 minutes for 6 hours
+            12 -> 60 * 60 * 1000  // 1 hour for 12 hours
+            24 -> 2 * 60 * 60 * 1000  // 2 hours for 24 hours
+            else -> 60 * 60 * 1000
         }
 
-        val hyperglycemiaSeries: XYSeries = SimpleXYSeries(
+        val timeLabels = mutableListOf<String>()
+        val seriesTimes = mutableListOf<Double>()
+        val seriesValues = mutableListOf<Double>()
+
+        var currentLabelTime = startTime
+        while (currentLabelTime <= currentTime) {
+            val label = dateFormat.format(Date(currentLabelTime))
+            timeLabels.add(label)
+            currentLabelTime += intervalMillis
+        }
+
+        for (label in timeLabels) {
+            val labelTime = dateFormat.parse(label)?.time ?: continue
+            val closestMeasurement = measurements.minByOrNull {
+                kotlin.math.abs((dateFormat.parse("${it.date} ${it.time}")?.time ?: 0) - labelTime)
+            }
+
+            if (closestMeasurement != null) {
+                seriesTimes.add((labelTime - startTime).toDouble() / intervalMillis)
+                seriesValues.add(closestMeasurement.measurment)
+            }
+        }
+
+        val series1 = SimpleXYSeries(seriesValues, SimpleXYSeries.ArrayFormat.Y_VALS_ONLY, "Measurements")
+        val series1Format = LineAndPointFormatter(Color.BLUE, Color.BLACK, null, null)
+        
+
+        val hyperglycemiaSeries = SimpleXYSeries(
             List(seriesValues.size) { hyperglycemiaLevel },
             SimpleXYSeries.ArrayFormat.Y_VALS_ONLY,
             "Hyperglycemia Level"
         )
         val hyperglycemiaFormat = LineAndPointFormatter(Color.RED, null, null, null)
 
-        val hypoglycemiaSeries: XYSeries = SimpleXYSeries(
+        val hypoglycemiaSeries = SimpleXYSeries(
             List(seriesValues.size) { hypoglycemiaLevel },
             SimpleXYSeries.ArrayFormat.Y_VALS_ONLY,
             "Hypoglycemia Level"
@@ -441,21 +475,20 @@ class MainActivity : AppCompatActivity() {
         plot.legend.isVisible = false
 
         plot.graph.getLineLabelStyle(XYGraphWidget.Edge.BOTTOM).format = object : Format() {
-            override fun format(
-                obj: Any?,
-                toAppendTo: StringBuffer?,
-                pos: FieldPosition?
-            ): StringBuffer {
+            override fun format(obj: Any?, toAppendTo: StringBuffer?, pos: FieldPosition?): StringBuffer {
                 val i = Math.round((obj as Number).toFloat())
-                return toAppendTo!!.append(domainLabels[i.toInt()])
+                return toAppendTo!!.append(timeLabels.getOrElse(i.toInt()) { "" })
             }
 
             override fun parseObject(source: String?, pos: ParsePosition?): Any {
                 throw UnsupportedOperationException("parseObject not supported")
             }
         }
+
         plot.redraw()
     }
+
+
     private fun openActivityMain() {
         val intent = Intent(this, MainActivity::class.java)
         intent.putExtra("uID", userId)

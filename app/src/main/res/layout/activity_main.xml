@@ -31,12 +31,11 @@
         app:layout_constraintStart_toEndOf="@+id/button_12h" />
 
 
-
     <com.androidplot.xy.XYPlot
         android:id="@+id/plot"
         style="@style/APDefacto.Light"
-        android:layout_width="330dp"
-        android:layout_height="330dp"
+        android:layout_width="328dp"
+        android:layout_height="410dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
@@ -45,7 +44,7 @@
         app:layout_constraintVertical_bias="0.516"
         app:lineLabelRotationBottom="-45"
         app:lineLabels="left|bottom"
-        app:rangeTitle="Glucose measument [mg/dl]"
+        app:rangeTitle="Glucose measurement [mg/dl]"
         app:title="Glycemic chart" />
 
     <Button
