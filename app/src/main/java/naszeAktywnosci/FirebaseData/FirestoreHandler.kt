@@ -96,6 +96,17 @@ class FirestoreHandler(private val db: FirebaseFirestore) : FirestoreInterface{
         }
     }
 
+    override suspend fun updateMeasurement(userId: String, measurementId: String, updatedMeasurement: UserMeasurments) {
+        try {
+            db.collection("user_measurements").document(userId)
+                .collection("measurements")
+                .document(measurementId).set(updatedMeasurement).await()
+        } catch (e: Exception) {
+            Log.e(TAG, "Error updating user: $e")
+            throw FirestoreException("Error updating user", e)
+        }
+    }
+
     override suspend fun addMealInfo(userId: String, mealInfo: MealInfo) {
         try {
             db.collection("meal_info").document(userId).collection("meals").add(mealInfo).await()
@@ -132,6 +143,17 @@ class FirestoreHandler(private val db: FirebaseFirestore) : FirestoreInterface{
         }
     }
 
+    override suspend fun updateMealInfo(userId: String, mealId: String, mealInfo: MealInfo) {
+        try {
+            db.collection("meal_info").document(userId)
+                .collection("meals")
+                .document(mealId).set(mealInfo).await()
+        } catch (e: Exception) {
+            Log.e(TAG, "Error updating mela: $e")
+            throw FirestoreException("Error updating meal", e)
+        }
+    }
+
     override suspend fun addInsulinInfo(userId: String, insulinInfo: InsulinInfo) {
         try {
             db.collection("insulin_info").document(userId).collection("insulin").add(insulinInfo).await()
@@ -165,6 +187,17 @@ class FirestoreHandler(private val db: FirebaseFirestore) : FirestoreInterface{
         } catch (e: Exception) {
             Log.e(TAG, "Error deleting insulin info: $e")
             throw FirestoreException("Error deleting insulin info", e)
+        }
+    }
+
+    override suspend fun updateInsulinInfo(userId: String, insulinId: String, insulinInfo: InsulinInfo) {
+        try {
+            db.collection("insulin_info").document(userId)
+                .collection("insulin")
+                .document(insulinId).set(insulinInfo).await()
+        } catch (e: Exception) {
+            Log.e(TAG, "Error updating user: $e")
+            throw FirestoreException("Error updating user", e)
         }
     }
 

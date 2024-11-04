@@ -104,7 +104,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
     private fun findNearbyPharmacies(location: LatLng) {
         val apiKey = getString(R.string.google_maps_key)
         val locationString = "${location.latitude},${location.longitude}"
-        val radius = 5000 //m
+        val radius = 50000 //m
         val type = "pharmacy"
         val url = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=$locationString&radius=$radius&type=$type&key=$apiKey"
 

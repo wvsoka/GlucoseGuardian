@@ -274,6 +274,7 @@ class MainActivity : AppCompatActivity() {
         val closeButton: Button = dialog.findViewById(R.id.button_backToMainFromMeal)
         val buttonAllMeals: Button = dialog.findViewById(R.id.button_toInfoMeal)
 
+
         closeButton.setOnClickListener {
             val intent=Intent(this, MainActivity::class.java)
             intent.putExtra("uID", userId)

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+android:layout_width="wrap_content"
+android:layout_height="wrap_content"
+android:orientation="vertical"
+android:padding="20dp">
+
+<EditText
+    android:id="@+id/editText_meal_edit"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:hint="Meal Name" />
+
+<EditText
+    android:id="@+id/editTextNumber_WW_edit"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:hint="Carbohydrates (WW)" />
+
+<Button
+    android:id="@+id/button_saveMeal"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:text="Save" />
+
+<Button
+    android:id="@+id/button_cancelMeal"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:text="Cancel" />
+
+<Button
+    android:id="@+id/button_deleteMeal"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:text="Delete" />
+</LinearLayout>
