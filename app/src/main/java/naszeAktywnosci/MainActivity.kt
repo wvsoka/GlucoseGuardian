@@ -12,12 +12,10 @@ import android.widget.PopupMenu
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.androidplot.xy.CatmullRomInterpolator
 import com.androidplot.xy.LineAndPointFormatter
 import com.androidplot.xy.SimpleXYSeries
 import com.androidplot.xy.XYGraphWidget
 import com.androidplot.xy.XYPlot
-import com.androidplot.xy.XYSeries
 import com.example.aplikacjatestowa.R
 import com.example.googlemapsapplication.MapsActivity
 import com.google.firebase.Firebase
@@ -185,7 +183,6 @@ class MainActivity : AppCompatActivity() {
         val buttonAddInsulin: Button = dialog.findViewById(R.id.button_addinsulin)
         val numberInsulin: EditText = dialog.findViewById(R.id.editTextNumber_insulin)
         val closeButton: Button = dialog.findViewById(R.id.button_backToMainFromInsulin)
-        val buttonAllDoses: Button = dialog.findViewById(R.id.button_toInfoInsulin)
 
         closeButton.setOnClickListener {
             val intent=Intent(this, MainActivity::class.java)
@@ -224,7 +221,6 @@ class MainActivity : AppCompatActivity() {
         val closeButton: Button = dialog.findViewById(R.id.button_backToMainFromGlucose)
         val buttonAddInsert: Button = dialog.findViewById(R.id.button_addinsert)
         val numberInsert: EditText = dialog.findViewById(R.id.editTextNumber_glucose)
-        val buttonAllGlucoseMeasurement: Button = dialog.findViewById(R.id.button_toInfoMeasurements)
 
         closeButton.setOnClickListener {
             val intent=Intent(this, MainActivity::class.java)
@@ -318,7 +314,6 @@ class MainActivity : AppCompatActivity() {
         val meal: EditText = dialog.findViewById(R.id.editText_meal)
         val numberWW: EditText = dialog.findViewById(R.id.editTextNumber_WW)
         val closeButton: Button = dialog.findViewById(R.id.button_backToMainFromMeal)
-        val buttonAllMeals: Button = dialog.findViewById(R.id.button_toInfoMeal)
 
 
         closeButton.setOnClickListener {
@@ -427,9 +422,6 @@ class MainActivity : AppCompatActivity() {
         }
 
         val timeLabels = mutableListOf<String>()
-        val seriesTimes = mutableListOf<Double>()
-        val seriesValues = mutableListOf<Double>()
-
         var currentLabelTime = startTime
         while (currentLabelTime <= currentTime) {
             val label = dateFormat.format(Date(currentLabelTime))
@@ -437,31 +429,23 @@ class MainActivity : AppCompatActivity() {
             currentLabelTime += intervalMillis
         }
 
-        for (label in timeLabels) {
-            val labelTime = dateFormat.parse(label)?.time ?: continue
-            val closestMeasurement = measurements.minByOrNull {
-                kotlin.math.abs((dateFormat.parse("${it.date} ${it.time}")?.time ?: 0) - labelTime)
-            }
-
-            if (closestMeasurement != null) {
-                seriesTimes.add((labelTime - startTime).toDouble() / intervalMillis)
-                seriesValues.add(closestMeasurement.measurment)
-            }
+        val seriesValues = measurements.map { it.measurment }
+        val seriesTimes = measurements.map {
+            ((dateFormat.parse("${it.date} ${it.time}")?.time ?: startTime) - startTime).toDouble() / intervalMillis
         }
 
-        val series1 = SimpleXYSeries(seriesValues, SimpleXYSeries.ArrayFormat.Y_VALS_ONLY, "Measurements")
+        val series1 = SimpleXYSeries(seriesTimes, seriesValues, "Measurements")
         val series1Format = LineAndPointFormatter(Color.BLUE, Color.BLACK, null, null)
-        
 
         val hyperglycemiaSeries = SimpleXYSeries(
-            List(seriesValues.size) { hyperglycemiaLevel },
+            List(timeLabels.size) { hyperglycemiaLevel },
             SimpleXYSeries.ArrayFormat.Y_VALS_ONLY,
             "Hyperglycemia Level"
         )
         val hyperglycemiaFormat = LineAndPointFormatter(Color.RED, null, null, null)
 
         val hypoglycemiaSeries = SimpleXYSeries(
-            List(seriesValues.size) { hypoglycemiaLevel },
+            List(timeLabels.size) { hypoglycemiaLevel },
             SimpleXYSeries.ArrayFormat.Y_VALS_ONLY,
             "Hypoglycemia Level"
         )
@@ -484,7 +468,6 @@ class MainActivity : AppCompatActivity() {
                 throw UnsupportedOperationException("parseObject not supported")
             }
         }
-
         plot.redraw()
     }
 

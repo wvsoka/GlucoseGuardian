@@ -44,13 +44,13 @@
 
     <Button
         android:id="@+id/button_login"
-        android:layout_width="100dp"
+        android:layout_width="220dp"
         android:layout_height="50dp"
-        android:background="@drawable/button_rounded_all"
         android:layout_marginStart="171dp"
         android:layout_marginTop="20dp"
         android:layout_marginEnd="171dp"
         android:layout_marginBottom="10dp"
+        android:background="@drawable/button_rounded_all"
         android:text="Log In"
         app:layout_constraintBottom_toTopOf="@+id/textView_or"
         app:layout_constraintEnd_toEndOf="parent"
@@ -59,7 +59,7 @@
 
     <Button
         android:id="@+id/button_signup"
-        android:layout_width="100dp"
+        android:layout_width="220dp"
         android:layout_height="50dp"
         android:background="@drawable/button_rounded_all"
 
@@ -99,7 +99,7 @@
         android:layout_marginStart="134dp"
         android:layout_marginTop="20dp"
         android:layout_marginEnd="134dp"
-        android:text="Please log in to continue...."
+        android:text="Please, log in"
         android:textAlignment="center"
         android:textAppearance="@style/TextAppearance.AppCompat.Body2"
         android:textColor="@color/dark_blue"

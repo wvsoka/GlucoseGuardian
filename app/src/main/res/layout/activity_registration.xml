@@ -79,7 +79,7 @@
 
     <Button
         android:id="@+id/button_signin"
-        android:layout_width="wrap_content"
+        android:layout_width="220dp"
         android:layout_height="50dp"
         android:background="@drawable/button_rounded_all"
         android:text="Sign In"

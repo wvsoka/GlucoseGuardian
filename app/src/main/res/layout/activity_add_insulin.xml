@@ -10,8 +10,8 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/main"
-        android:layout_width="335dp"
-        android:layout_height="316dp"
+        android:layout_width="320dp"
+        android:layout_height="200dp"
         android:layout_gravity="center"
         android:background="@drawable/popup_rounded">
 
@@ -30,20 +30,6 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.052" />
 
-        <Button
-            android:id="@+id/button_toInfoInsulin"
-            android:layout_width="196dp"
-            android:layout_height="60dp"
-            android:background="@drawable/button_rounded_all"
-            android:clickable="true"
-            android:text="All Doses"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.12"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.253" />
-
         <TextView
             android:id="@+id/textView_insert"
             android:layout_width="wrap_content"
@@ -59,8 +45,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.083"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.555" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <EditText
             android:id="@+id/editTextNumber_insulin"

@@ -100,15 +100,18 @@
         android:id="@+id/button_menu"
         android:layout_width="60dp"
         android:layout_height="60dp"
-        android:layout_marginStart="308dp"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="16dp"
         android:background="@drawable/round_button"
         app:icon="@drawable/ic_menu_30"
         app:iconGravity="textStart"
         app:iconPadding="0dp"
         app:iconTint="#FFFFFF"
+        app:layout_constraintBottom_toTopOf="@+id/button_24h"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.886"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0" />
 
     <androidx.constraintlayout.widget.Group
         android:id="@+id/group"

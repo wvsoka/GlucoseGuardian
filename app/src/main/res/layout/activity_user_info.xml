@@ -27,7 +27,6 @@
         android:id="@+id/editText_name"
         android:layout_width="280dp"
         android:layout_height="40dp"
-        android:layout_marginStart="24dp"
         android:layout_marginTop="5dp"
         android:background="@drawable/input_rounded_blue"
         android:ems="10"
@@ -35,8 +34,12 @@
         android:inputType="text"
         android:textColor="@color/dark_blue"
         android:textColorHint="@color/dark_blue"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.183"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/text_name" />
+        app:layout_constraintTop_toBottomOf="@+id/text_name"
+        app:layout_constraintVertical_bias="0.006" />
 
     <EditText
         android:id="@+id/editText_date"
@@ -176,11 +179,13 @@
         android:id="@+id/textView_IW"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
+        android:layout_marginStart="28dp"
         android:text="Insulin to carbohydrate ratio"
         android:textColor="@color/dark_blue"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        tools:layout_editor_absoluteY="551dp" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.594" />
 
     <TextView
         android:id="@+id/textView_hipoglicemy"
