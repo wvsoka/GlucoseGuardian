@@ -101,40 +101,14 @@
         android:id="@+id/button_menu"
         android:layout_width="60dp"
         android:layout_height="60dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginStart="308dp"
+        android:layout_marginTop="24dp"
         android:background="@drawable/round_button"
         app:icon="@drawable/ic_menu_30"
         app:iconGravity="textStart"
         app:iconPadding="0dp"
         app:iconTint="#FFFFFF"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <Button
-        android:id="@+id/button_notifications"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="16dp"
-        android:background="@drawable/round_button"
-        app:icon="@drawable/ic_notification_30"
-        app:iconPadding="0dp"
-        app:iconTint="#FFFFFF"
-        app:layout_constraintStart_toEndOf="@+id/button_menu"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <Button
-        android:id="@+id/button_maps"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="16dp"
-        android:background="@drawable/round_button"
-        app:icon="@drawable/ic_map_30"
-        app:iconPadding="0dp"
-        app:iconTint="#FFFFFF"
-        app:layout_constraintStart_toEndOf="@+id/button_notifications"
         app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.constraintlayout.widget.Group

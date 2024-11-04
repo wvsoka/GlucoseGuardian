@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/menu_notification"
+        android:icon="@drawable/ic_notification_30"
+        android:title="Notifications" />
+    <item
+        android:id="@+id/menu_maps"
+        android:icon="@drawable/ic_map_30"
+        android:title="Maps" />
+    <item
+        android:id="@+id/menu_profile"
+        android:icon="@drawable/ic_user_30"
+        android:title="Profile" />
+    <item
+        android:id="@+id/menu_glucose"
+        android:icon="@drawable/ic_glucose_30"
+        android:title="Glucose History" />
+    <item
+        android:id="@+id/menu_meals"
+        android:icon="@drawable/ic_meals_30"
+        android:title="Meal History" />
+    <item
+        android:id="@+id/menu_insulin"
+        android:icon="@drawable/ic_insulin_30"
+        android:title="Insulin History" />
+</menu>
