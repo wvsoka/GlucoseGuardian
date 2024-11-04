@@ -8,6 +8,7 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.Button
 import android.widget.EditText
+import android.widget.PopupMenu
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -48,8 +49,8 @@ class MainActivity : AppCompatActivity() {
     private var button6h : Button? = null
     private var button12h : Button? = null
     private var button24h : Button? = null
-    private lateinit var buttonNotification : Button
-    private lateinit var buttonMaps : Button
+//    private lateinit var buttonNotification : Button
+//    private lateinit var buttonMaps : Button
     private lateinit var plot: XYPlot
     private lateinit var userId: String
     private val db = Firebase.firestore
@@ -66,16 +67,15 @@ class MainActivity : AppCompatActivity() {
         button6h = findViewById(R.id.button_6h)
         button12h = findViewById(R.id.button_12h)
         button24h = findViewById(R.id.button_24h)
-        buttonNotification = findViewById(R.id.button_notifications)
-        buttonMaps = findViewById(R.id.button_maps)
+//        buttonNotification = findViewById(R.id.button_notifications)
+//        buttonMaps = findViewById(R.id.button_maps)
         plot = findViewById(R.id.plot)
 
         val intent = intent
-
         userId = intent.getStringExtra("uID").toString()
 
         buttonMenu.setOnClickListener {
-            openActivityUserInfo()
+            showPopupMenu()
         }
 
         buttonInsulin.setOnClickListener{
@@ -88,9 +88,9 @@ class MainActivity : AppCompatActivity() {
 
         buttonMeal.setOnClickListener { openDialogAddMeal() }
 
-        buttonNotification.setOnClickListener { openScheduleNotificationsActivity() }
+//        buttonNotification.setOnClickListener { openScheduleNotificationsActivity() }
 
-        buttonMaps.setOnClickListener { openMapsActivity() }
+//        buttonMaps.setOnClickListener { openMapsActivity() }
 
         fetchMeasurements(6)
 
@@ -105,11 +105,81 @@ class MainActivity : AppCompatActivity() {
         button24h?.setOnClickListener {
             fetchMeasurements(24)
         }
+    }
 
+    private fun showPopupMenu() {
+        val popupMenu = PopupMenu(this, buttonMenu)
+        popupMenu.menuInflater.inflate(R.menu.menu_dropdown, popupMenu.menu)
+
+        // Optional: Force icons to show in the PopupMenu
+        try {
+            val fields = popupMenu.javaClass.getDeclaredFields()
+            for (field in fields) {
+                if ("mPopup" == field.name) {
+                    field.isAccessible = true
+                    val menuPopupHelper = field.get(popupMenu)
+                    val classPopupHelper = Class.forName(menuPopupHelper.javaClass.name)
+                    val setForceIcons = classPopupHelper.getMethod("setForceShowIcon", Boolean::class.javaPrimitiveType)
+                    setForceIcons.invoke(menuPopupHelper, true)
+                    break
+                }
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+
+        popupMenu.setOnMenuItemClickListener { item ->
+            when (item.itemId) {
+                R.id.menu_notification -> {
+                    openScheduleNotificationsActivity()
+                    true
+                }
+                R.id.menu_maps -> {
+                    openMapsActivity()
+                    true
+                }
+                R.id.menu_profile -> {
+                    openActivityUserInfo()
+                    true
+                }
+                R.id.menu_glucose -> {
+                    openActivityRVGlucose()
+                    true
+                }
+                R.id.menu_meals -> {
+                    openActivityRVMeals()
+                    true
+                }
+                R.id.menu_insulin -> {
+                    openActivityRVInsulin()
+                    true
+                }
+                else -> false
+            }
+        }
+        popupMenu.show()
     }
 
     private fun openActivityUserInfo(){
         val intent = Intent(this, UserInfoActivity::class.java)
+        intent.putExtra("uID", userId)
+        startActivity(intent)
+    }
+
+    private fun openActivityRVGlucose() {
+        val intent = Intent(this, GlucoseMeasurementDataActivity::class.java)
+        intent.putExtra("uID", userId)
+        startActivity(intent)
+    }
+
+    private fun openActivityRVMeals() {
+        val intent = Intent(this, MealDataActivity::class.java)
+        intent.putExtra("uID", userId)
+        startActivity(intent)
+    }
+
+    private fun openActivityRVInsulin() {
+        val intent = Intent(this, InsulinDataActivity::class.java)
         intent.putExtra("uID", userId)
         startActivity(intent)
     }
@@ -150,12 +220,6 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         }
-        buttonAllDoses.setOnClickListener {
-            val intent = Intent(this, InsulinDataActivity::class.java)
-            intent.putExtra("uID", userId)
-            startActivity(intent)
-        }
-
         dialog.show()
     }
 
@@ -198,13 +262,6 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         }
-
-        buttonAllGlucoseMeasurement.setOnClickListener {
-            val intent = Intent(this, GlucoseMeasurementDataActivity::class.java)
-            intent.putExtra("uID", userId)
-            startActivity(intent)
-        }
-
         dialog.show()
     }
 
@@ -257,10 +314,7 @@ class MainActivity : AppCompatActivity() {
         dialog.show()
     }
 
-    private fun getCurrentTime(): String {
-        val sdf = SimpleDateFormat("HH-mm", Locale.getDefault())
-        return sdf.format(Date())
-    }
+
 
     private fun openDialogAddMeal() {
         val dialog = Dialog(this)
@@ -301,13 +355,6 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         }
-
-        buttonAllMeals.setOnClickListener {
-            val intent = Intent(this, MealDataActivity::class.java)
-            intent.putExtra("uID", userId)
-            startActivity(intent)
-        }
-
         dialog.show()
     }
 
@@ -354,6 +401,11 @@ class MainActivity : AppCompatActivity() {
 
     private fun getCurrentDate(): String {
         val sdf = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+        return sdf.format(Date())
+    }
+
+    private fun getCurrentTime(): String {
+        val sdf = SimpleDateFormat("HH-mm", Locale.getDefault())
         return sdf.format(Date())
     }
 
@@ -417,6 +469,7 @@ class MainActivity : AppCompatActivity() {
         intent.putExtra("uID", userId)
         startActivity(intent)
     }
+
 
 
 }
