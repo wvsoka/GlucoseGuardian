@@ -18,6 +18,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import naszeAktywnosci.FirebaseData.FirestoreHandler
 import naszeAktywnosci.FirebaseData.InsulinInfo
+import naszeAktywnosci.FirebaseData.MealInfo
 
 class InsulinAdapter(private val insulinList: ArrayList<InsulinInfo>, private val context: Context,
                      private val userId: String) :
@@ -30,7 +31,7 @@ class InsulinAdapter(private val insulinList: ArrayList<InsulinInfo>, private va
         val editButton : Button = itemView.findViewById(R.id.button_editInsulinItem)
     }
 
-    private fun openEditInsulinDialog(insulin: InsulinInfo) {
+    private fun openEditInsulinDialog(insulin: InsulinInfo, adapter: InsulinAdapter) {
         val dialog = Dialog(context)
         dialog.setContentView(R.layout.dialog_edit_insulin)
         dialog.window?.setBackgroundDrawableResource(android.R.color.white)
@@ -63,6 +64,7 @@ class InsulinAdapter(private val insulinList: ArrayList<InsulinInfo>, private va
                         insulinId = insulin.insulinId
                     )
                     FirestoreHandler(Firebase.firestore).updateInsulinInfo(userId, insulin.insulinId, insulinInfo)
+                    adapter.updateInsulin(insulinInfo)
                     Toast.makeText(context, "Insulin updated successfully", Toast.LENGTH_SHORT).show()
                     dialog.dismiss()
                 } catch (e: Exception) {
@@ -90,6 +92,14 @@ class InsulinAdapter(private val insulinList: ArrayList<InsulinInfo>, private va
         dialog.show()
     }
 
+    private fun updateInsulin(updatedInsulin: InsulinInfo) {
+        val index = insulinList.indexOfFirst { it.insulinId == updatedInsulin.insulinId }
+        if (index != -1) {
+            insulinList[index] = updatedInsulin
+            notifyItemChanged(index)
+        }
+    }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): InsulinViewHolder {
         val itemView = LayoutInflater.from(parent.context).inflate(R.layout.insulin_item, parent, false)
         return InsulinViewHolder(itemView)
@@ -103,7 +113,7 @@ class InsulinAdapter(private val insulinList: ArrayList<InsulinInfo>, private va
         holder.insulinMeasurment.text = insulin.measurment.toString()
 
         holder.editButton.setOnClickListener {
-            openEditInsulinDialog(insulin)
+            openEditInsulinDialog(insulin, this)
         }
     }
 

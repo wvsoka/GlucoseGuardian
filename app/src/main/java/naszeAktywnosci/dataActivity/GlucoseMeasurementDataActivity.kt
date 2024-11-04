@@ -33,6 +33,12 @@ class GlucoseMeasurementDataActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        userId = intent.getStringExtra("uID") ?: ""
+        if (userId.isEmpty()) {
+            val intent = Intent(this, MainActivity::class.java)
+            startActivity(intent)
+            finish()
+        }
         setContentView(R.layout.activity_rv_measurements)
 
         buttonBack = findViewById(R.id.backFromMeasurementsRV_button)
@@ -44,26 +50,21 @@ class GlucoseMeasurementDataActivity : AppCompatActivity() {
 
         measurementsList = arrayListOf()
 
-        glucoseAdapter = GlucoseMeasurementAdapter(measurementsList)
+        glucoseAdapter = GlucoseMeasurementAdapter(measurementsList, this, userId)
         measurementsRecyclerView.adapter = glucoseAdapter
 
 
         buttonBack.setOnClickListener {
             openActivityMain()
         }
-        userId = intent.getStringExtra("uID") ?: ""
-        if (userId.isEmpty()) {
-            val intent = Intent(this, MainActivity::class.java)
-            startActivity(intent)
-            finish()
-        }
+
 
         EventChangeListener()
     }
 
     private fun EventChangeListener() {
         db.collection("user_measurements").document(userId).collection("measurements").orderBy("date",
-            Query.Direction.DESCENDING).orderBy("time", Query.Direction.DESCENDING).
+            Query.Direction.DESCENDING).
         addSnapshotListener(object  : EventListener<QuerySnapshot> {
             override fun onEvent(
                 value: QuerySnapshot?,
@@ -76,13 +77,18 @@ class GlucoseMeasurementDataActivity : AppCompatActivity() {
                 for (dc : DocumentChange in value?.documentChanges!!){
                     when (dc.type) {
                         DocumentChange.Type.ADDED -> {
-                            measurementsList.add(dc.document.toObject(UserMeasurments::class.java))
+                            val measurement =  dc.document.toObject(UserMeasurments::class.java)
+                            measurement.measurmentID = dc.document.id
+                            measurementsList.add(measurement)
                         }
                         DocumentChange.Type.MODIFIED -> {
                             val updatedMeasurement = dc.document.toObject(UserMeasurments::class.java)
                             val index = measurementsList.indexOfFirst { it.measurmentID == updatedMeasurement.measurmentID }
                             if (index != -1) {
                                 measurementsList[index] = updatedMeasurement
+                                glucoseAdapter.notifyItemChanged(index)
+                            } else {
+                                Log.e("Error", "error with update")
                             }
                         }
                         DocumentChange.Type.REMOVED -> {

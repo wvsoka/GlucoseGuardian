@@ -77,7 +77,7 @@ class MealDataActivity : AppCompatActivity() {
     }
 
     private fun EventChangeListener() {
-        db.collection("meal_info").document(userId).collection("meals").orderBy("date",Query.Direction.DESCENDING).orderBy("time",Query.Direction.DESCENDING).
+        db.collection("meal_info").document(userId).collection("meals").orderBy("date",Query.Direction.DESCENDING).
                 addSnapshotListener(object  : EventListener<QuerySnapshot>{
                     override fun onEvent(
                         value: QuerySnapshot?,
@@ -90,13 +90,18 @@ class MealDataActivity : AppCompatActivity() {
                         for (dc : DocumentChange in value?.documentChanges!!){
                             when (dc.type) {
                                 DocumentChange.Type.ADDED -> {
-                                    mealList.add(dc.document.toObject(MealInfo::class.java))
+                                    val meal = dc.document.toObject(MealInfo::class.java)
+                                    meal.mealId = dc.document.id
+                                    mealList.add(meal)
                                 }
                                 DocumentChange.Type.MODIFIED -> {
                                     val updatedMeal = dc.document.toObject(MealInfo::class.java)
                                     val index = mealList.indexOfFirst { it.mealId == updatedMeal.mealId }
                                     if (index != -1) {
                                         mealList[index] = updatedMeal
+                                        mealAdapter.notifyItemChanged(index)
+                                    } else {
+                                        Log.e("Error", "error with update")
                                     }
                                 }
                                 DocumentChange.Type.REMOVED -> {

@@ -63,8 +63,7 @@ class InsulinDataActivity : AppCompatActivity() {
     }
 
     private fun EventChangeListener() {
-        db.collection("insulin_info").document(userId).collection("insulin").orderBy("date", Query.Direction.DESCENDING).orderBy("time",
-            Query.Direction.DESCENDING).
+        db.collection("insulin_info").document(userId).collection("insulin").orderBy("date", Query.Direction.DESCENDING).
         addSnapshotListener(object  : EventListener<QuerySnapshot> {
             override fun onEvent(
                 value: QuerySnapshot?,
@@ -77,13 +76,18 @@ class InsulinDataActivity : AppCompatActivity() {
                 for (dc : DocumentChange in value?.documentChanges!!){
                     when (dc.type) {
                         DocumentChange.Type.ADDED -> {
-                            insulinList.add(dc.document.toObject(InsulinInfo::class.java))
+                            val insulin = dc.document.toObject(InsulinInfo::class.java)
+                            insulin.insulinId = dc.document.id
+                            insulinList.add(insulin)
                         }
                         DocumentChange.Type.MODIFIED -> {
                             val updatedInsulin = dc.document.toObject(InsulinInfo::class.java)
                             val index = insulinList.indexOfFirst { it.insulinId == updatedInsulin.insulinId }
                             if (index != -1) {
                                 insulinList[index] = updatedInsulin
+                                insulinAdapter.notifyItemChanged(index)
+                            } else {
+                                Log.e("Error", "error with update")
                             }
                         }
                         DocumentChange.Type.REMOVED -> {

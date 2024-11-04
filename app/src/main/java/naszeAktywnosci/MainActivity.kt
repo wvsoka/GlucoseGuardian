@@ -49,8 +49,6 @@ class MainActivity : AppCompatActivity() {
     private var button6h : Button? = null
     private var button12h : Button? = null
     private var button24h : Button? = null
-//    private lateinit var buttonNotification : Button
-//    private lateinit var buttonMaps : Button
     private lateinit var plot: XYPlot
     private lateinit var userId: String
     private val db = Firebase.firestore
@@ -106,7 +104,6 @@ class MainActivity : AppCompatActivity() {
         val popupMenu = PopupMenu(this, buttonMenu)
         popupMenu.menuInflater.inflate(R.menu.menu_dropdown, popupMenu.menu)
 
-        // Optional: Force icons to show in the PopupMenu
         try {
             val fields = popupMenu.javaClass.getDeclaredFields()
             for (field in fields) {

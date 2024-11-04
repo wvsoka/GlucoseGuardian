@@ -100,7 +100,13 @@ class FirestoreHandler(private val db: FirebaseFirestore) : FirestoreInterface{
         try {
             db.collection("user_measurements").document(userId)
                 .collection("measurements")
-                .document(measurementId).set(updatedMeasurement).await()
+                .document(measurementId).update(
+                    mapOf(
+                        "measurment" to updatedMeasurement.measurment,
+                        "date" to updatedMeasurement.date,
+                        "time" to updatedMeasurement.time,
+                        "measurmentID" to updatedMeasurement.measurmentID
+                    )).await()
         } catch (e: Exception) {
             Log.e(TAG, "Error updating user: $e")
             throw FirestoreException("Error updating user", e)
@@ -147,7 +153,13 @@ class FirestoreHandler(private val db: FirebaseFirestore) : FirestoreInterface{
         try {
             db.collection("meal_info").document(userId)
                 .collection("meals")
-                .document(mealId).set(mealInfo).await()
+                .document(mealId).update(
+                    mapOf(
+                        "name" to mealInfo.name,
+                        "date" to mealInfo.date,
+                        "time" to mealInfo.time,
+                        "carbohydrates" to mealInfo.carbohydrates
+                    )).await()
         } catch (e: Exception) {
             Log.e(TAG, "Error updating mela: $e")
             throw FirestoreException("Error updating meal", e)
@@ -194,7 +206,13 @@ class FirestoreHandler(private val db: FirebaseFirestore) : FirestoreInterface{
         try {
             db.collection("insulin_info").document(userId)
                 .collection("insulin")
-                .document(insulinId).set(insulinInfo).await()
+                .document(insulinId).update(
+                    mapOf(
+                        "measurment" to insulinInfo.measurment,
+                        "date" to insulinInfo.date,
+                        "time" to insulinInfo.time,
+                        "insulinId" to insulinInfo.insulinId
+                    )).await()
         } catch (e: Exception) {
             Log.e(TAG, "Error updating user: $e")
             throw FirestoreException("Error updating user", e)

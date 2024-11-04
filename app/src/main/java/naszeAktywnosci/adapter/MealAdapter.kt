@@ -3,6 +3,7 @@ package naszeAktywnosci.adapter
 import android.app.Dialog
 import android.content.Context
 import android.content.Intent
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -37,13 +38,12 @@ class MealAdapter(private val mealList : ArrayList<MealInfo>, private val contex
         holder.mealDate.text = meal.date
         holder.mealTime.text = meal.time
         holder.mealCarbo.text = meal.carbohydrates.toString()
-
         holder.editButton.setOnClickListener {
-            openEditMealDialog(meal)
+            openEditMealDialog(meal, this)
         }
     }
 
-    private fun openEditMealDialog(meal: MealInfo) {
+    private fun openEditMealDialog(meal: MealInfo, adapter: MealAdapter) {
         val dialog = Dialog(context)
         dialog.setContentView(R.layout.dialog_edit_meal)
         dialog.window?.setBackgroundDrawableResource(android.R.color.white)
@@ -79,6 +79,7 @@ class MealAdapter(private val mealList : ArrayList<MealInfo>, private val contex
                         mealId = meal.mealId
                     )
                     FirestoreHandler(Firebase.firestore).updateMealInfo(userId, meal.mealId, mealInfo)
+                    adapter.updateMeal(mealInfo)
                     Toast.makeText(context, "Meal updated successfully", Toast.LENGTH_SHORT).show()
                     dialog.dismiss()
                 } catch (e: Exception) {
@@ -106,14 +107,12 @@ class MealAdapter(private val mealList : ArrayList<MealInfo>, private val contex
         dialog.show()
     }
 
-    private fun getCurrentDate(): String {
-        val sdf = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
-        return sdf.format(Date())
-    }
-
-    private fun getCurrentTime(): String {
-        val sdf = SimpleDateFormat("HH-mm", Locale.getDefault())
-        return sdf.format(Date())
+    private fun updateMeal(updatedMeal: MealInfo) {
+        val index = mealList.indexOfFirst { it.mealId == updatedMeal.mealId }
+        if (index != -1) {
+            mealList[index] = updatedMeal
+            notifyItemChanged(index)
+        }
     }
 
     override fun getItemCount(): Int {
