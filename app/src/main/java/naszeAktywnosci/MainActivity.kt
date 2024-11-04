@@ -67,8 +67,6 @@ class MainActivity : AppCompatActivity() {
         button6h = findViewById(R.id.button_6h)
         button12h = findViewById(R.id.button_12h)
         button24h = findViewById(R.id.button_24h)
-//        buttonNotification = findViewById(R.id.button_notifications)
-//        buttonMaps = findViewById(R.id.button_maps)
         plot = findViewById(R.id.plot)
 
         val intent = intent
@@ -88,9 +86,6 @@ class MainActivity : AppCompatActivity() {
 
         buttonMeal.setOnClickListener { openDialogAddMeal() }
 
-//        buttonNotification.setOnClickListener { openScheduleNotificationsActivity() }
-
-//        buttonMaps.setOnClickListener { openMapsActivity() }
 
         fetchMeasurements(6)
 
