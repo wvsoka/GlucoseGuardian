@@ -13,6 +13,7 @@ import com.google.firebase.Firebase
 import com.google.firebase.firestore.DocumentChange
 import com.google.firebase.firestore.EventListener
 import com.google.firebase.firestore.FirebaseFirestoreException
+import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.QuerySnapshot
 import com.google.firebase.firestore.firestore
 import naszeAktywnosci.FirebaseData.FirestoreHandler
@@ -61,7 +62,8 @@ class GlucoseMeasurementDataActivity : AppCompatActivity() {
     }
 
     private fun EventChangeListener() {
-        db.collection("user_measurements").document(userId).collection("measurements"). //zrobic sortowanie po dacie i godzinie
+        db.collection("user_measurements").document(userId).collection("measurements").orderBy("date",
+            Query.Direction.DESCENDING).orderBy("time", Query.Direction.DESCENDING).
         addSnapshotListener(object  : EventListener<QuerySnapshot> {
             override fun onEvent(
                 value: QuerySnapshot?,

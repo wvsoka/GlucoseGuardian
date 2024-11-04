@@ -2,6 +2,7 @@ package naszeAktywnosci.adapter
 
 import android.app.Dialog
 import android.content.Context
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -18,6 +19,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import naszeAktywnosci.FirebaseData.FirestoreHandler
 import naszeAktywnosci.FirebaseData.MealInfo
+import naszeAktywnosci.MainActivity
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
@@ -37,39 +39,46 @@ class MealAdapter(private val mealList : ArrayList<MealInfo>, private val contex
         holder.mealCarbo.text = meal.carbohydrates.toString()
 
         holder.editButton.setOnClickListener {
-            openEditMealDialog(meal.name, meal.carbohydrates, meal.mealId)
+            openEditMealDialog(meal)
         }
     }
 
-    private fun openEditMealDialog(mealName: String, carbohydrates: Double, mealId: String) {
+    private fun openEditMealDialog(meal: MealInfo) {
         val dialog = Dialog(context)
         dialog.setContentView(R.layout.dialog_edit_meal)
-        dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
+        dialog.window?.setBackgroundDrawableResource(android.R.color.white)
         dialog.setCancelable(false)
 
         val editMealName: EditText = dialog.findViewById(R.id.editText_meal_edit)
         val editCarbohydrates: EditText = dialog.findViewById(R.id.editTextNumber_WW_edit)
+        val editMealDate: EditText = dialog.findViewById(R.id.editText_meal_date)
+        val editMealTime: EditText = dialog.findViewById(R.id.editText_meal_time)
         val buttonSave: Button = dialog.findViewById(R.id.button_saveMeal)
         val buttonCancel: Button = dialog.findViewById(R.id.button_cancelMeal)
         val buttonDelete: Button = dialog.findViewById(R.id.button_deleteMeal)
 
-        editMealName.setText(mealName)
-        editCarbohydrates.setText(carbohydrates.toString())
+
+        editMealName.setText(meal.name)
+        editCarbohydrates.setText(meal.carbohydrates.toString())
+        editMealDate.setText(meal.date)
+        editMealTime.setText(meal.time)
 
         buttonSave.setOnClickListener {
             val updatedMealName = editMealName.text.toString()
             val updatedCarbohydrates = editCarbohydrates.text.toString().toDoubleOrNull() ?: 0.0
+            val updatedDate = editMealDate.text.toString()
+            val updatedTime = editMealTime.text.toString()
 
             CoroutineScope(Dispatchers.Main).launch {
                 try {
                     val mealInfo = MealInfo(
                         name = updatedMealName,
-                        date = getCurrentDate(),
-                        time = getCurrentTime(),
+                        date = updatedDate,
+                        time = updatedTime,
                         carbohydrates = updatedCarbohydrates,
-                        mealId = mealId
+                        mealId = meal.mealId
                     )
-                    FirestoreHandler(Firebase.firestore).updateMealInfo(userId, mealId, mealInfo)
+                    FirestoreHandler(Firebase.firestore).updateMealInfo(userId, meal.mealId, mealInfo)
                     Toast.makeText(context, "Meal updated successfully", Toast.LENGTH_SHORT).show()
                     dialog.dismiss()
                 } catch (e: Exception) {
@@ -85,7 +94,7 @@ class MealAdapter(private val mealList : ArrayList<MealInfo>, private val contex
         buttonDelete.setOnClickListener {
             CoroutineScope(Dispatchers.Main).launch {
                 try {
-                    FirestoreHandler(Firebase.firestore).deleteMealInfo(userId, mealId)
+                    FirestoreHandler(Firebase.firestore).deleteMealInfo(userId, meal.mealId)
                     Toast.makeText(context, "Meal deleted successfully", Toast.LENGTH_SHORT).show()
                     dialog.dismiss()
                 } catch (e: Exception) {

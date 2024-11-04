@@ -18,6 +18,18 @@ android:padding="20dp">
     android:layout_height="wrap_content"
     android:hint="Carbohydrates (WW)" />
 
+    <EditText
+        android:id="@+id/editText_meal_date"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Date (yyyy-MM-dd)" />
+
+    <EditText
+        android:id="@+id/editText_meal_time"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Time (HH:mm)" />
+
 <Button
     android:id="@+id/button_saveMeal"
     android:layout_width="match_parent"

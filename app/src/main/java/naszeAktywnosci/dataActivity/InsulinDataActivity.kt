@@ -12,6 +12,7 @@ import com.google.firebase.Firebase
 import com.google.firebase.firestore.DocumentChange
 import com.google.firebase.firestore.EventListener
 import com.google.firebase.firestore.FirebaseFirestoreException
+import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.QuerySnapshot
 import com.google.firebase.firestore.firestore
 import naszeAktywnosci.FirebaseData.FirestoreHandler
@@ -32,23 +33,6 @@ class InsulinDataActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_rv_insulin)
-
-        insulinRecyclerView = findViewById(R.id.recyclerView_insulin)
-
-        insulinRecyclerView.layoutManager = LinearLayoutManager(this)
-        insulinRecyclerView.setHasFixedSize(true)
-
-        insulinList = arrayListOf()
-
-        insulinAdapter = InsulinAdapter(insulinList)
-        insulinRecyclerView.adapter = insulinAdapter
-
-
-        buttonBack = findViewById(R.id.backFromInsulinRV_button)
-        buttonBack.setOnClickListener {
-            openActivityMain()
-        }
 
         userId = intent.getStringExtra("uID") ?: ""
         Log.d("InsulinDataActivity", "Received userId: $userId")
@@ -58,11 +42,29 @@ class InsulinDataActivity : AppCompatActivity() {
             finish()
         }
 
+        setContentView(R.layout.activity_rv_insulin)
+
+        insulinRecyclerView = findViewById(R.id.recyclerView_insulin)
+
+        insulinRecyclerView.layoutManager = LinearLayoutManager(this)
+        insulinRecyclerView.setHasFixedSize(true)
+
+        insulinList = arrayListOf()
+
+        insulinAdapter = InsulinAdapter(insulinList, this, userId)
+        insulinRecyclerView.adapter = insulinAdapter
+
+
+        buttonBack = findViewById(R.id.backFromInsulinRV_button)
+        buttonBack.setOnClickListener {
+            openActivityMain()
+        }
         EventChangeListener()
     }
 
     private fun EventChangeListener() {
-        db.collection("insulin_info").document(userId).collection("insulin"). //zrobic sortowanie po dacie i godzinie
+        db.collection("insulin_info").document(userId).collection("insulin").orderBy("date", Query.Direction.DESCENDING).orderBy("time",
+            Query.Direction.DESCENDING).
         addSnapshotListener(object  : EventListener<QuerySnapshot> {
             override fun onEvent(
                 value: QuerySnapshot?,

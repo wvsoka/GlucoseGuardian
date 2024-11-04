@@ -15,6 +15,7 @@ import com.google.firebase.Firebase
 import com.google.firebase.firestore.DocumentChange
 import com.google.firebase.firestore.EventListener
 import com.google.firebase.firestore.FirebaseFirestoreException
+import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.QuerySnapshot
 import com.google.firebase.firestore.firestore
 import kotlinx.coroutines.CoroutineScope
@@ -76,7 +77,7 @@ class MealDataActivity : AppCompatActivity() {
     }
 
     private fun EventChangeListener() {
-        db.collection("meal_info").document(userId).collection("meals"). //zrobic sortowanie po dacie i godzinie
+        db.collection("meal_info").document(userId).collection("meals").orderBy("date",Query.Direction.DESCENDING).orderBy("time",Query.Direction.DESCENDING).
                 addSnapshotListener(object  : EventListener<QuerySnapshot>{
                     override fun onEvent(
                         value: QuerySnapshot?,
