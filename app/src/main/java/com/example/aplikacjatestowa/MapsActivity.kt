@@ -32,6 +32,8 @@ import naszeAktywnosci.MainActivity
 import org.json.JSONException
 import org.json.JSONObject
 import android.widget.SeekBar
+import com.google.android.material.chip.Chip
+import com.google.android.material.chip.ChipGroup
 
 class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarkerClickListener {
 
@@ -43,6 +45,8 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
     private lateinit var buttonBack: Button
     private lateinit var seekBarRadius: SeekBar
     private lateinit var textViewRadius: TextView
+    private lateinit var chipGroupFilters: ChipGroup
+
 
     companion object {
         private const val LOCATION_REQUEST_CODE = 1
@@ -51,6 +55,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
     }
 
     private var selectedRadius = MAX_RADIUS
+    private var selectedCategories = mutableSetOf<String>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -72,6 +77,9 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
 
         seekBarRadius = findViewById(R.id.seekBar_radius)
         textViewRadius = findViewById(R.id.textView_radius)
+        chipGroupFilters = findViewById(R.id.chipGroup_filters)
+
+        setupChips()
 
         seekBarRadius.max = 9 // This is 50 km with 5 km steps (0 * 5km to 9 * 5km)
         seekBarRadius.progress = 9 // Default to 50 km initially
@@ -80,11 +88,9 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
         // Listener for SeekBar to update radius value
         seekBarRadius.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
-                selectedRadius = (progress + 1) * STEP_RADIUS // Convert progress to radius
+                selectedRadius = (progress + 1) * STEP_RADIUS
                 updateRadiusText()
-                if (this@MapsActivity::lastLocation.isInitialized) {
-                    findNearbyPharmacies(LatLng(lastLocation.latitude, lastLocation.longitude))
-                }
+                updateMapMarkers()
             }
 
             override fun onStartTrackingTouch(seekBar: SeekBar?) {}
@@ -92,9 +98,34 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
         })
     }
 
+    private fun setupChips() {
+        val chipPharmacies = findViewById<Chip>(R.id.chip_pharmacies)
+        val chipDiabetologic = findViewById<Chip>(R.id.chip_diabetologic)
+        val chipHospitals = findViewById<Chip>(R.id.chip_hospitals)
+
+        chipPharmacies.setOnCheckedChangeListener { _, isChecked ->
+            toggleCategory("pharmacy", isChecked)
+        }
+        chipDiabetologic.setOnCheckedChangeListener { _, isChecked ->
+            toggleCategory("doctor", isChecked) // Assuming "doctor" for diabetologic clinics
+        }
+        chipHospitals.setOnCheckedChangeListener { _, isChecked ->
+            toggleCategory("hospital", isChecked)
+        }
+    }
+
+    private fun toggleCategory(category: String, add: Boolean) {
+        if (add) {
+            selectedCategories.add(category)
+        } else {
+            selectedCategories.remove(category)
+        }
+        updateMapMarkers()
+    }
+
     private fun updateRadiusText() {
         val radiusKm = selectedRadius / 1000
-        textViewRadius.text = "Selected radius: $radiusKm km"
+        textViewRadius.text = "$radiusKm km"
     }
 
     override fun onMapReady(googleMap: GoogleMap) {
@@ -127,23 +158,33 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
                 lastLocation = location
                 val currentLatLong = LatLng(location.latitude, location.longitude)
                 mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(currentLatLong, 11f))
-                findNearbyPharmacies(currentLatLong)
+                updateMapMarkers()
             }
         }
     }
 
-    private fun findNearbyPharmacies(location: LatLng) {
+    private fun updateMapMarkers() {
+        mMap.clear()
+
+        if (selectedCategories.isEmpty()) {
+            return
+        }
+
+        selectedCategories.forEach { category ->
+            findNearbyPlaces(category)
+        }
+    }
+
+    private fun findNearbyPlaces(category: String) {
         val apiKey = getString(R.string.google_maps_key)
-        val locationString = "${location.latitude},${location.longitude}"
+        val locationString = "${lastLocation.latitude},${lastLocation.longitude}"
         val radius = selectedRadius
-        val type = "pharmacy"
-        val url = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=$locationString&radius=$radius&type=$type&key=$apiKey"
+        val url = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=$locationString&radius=$radius&type=$category&key=$apiKey"
 
         val request = object : StringRequest(
             Method.GET, url,
             Response.Listener { response ->
                 try {
-                    mMap.clear()
                     val jsonObject = JSONObject(response)
                     val results = jsonObject.getJSONArray("results")
 
@@ -155,13 +196,14 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
                         val lng = latLng.getDouble("lng")
                         val placeName = place.getString("name")
 
-                        var statusText = "Brak informacji o statusie"
+                        var statusText = "No info on status"
                         if (place.has("opening_hours")) {
                             val openingHours = place.getJSONObject("opening_hours")
                             val isOpenNow = openingHours.optBoolean("open_now", false)
-                            statusText = if (isOpenNow) "Otwarte" else "Zamknięte"
+                            statusText = if (isOpenNow) "Open" else "Closed"
                         }
 
+                        // Add a marker for each place found in this category
                         mMap.addMarker(
                             MarkerOptions()
                                 .position(LatLng(lat, lng))
@@ -174,7 +216,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
                 }
             },
             Response.ErrorListener { error ->
-                Log.e("MapsActivity", "Błąd podczas wyszukiwania: ${error.message}")
+                Log.e("MapsActivity", "Error fetching places: ${error.message}")
             }) {}
 
         Volley.newRequestQueue(this).add(request)
@@ -189,7 +231,6 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
     override fun onMarkerClick(p0: Marker) = false
 
 
-
     private fun openActivityMain() {
         val intent = Intent(this, MainActivity::class.java)
         intent.putExtra("uID", userId)
@@ -198,24 +239,23 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
 
 
     class CustomInfoWindowAdapter(private val context: Context) : GoogleMap.InfoWindowAdapter {
-
         private val window = (context as Activity).layoutInflater.inflate(R.layout.info_pharmacy_window, null)
 
         private fun render(marker: Marker, view: View) {
             val title = view.findViewById<TextView>(R.id.textView_InfoPharmacy)
             val isOpenView = view.findViewById<TextView>(R.id.textView_isopen)
 
-            // Ustawienie nazwy apteki
+            // Set place name
             title.text = marker.title
 
-            // Ustawienie statusu otwarcia (snippet)
-            val statusText = marker.snippet ?: "Brak informacji"
+            // Set open/closed status
+            val statusText = marker.snippet ?: "No info"
             isOpenView.text = statusText
 
-            // Zmiana koloru tekstu w zależności od statusu
-            if (statusText.contains("Otwarte", true)) {
+            // Change text color based on status
+            if (statusText.contains("Open", true)) {
                 isOpenView.setTextColor(ContextCompat.getColor(context, android.R.color.holo_green_dark))
-            } else if (statusText.contains("Zamknięte", true)) {
+            } else if (statusText.contains("Closed", true)) {
                 isOpenView.setTextColor(ContextCompat.getColor(context, android.R.color.holo_red_dark))
             }
         }
