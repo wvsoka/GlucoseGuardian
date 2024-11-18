@@ -31,6 +31,7 @@ import com.google.android.gms.maps.model.MarkerOptions
 import naszeAktywnosci.MainActivity
 import org.json.JSONException
 import org.json.JSONObject
+import android.widget.SeekBar
 
 class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarkerClickListener {
 
@@ -39,12 +40,17 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
     private lateinit var lastLocation: Location
     private lateinit var fusedLocationClient: FusedLocationProviderClient
     private lateinit var userId: String
-    private lateinit var buttonBack : Button
+    private lateinit var buttonBack: Button
+    private lateinit var seekBarRadius: SeekBar
+    private lateinit var textViewRadius: TextView
 
     companion object {
         private const val LOCATION_REQUEST_CODE = 1
+        private const val MAX_RADIUS = 50000 // Max radius in meters (50 km)
+        private const val STEP_RADIUS = 5000 // Step radius in meters (5 km)
     }
 
+    private var selectedRadius = MAX_RADIUS
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -63,6 +69,32 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
         buttonBack.setOnClickListener {
             openActivityMain()
         }
+
+        seekBarRadius = findViewById(R.id.seekBar_radius)
+        textViewRadius = findViewById(R.id.textView_radius)
+
+        seekBarRadius.max = 9 // This is 50 km with 5 km steps (0 * 5km to 9 * 5km)
+        seekBarRadius.progress = 9 // Default to 50 km initially
+        updateRadiusText()
+
+        // Listener for SeekBar to update radius value
+        seekBarRadius.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
+            override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
+                selectedRadius = (progress + 1) * STEP_RADIUS // Convert progress to radius
+                updateRadiusText()
+                if (this@MapsActivity::lastLocation.isInitialized) {
+                    findNearbyPharmacies(LatLng(lastLocation.latitude, lastLocation.longitude))
+                }
+            }
+
+            override fun onStartTrackingTouch(seekBar: SeekBar?) {}
+            override fun onStopTrackingTouch(seekBar: SeekBar?) {}
+        })
+    }
+
+    private fun updateRadiusText() {
+        val radiusKm = selectedRadius / 1000
+        textViewRadius.text = "Selected radius: $radiusKm km"
     }
 
     override fun onMapReady(googleMap: GoogleMap) {
@@ -94,9 +126,8 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
             if (location != null) {
                 lastLocation = location
                 val currentLatLong = LatLng(location.latitude, location.longitude)
-                //placeMarkerOnMap(currentLatLong) - pinezka do miejsca w ktorym jestesmy
                 mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(currentLatLong, 11f))
-                findNearbyPharmacies(currentLatLong) // zmieniono na wyszukiwanie aptek
+                findNearbyPharmacies(currentLatLong)
             }
         }
     }
@@ -104,7 +135,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
     private fun findNearbyPharmacies(location: LatLng) {
         val apiKey = getString(R.string.google_maps_key)
         val locationString = "${location.latitude},${location.longitude}"
-        val radius = 50000 //m
+        val radius = selectedRadius
         val type = "pharmacy"
         val url = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=$locationString&radius=$radius&type=$type&key=$apiKey"
 
@@ -112,6 +143,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
             Method.GET, url,
             Response.Listener { response ->
                 try {
+                    mMap.clear()
                     val jsonObject = JSONObject(response)
                     val results = jsonObject.getJSONArray("results")
 
@@ -123,7 +155,6 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
                         val lng = latLng.getDouble("lng")
                         val placeName = place.getString("name")
 
-                        var openingHoursText = "Brak informacji o godzinach otwarcia"
                         var statusText = "Brak informacji o statusie"
                         if (place.has("opening_hours")) {
                             val openingHours = place.getJSONObject("opening_hours")
