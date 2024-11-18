@@ -36,56 +36,72 @@
             app:iconSize="40dp" />
     </androidx.appcompat.widget.Toolbar>
 
-    <!-- SeekBar for radius selection -->
-    <SeekBar
-        android:id="@+id/seekBar_radius"
+    <!-- Layout for SeekBar and radius TextView in the same line -->
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:max="9"
-        android:padding="16dp"
-        android:progress="9" />
-
-    <!-- TextView for displaying current SeekBar value -->
-    <TextView
-        android:id="@+id/textView_radius"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:padding="16dp"
-        android:text="50 km"
-        android:textSize="16sp"
-        android:gravity="center_horizontal" />
-
-    <!-- ChipGroup for category filters -->
-    <com.google.android.material.chip.ChipGroup
-        android:id="@+id/chipGroup_filters"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:orientation="horizontal"
         android:padding="8dp"
-        app:singleSelection="false"
-        android:gravity="center_horizontal">
+        android:gravity="center_vertical">
 
-        <com.google.android.material.chip.Chip
-            android:id="@+id/chip_pharmacies"
+        <!-- SeekBar for radius selection -->
+        <SeekBar
+            android:id="@+id/seekBar_radius"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:max="9"
+            android:progress="9" />
+
+        <!-- TextView for displaying current SeekBar value (e.g., "50 km") -->
+        <TextView
+            android:id="@+id/textView_radius"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:checkable="true"
-            android:text="Pharmacies" />
+            android:text="50 km"
+            android:textSize="16sp"
+            android:paddingStart="8dp"
+            android:paddingEnd="16dp"
+            android:gravity="center_vertical" />
+    </LinearLayout>
 
-        <com.google.android.material.chip.Chip
-            android:id="@+id/chip_diabetologic"
+    <!-- HorizontalScrollView to make ChipGroup scrollable horizontally -->
+    <HorizontalScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="8dp">
+
+        <!-- Centered ChipGroup for category filters -->
+        <com.google.android.material.chip.ChipGroup
+            android:id="@+id/chipGroup_filters"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:checkable="true"
-            android:text="Diabetologic Clinics" />
+            app:singleSelection="false">
 
-        <com.google.android.material.chip.Chip
-            android:id="@+id/chip_hospitals"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:checkable="true"
-            android:text="Hospitals" />
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chip_pharmacies"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checkable="true"
+                android:text="Pharmacies" />
 
-    </com.google.android.material.chip.ChipGroup>
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chip_diabetologic"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checkable="true"
+                android:text="Diabetologic Clinics" />
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chip_hospitals"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checkable="true"
+                android:text="Hospitals" />
+
+        </com.google.android.material.chip.ChipGroup>
+
+    </HorizontalScrollView>
 
     <!-- Map Fragment -->
     <fragment

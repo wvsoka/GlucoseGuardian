@@ -32,6 +32,7 @@ import naszeAktywnosci.MainActivity
 import org.json.JSONException
 import org.json.JSONObject
 import android.widget.SeekBar
+import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
 
@@ -203,12 +204,21 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
                             statusText = if (isOpenNow) "Open" else "Closed"
                         }
 
-                        // Add a marker for each place found in this category
+                        // Determine marker color based on category
+                        val markerColor = when (category) {
+                            "pharmacy" -> BitmapDescriptorFactory.HUE_BLUE
+                            "doctor" -> BitmapDescriptorFactory.HUE_ORANGE
+                            "hospital" -> BitmapDescriptorFactory.HUE_RED
+                            else -> BitmapDescriptorFactory.HUE_VIOLET
+                        }
+
+                        // Add a marker for each place found in this category with the specified color
                         mMap.addMarker(
                             MarkerOptions()
                                 .position(LatLng(lat, lng))
                                 .title(placeName)
                                 .snippet(statusText)
+                                .icon(BitmapDescriptorFactory.defaultMarker(markerColor))
                         )
                     }
                 } catch (e: JSONException) {
