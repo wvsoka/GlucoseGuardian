@@ -25,7 +25,7 @@
                 android:layout_height="wrap_content"
                 android:text="Name: "
                 android:textColor="@color/dark_blue"
-                android:textSize="26sp"
+                android:textSize="16sp"
                 android:textStyle="bold"/>
 
             <TextView
@@ -35,7 +35,8 @@
                 android:layout_marginStart="8dp"
                 android:text="any"
                 android:textColor="@color/dark_blue"
-                android:textSize="26sp" />
+                android:textSize="16sp"
+                />
         </LinearLayout>
 
         <LinearLayout
@@ -49,7 +50,7 @@
                 android:layout_height="wrap_content"
                 android:text="Date: "
                 android:textColor="@color/dark_blue"
-                android:textSize="26sp"
+                android:textSize="16sp"
                 android:textStyle="bold" />
             <TextView
                 android:layout_width="wrap_content"
@@ -57,7 +58,7 @@
                 android:id="@+id/mealDate"
                 android:text="any"
                 android:layout_marginStart="8dp"
-                android:textSize="26sp"
+                android:textSize="16sp"
                 android:textColor="@color/dark_blue"/>
         </LinearLayout>
     <LinearLayout
@@ -71,7 +72,7 @@
             android:layout_height="wrap_content"
             android:text="Time: "
             android:textColor="@color/dark_blue"
-            android:textSize="26sp"
+            android:textSize="16sp"
             android:textStyle="bold" />
         <TextView
             android:layout_width="wrap_content"
@@ -79,7 +80,7 @@
             android:id="@+id/mealTime"
             android:text="any"
             android:layout_marginStart="8dp"
-            android:textSize="26sp"
+            android:textSize="16sp"
             android:textColor="@color/dark_blue"/>
     </LinearLayout>
 
@@ -94,7 +95,7 @@
                 android:layout_height="wrap_content"
                 android:text="Carbohydrates: "
                 android:textColor="@color/dark_blue"
-                android:textSize="26sp"
+                android:textSize="16sp"
                 android:textStyle="bold" />
             <TextView
                 android:layout_width="wrap_content"
@@ -102,7 +103,7 @@
                 android:id="@+id/mealCarbo"
                 android:text="any"
                 android:layout_marginStart="8dp"
-                android:textSize="26sp"
+                android:textSize="16sp"
                 android:textColor="@color/dark_blue"/>
 
             <TextView
@@ -110,7 +111,7 @@
                 android:layout_height="wrap_content"
                 android:text="[WW]"
                 android:layout_marginStart="8dp"
-                android:textSize="26sp"
+                android:textSize="16sp"
                 android:textColor="@color/dark_blue"/>
 
         </LinearLayout>
@@ -123,10 +124,9 @@
             <Button
                 android:id="@+id/button_editMealItem"
                 android:layout_width="120dp"
-                android:layout_height="50dp"
+                android:layout_height="48dp"
                 android:layout_gravity="start"
-                android:text="Edit"
-                android:textSize="20sp" />
+                android:text="Edit" />
         </LinearLayout>
     </LinearLayout>
 
