@@ -9,5 +9,6 @@ data class User(
     @get:PropertyName("hyperglycaemia") @set:PropertyName("hyperglycaemia") var hyperglycaemia: Double = 0.00,
     @get:PropertyName("weight") @set:PropertyName("weight") var weight: Double = 0.00,
     @get:PropertyName("height") @set:PropertyName("height") var height: Double = 0.00,
-    @get:PropertyName("userId") @set:PropertyName("userId") var userId: String = ""
+    @get:PropertyName("userId") @set:PropertyName("userId") var userId: String = "",
+    @get:PropertyName("role") @set:PropertyName("role") var role: String = ""
 )

@@ -72,7 +72,6 @@ class RegistrationActivity : BaseActivity() {
         if (validateRegisterDetails()) {
             val login: String = inputEmail?.text.toString().trim() {it <= ' '}
             val password: String = inputPassword?.text.toString().trim() {it <= ' '}
-
             FirebaseAuth.getInstance().createUserWithEmailAndPassword(login, password)
                 .addOnCompleteListener(
                     OnCompleteListener<AuthResult> { task ->

@@ -6,8 +6,12 @@ import android.text.TextUtils
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
+import androidx.lifecycle.lifecycleScope
 import com.example.aplikacjatestowa.R
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
+import kotlinx.coroutines.launch
+import naszeAktywnosci.FirebaseData.FirestoreHandler
 
 
 open class LoginActivity : BaseActivity(), View.OnClickListener {
@@ -25,7 +29,6 @@ open class LoginActivity : BaseActivity(), View.OnClickListener {
         buttonLogin = findViewById(R.id.button_login)
         buttonSignUp = findViewById(R.id.button_signup)
 
-        // Ustawienie nasłuchiwacza kliknięć dla przycisku logowania
         buttonLogin.setOnClickListener {
             logInRegisteredUser()
         }
@@ -72,15 +75,45 @@ open class LoginActivity : BaseActivity(), View.OnClickListener {
             FirebaseAuth.getInstance().signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener { task ->
                     if (task.isSuccessful) {
-                        showErrorSnackBar(resources.getString(R.string.login_successfull), false) // text zdefiniowany w res -> values -> strings.xml
-                        goToMainActivity()
-                        finish()
+                        val user = FirebaseAuth.getInstance().currentUser
+
+                        if (user != null) {
+                            val firestoreHandler = FirestoreHandler(FirebaseFirestore.getInstance())
+                            
+                            lifecycleScope.launch {
+                                try {
+                                    val userData = firestoreHandler.getUser(email)
+                                    if (userData != null) {
+                                        navigateBasedOnRole(userData.role)
+                                    } else {
+                                        showErrorSnackBar("User data not found in Firestore", true)
+                                    }
+                                } catch (e: Exception) {
+                                    showErrorSnackBar("Error fetching user data: ${e.message}", true)
+                                }
+                            }
+                        }
                     } else {
                         showErrorSnackBar(task.exception!!.message.toString(), true)
                     }
                 }
         }
     }
+
+    private fun navigateBasedOnRole(role: String?) {
+        when (role) {
+            "USER" -> {
+                goToMainActivity()
+            }
+            "DOCTOR" -> {
+                // todo
+            }
+            else -> {
+                showErrorSnackBar("Undefined role or unauthorized access", true)
+            }
+        }
+    }
+
 
     private fun goToRegistration(){
         val intent = Intent(this, RegistrationActivity::class.java)
