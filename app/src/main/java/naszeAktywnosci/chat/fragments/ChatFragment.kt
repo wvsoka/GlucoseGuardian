@@ -30,7 +30,7 @@ class ChatFragment : Fragment() {
         chatAdapter = ChatAdapter(chats)
         recyclerView.layoutManager = LinearLayoutManager(context)
         recyclerView.adapter = chatAdapter
-
+        Log.d("ChatFragment", "RecyclerView initialized and adapter set.")
         loadChats()
 
         return rootView
@@ -45,9 +45,13 @@ class ChatFragment : Fragment() {
         db.collection("messages")
             .whereEqualTo("senderId", currentUserId)
             .orderBy("timestamp", com.google.firebase.firestore.Query.Direction.DESCENDING)
-            .get()
-            .addOnSuccessListener { snapshot ->
-                snapshot.documents.forEach { document ->
+            .addSnapshotListener { snapshot, exception ->
+                if (exception != null) {
+                    Log.e("ChatFragment", "Error fetching sent messages: ", exception)
+                    return@addSnapshotListener
+                }
+
+                snapshot?.documents?.forEach { document ->
                     val message = document.toObject(Message::class.java)
                     val chatPartnerId = if (message?.senderId == currentUserId) {
                         message.receiverId
@@ -62,9 +66,13 @@ class ChatFragment : Fragment() {
                 db.collection("messages")
                     .whereEqualTo("receiverId", currentUserId)
                     .orderBy("timestamp", com.google.firebase.firestore.Query.Direction.DESCENDING)
-                    .get()
-                    .addOnSuccessListener { snapshotReceiver ->
-                        snapshotReceiver.documents.forEach { document ->
+                    .addSnapshotListener { snapshotReceiver, exceptionReceiver ->
+                        if (exceptionReceiver != null) {
+                            Log.e("ChatFragment", "Error fetching received messages: ", exceptionReceiver)
+                            return@addSnapshotListener
+                        }
+
+                        snapshotReceiver?.documents?.forEach { document ->
                             val message = document.toObject(Message::class.java)
                             val chatPartnerId = if (message?.senderId == currentUserId) {
                                 message.receiverId
@@ -80,12 +88,6 @@ class ChatFragment : Fragment() {
                         Log.d("ChatFragment", "Loaded chats: ${chatsList.size}")
                         chatAdapter.updateData(chatsList)
                     }
-                    .addOnFailureListener { exception ->
-                        Log.e("ChatFragment", "Error fetching received messages: ", exception)
-                    }
-            }
-            .addOnFailureListener { exception ->
-                Log.e("ChatFragment", "Error fetching sent messages: ", exception)
             }
     }
 

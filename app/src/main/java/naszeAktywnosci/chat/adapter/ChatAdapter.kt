@@ -5,14 +5,17 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.FrameLayout
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
+import androidx.viewpager.widget.ViewPager
 import com.example.aplikacjatestowa.R
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import naszeAktywnosci.FirebaseData.Message
 import naszeAktywnosci.chat.fragments.ChatFragment
+import naszeAktywnosci.chat.fragments.ConversationFragment
 
 class ChatAdapter(private var chats: MutableList<Message>) : RecyclerView.Adapter<ChatAdapter.ChatViewHolder>() {
 
@@ -39,13 +42,30 @@ class ChatAdapter(private var chats: MutableList<Message>) : RecyclerView.Adapte
         holder.lastMessageTextView.text = chat.text
 
         holder.itemView.setOnClickListener {
-            val chatFragment = ChatFragment()
+            Log.d("ChatAdapter", "Item clicked! ReceiverId: $chatPartnerId")
+
+            val chatFragment = ConversationFragment()
             val bundle = Bundle()
             bundle.putString("receiverId", chatPartnerId)
             chatFragment.arguments = bundle
+
+            val fragmentContainer = (it.context as AppCompatActivity).findViewById<FrameLayout>(R.id.fragment_container_chat)
+            if (fragmentContainer.visibility != View.VISIBLE) {
+
+                fragmentContainer.visibility = View.VISIBLE
+            }
+            Log.d("ConversationFragment", "Receiver ID: $chatPartnerId")
+            val viewPager = (it.context as AppCompatActivity).findViewById<ViewPager>(R.id.view_pager_chat)
+            viewPager.visibility = View.GONE
+            Log.d("ChatAdapter", "Before fragment transaction")
             (it.context as AppCompatActivity).supportFragmentManager.beginTransaction()
+                .replace(R.id.fragment_container_chat, chatFragment)
                 .addToBackStack(null)
-                .commit()
+                .commitAllowingStateLoss()
+            Log.d("ChatAdapter", "Fragment transaction committed")
+
+
+            Log.d("ChatAdapter", "Fragment transaction started.")
         }
     }
 
