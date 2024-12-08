@@ -124,7 +124,6 @@ open class LoginActivity : BaseActivity(), View.OnClickListener {
         val user = FirebaseAuth.getInstance().currentUser
         val uid = user?.email.toString()
 
-        //Przekazanie wartości uid
         val intent = Intent(this, MainActivity::class.java)
         intent.putExtra("uID", uid)
         startActivity(intent)

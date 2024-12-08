@@ -1,80 +1,61 @@
 package naszeAktywnosci.chat
 
 import android.os.Bundle
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.appcompat.widget.Toolbar
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.FragmentPagerAdapter
+import androidx.viewpager.widget.ViewPager
 import com.example.aplikacjatestowa.R
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.database.*
-import naszeAktywnosci.FirebaseData.Message
+import com.google.android.material.tabs.TabLayout
+import naszeAktywnosci.chat.fragments.ChatFragment
+import naszeAktywnosci.chat.fragments.SearchFragment
 
 class ChatActivity : AppCompatActivity() {
-
-    private lateinit var database: DatabaseReference
-    private lateinit var auth: FirebaseAuth
-    private val messages = mutableListOf<Message>()
-    private lateinit var adapter: ChatAdapter
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_chat)
 
-        database = FirebaseFirestore.getInstance()
-        auth = FirebaseAuth.getInstance()
+        val toolbar: Toolbar = findViewById(R.id.toolbar_chat)
+        setSupportActionBar(toolbar)
+        supportActionBar!!.title = ""
 
-        adapter = ChatAdapter(messages, auth.currentUser?.uid ?: "")
-        recyclerView.layoutManager = LinearLayoutManager(this)
-        recyclerView.adapter = adapter
 
-        sendButton.setOnClickListener {
-            sendMessage()
+        val tabLayout: TabLayout = findViewById(R.id.tabLayout_chat)
+        val viewPager: ViewPager = findViewById(R.id.view_pager_chat)
+        val viewPagerAdapter = ViewPagerAdapter(supportFragmentManager)
+
+        viewPagerAdapter.addFragment(ChatFragment(), "Chats")
+        viewPagerAdapter.addFragment(SearchFragment(), "Search")
+
+        viewPager.adapter = viewPagerAdapter
+        tabLayout.setupWithViewPager(viewPager)
+
+    }
+
+    internal class ViewPagerAdapter(fragmentManager: FragmentManager) : FragmentPagerAdapter(fragmentManager){
+        private val fragments: ArrayList<Fragment> = ArrayList()
+        private val titles: ArrayList<String> = ArrayList()
+
+        override fun getCount(): Int {
+            return fragments.size
         }
 
-        listenForMessages()
-    }
-
-    private fun sendMessage() {
-        val messageContent = messageEditText.text.toString()
-        if (messageContent.isNotBlank()) {
-            val messageId = database.collection("messages").document().id
-            val message = Message(
-                user1 = auth.currentUser?.uid ?: "",
-                user2 = "user2_id",
-                content = messageContent,
-                time = System.currentTimeMillis().toString(),
-                messageId = messageId
-            )
-            database.collection("messages").document(messageId)
-                .set(message)
-                .addOnSuccessListener {
-                    messageEditText.text.clear()
-                }
-                .addOnFailureListener {
-                    Toast.makeText(this, "Błąd wysyłania wiadomości", Toast.LENGTH_SHORT).show()
-                }
+        override fun getItem(position: Int): Fragment {
+            return fragments[position]
         }
+
+        fun addFragment(fragment: Fragment, title: String){
+            fragments.add(fragment)
+            titles.add(title)
+        }
+
+        fun getPageTitles(position: Int): CharSequence {
+            return titles[position]
+        }
+
+
+
     }
-
-    private fun listenForMessages() {
-        database.collection("messages")
-            .orderBy("time")
-            .addSnapshotListener { snapshots, e ->
-                if (e != null) {
-                    Toast.makeText(this, "Błąd: ${e.message}", Toast.LENGTH_SHORT).show()
-                    return@addSnapshotListener
-                }
-
-                snapshots?.let {
-                    messages.clear()
-                    for (document in it.documents) {
-                        val message = document.toObject(Message::class.java)
-                        message?.let { msg -> messages.add(msg) }
-                    }
-                    adapter.notifyDataSetChanged()
-                    recyclerView.scrollToPosition(messages.size - 1)
-                }
-            }
-    }
-
 }

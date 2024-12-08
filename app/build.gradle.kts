@@ -83,6 +83,8 @@ dependencies {
 
     implementation(platform("com.google.firebase:firebase-bom:32.8.0"))
     implementation("com.google.firebase:firebase-analytics")
+
+
     implementation("androidx.recyclerview:recyclerview:1.2.0")
     implementation("androidx.cardview:cardview:1.0.0")
    // implementation("com.google.android.gms:play-services:17.0.0")

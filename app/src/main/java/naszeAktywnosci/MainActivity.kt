@@ -31,6 +31,7 @@ import naszeAktywnosci.FirebaseData.FirestoreHandler
 import naszeAktywnosci.FirebaseData.InsulinInfo
 import naszeAktywnosci.FirebaseData.MealInfo
 import naszeAktywnosci.FirebaseData.UserMeasurments
+import naszeAktywnosci.chat.ChatActivity
 import naszeAktywnosci.dataActivity.GlucoseMeasurementDataActivity
 import naszeAktywnosci.dataActivity.InsulinDataActivity
 import naszeAktywnosci.dataActivity.MealDataActivity
@@ -296,7 +297,9 @@ class MainActivity : AppCompatActivity() {
         }
 
         contactButton.setOnClickListener {
-            // TODO:
+            val intent = Intent(this, ChatActivity::class.java)
+            intent.putExtra("uID", userId)
+            startActivity(intent)
         }
 
         dialog.show()
