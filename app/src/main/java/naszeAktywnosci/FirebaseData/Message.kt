@@ -2,11 +2,9 @@ package naszeAktywnosci.FirebaseData
 
 import com.google.firebase.firestore.PropertyName
 
-data class Message (
-    @get:PropertyName("user1") @set:PropertyName("user1") var user1: String = "",
-    @get:PropertyName("user2") @set:PropertyName("user2") var user2: String = "",
-    @get:PropertyName("content") @set:PropertyName("content") var content: String = "",
-    @get:PropertyName("time") @set:PropertyName("time") var time: String = "",
-    @get:PropertyName("messageId") @set:PropertyName("messageId") var messageId: String = ""
-
+data class Message(
+    @get:PropertyName("senderId") @set:PropertyName("senderId") var senderId: String = "",
+    @get:PropertyName("receiverId") @set:PropertyName("receiverId") var receiverId: String = "",
+    @get:PropertyName("text") @set:PropertyName("text") var text: String = "",
+    @get:PropertyName("timestamp") @set:PropertyName("timestamp") var timestamp: Long = 0L // Long zamiast String
 )

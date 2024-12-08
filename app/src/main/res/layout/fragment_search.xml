@@ -4,14 +4,21 @@
     android:layout_height="match_parent"
     tools:context="naszeAktywnosci.chat.fragments.SearchFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <EditText
+        android:id="@+id/searchEditText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Search users"
+        android:padding="16dp"
+        android:inputType="text"/>
+
+    <!-- RecyclerView -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerViewUsers"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="@string/search"
-        android:textSize="30dp"
-        android:gravity="center"
-        android:textStyle="bold"
-        />
+        android:layout_below="@id/searchEditText"
+        android:padding="16dp"
+        android:layout_marginTop="10dp"/>
 
 </RelativeLayout>

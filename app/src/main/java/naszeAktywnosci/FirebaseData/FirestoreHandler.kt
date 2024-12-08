@@ -220,6 +220,22 @@ class FirestoreHandler(private val db: FirebaseFirestore) : FirestoreInterface{
         }
     }
 
+    suspend fun getLastMessageForUser(userId: String, currentUserId: String): Message? {
+        return try {
+            val messages = db.collection("messages")
+                .whereIn("senderId", listOf(userId, currentUserId))
+                .whereIn("receiverId", listOf(userId, currentUserId))
+                .orderBy("timestamp", com.google.firebase.firestore.Query.Direction.DESCENDING)
+                .limit(1)
+                .get()
+                .await()
+            messages.documents.firstOrNull()?.toObject(Message::class.java)
+        } catch (e: Exception) {
+            Log.e(TAG, "Error fetching last message: $e")
+            null
+        }
+    }
+
     companion object {
         private const val TAG = "FirestoreHandler"
     }
