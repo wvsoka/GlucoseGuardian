@@ -91,7 +91,4 @@ class ChatFragment : Fragment() {
             }
     }
 
-    private fun startChat(user: User) {
-        //todo
-    }
 }

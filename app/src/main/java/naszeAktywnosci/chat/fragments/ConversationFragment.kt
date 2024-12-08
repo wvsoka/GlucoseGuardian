@@ -29,10 +29,12 @@ class ConversationFragment : Fragment() {
     ): View? {
         val rootView = inflater.inflate(R.layout.fragment_conversation, container, false)
         Log.d("ConversationFragment", "onCreateView called")
+
         recyclerView = rootView.findViewById(R.id.recyclerViewMessages)
         messageAdapter = MessageAdapter(messages)
         recyclerView.layoutManager = LinearLayoutManager(context)
         recyclerView.adapter = messageAdapter
+        recyclerView.visibility = View.VISIBLE
 
         editTextMessage = rootView.findViewById(R.id.editTextMessage)
         buttonSend = rootView.findViewById(R.id.buttonSend)
@@ -40,6 +42,7 @@ class ConversationFragment : Fragment() {
         // Pobranie ID odbiorcy z argumentów
         receiverId = arguments?.getString("receiverId")
         Log.d("ConversationFragment", "Fragment created with receiverId: $receiverId")
+
         // Załaduj wiadomości
         loadMessages()
 
@@ -47,6 +50,8 @@ class ConversationFragment : Fragment() {
         buttonSend.setOnClickListener {
             sendMessage()
         }
+
+        Log.d("ConversationFragment", "Loaded messages: ${messages.size}")
 
         return rootView
     }
@@ -60,25 +65,31 @@ class ConversationFragment : Fragment() {
         val currentUserId = FirebaseAuth.getInstance().currentUser?.email ?: return
         val db = FirebaseFirestore.getInstance()
 
-        // Pobieramy wiadomości pomiędzy użytkownikami
+        Log.d("ConversationFragment", "Loading messages for sender: $currentUserId, receiver: $receiverId")
+
         db.collection("messages")
             .whereEqualTo("senderId", currentUserId)
             .whereEqualTo("receiverId", receiverId)
             .orderBy("timestamp")
-            .get()
-            .addOnSuccessListener { snapshot ->
-                messages.clear()
-                snapshot.documents.forEach { document ->
+            .addSnapshotListener { snapshot, exception ->
+                if (exception != null) {
+                    Log.e("ConversationFragment", "Error loading messages", exception)
+                    return@addSnapshotListener
+                }
+
+                // Pobierz wszystkie dokumenty
+                snapshot?.documents?.forEach { document ->
                     val message = document.toObject(Message::class.java)
                     if (message != null) {
-                        messages.add(message)
+                        if (!messages.contains(message)) {
+                            messages.add(message)
+                        }
                     }
                 }
-                messageAdapter.updateData(messages)
+
+                // Powiadom adapter o nowych wiadomościach
+                messageAdapter.notifyDataSetChanged()
                 recyclerView.scrollToPosition(messages.size - 1)
-            }
-            .addOnFailureListener { exception ->
-                // Obsługuje błędy
             }
     }
 
@@ -94,16 +105,22 @@ class ConversationFragment : Fragment() {
                 timestamp = System.currentTimeMillis()
             )
 
-            // Zapisz wiadomość w Firestore
             val db = FirebaseFirestore.getInstance()
             db.collection("messages")
                 .add(message)
                 .addOnSuccessListener {
                     editTextMessage.text.clear()
-                    loadMessages()  // Załaduj nowe wiadomości
+
+                    // Immediately update the UI after sending the message
+                    messages.add(message)
+                    messageAdapter.notifyItemInserted(messages.size - 1)
+                    recyclerView.scrollToPosition(messages.size - 1)  // Przewiń do nowej wiadomości
+
+                    // Load messages again after sending to reflect the updated data
+                    loadMessages()
                 }
                 .addOnFailureListener { exception ->
-                    // Obsługuje błędy
+                    Log.e("ConversationFragment", "Error sending message", exception)
                 }
         }
     }

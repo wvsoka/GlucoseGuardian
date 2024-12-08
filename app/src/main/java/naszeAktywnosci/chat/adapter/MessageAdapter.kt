@@ -1,5 +1,6 @@
 package naszeAktywnosci.chat.adapter
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -25,8 +26,10 @@ class MessageAdapter(private var messages: MutableList<Message>) : RecyclerView.
     }
 
     fun updateData(newMessages: List<Message>) {
+        Log.d("MessageAdapter", "Updating adapter with ${newMessages.size} messages.")
         messages.clear()
         messages.addAll(newMessages)
+        Log.d("MessageAdapter", "Messages after update: ${messages.size}")
         notifyDataSetChanged()
     }
 
