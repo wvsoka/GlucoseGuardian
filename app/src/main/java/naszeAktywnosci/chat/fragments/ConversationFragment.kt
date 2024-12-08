@@ -29,9 +29,13 @@ class ConversationFragment : Fragment() {
     ): View? {
         val rootView = inflater.inflate(R.layout.fragment_conversation, container, false)
         Log.d("ConversationFragment", "onCreateView called")
-
+        val currentUserId = FirebaseAuth.getInstance().currentUser?.email
+        if (currentUserId == null) {
+            Log.e("ConversationFragment", "No current user found")
+            return rootView
+        }
         recyclerView = rootView.findViewById(R.id.recyclerViewMessages)
-        messageAdapter = MessageAdapter(messages)
+        messageAdapter = MessageAdapter(messages, currentUserId)
         recyclerView.layoutManager = LinearLayoutManager(context)
         recyclerView.adapter = messageAdapter
         recyclerView.visibility = View.VISIBLE
