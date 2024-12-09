@@ -72,47 +72,28 @@ class ConversationFragment : Fragment() {
         Log.d("ConversationFragment", "Loading messages for sender: $currentUserId, receiver: $receiverId")
         
         db.collection("messages")
-            .whereEqualTo("senderId", currentUserId)
-            .whereEqualTo("receiverId", receiverId)
-            .orderBy("timestamp")
+            .whereIn("senderId", listOf(currentUserId, receiverId))
+            .whereIn("receiverId", listOf(currentUserId, receiverId))
+            .orderBy("timestamp")  // Upewnij się, że posortujesz je po czasie
             .addSnapshotListener { snapshot, exception ->
                 if (exception != null) {
                     Log.e("ConversationFragment", "Error loading messages", exception)
                     return@addSnapshotListener
                 }
 
+                messages.clear()  // Wyczyść listę przed dodaniem nowych wiadomości
                 snapshot?.documents?.forEach { document ->
                     val message = document.toObject(Message::class.java)
-                    if (message != null && !messages.contains(message)) {
+                    if (message != null) {
                         messages.add(message)
                     }
                 }
 
                 messageAdapter.notifyDataSetChanged()
-                recyclerView.scrollToPosition(messages.size - 1)
-            }
-
-        db.collection("messages")
-            .whereEqualTo("senderId", receiverId)
-            .whereEqualTo("receiverId", currentUserId)
-            .orderBy("timestamp")
-            .addSnapshotListener { snapshot, exception ->
-                if (exception != null) {
-                    Log.e("ConversationFragment", "Error loading messages", exception)
-                    return@addSnapshotListener
-                }
-
-                snapshot?.documents?.forEach { document ->
-                    val message = document.toObject(Message::class.java)
-                    if (message != null && !messages.contains(message)) {
-                        messages.add(message)
-                    }
-                }
-
-                messageAdapter.notifyDataSetChanged()
-                recyclerView.scrollToPosition(messages.size - 1)
+                recyclerView.scrollToPosition(messages.size - 1)  // Przewiń do ostatniej wiadomości
             }
     }
+
 
     private fun sendMessage() {
         val currentUserId = FirebaseAuth.getInstance().currentUser?.email ?: return
