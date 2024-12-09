@@ -12,6 +12,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.launch
 import naszeAktywnosci.FirebaseData.FirestoreHandler
+import naszeAktywnosci.chat.ChatActivity
 
 
 open class LoginActivity : BaseActivity(), View.OnClickListener {
@@ -106,7 +107,7 @@ open class LoginActivity : BaseActivity(), View.OnClickListener {
                 goToMainActivity()
             }
             "DOCTOR" -> {
-                // todo
+                goToChat()
             }
             else -> {
                 showErrorSnackBar("Undefined role or unauthorized access", true)
@@ -114,7 +115,13 @@ open class LoginActivity : BaseActivity(), View.OnClickListener {
         }
     }
 
-
+    private fun goToChat(){
+        val user = FirebaseAuth.getInstance().currentUser
+        val uid = user?.email.toString()
+        val intent = Intent(this, ChatActivity::class.java)
+        intent.putExtra("uID", uid)
+        startActivity(intent)
+    }
     private fun goToRegistration(){
         val intent = Intent(this, RegistrationActivity::class.java)
         startActivity(intent)

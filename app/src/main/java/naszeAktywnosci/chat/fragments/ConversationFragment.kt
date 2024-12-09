@@ -70,7 +70,7 @@ class ConversationFragment : Fragment() {
         val db = FirebaseFirestore.getInstance()
 
         Log.d("ConversationFragment", "Loading messages for sender: $currentUserId, receiver: $receiverId")
-
+        
         db.collection("messages")
             .whereEqualTo("senderId", currentUserId)
             .whereEqualTo("receiverId", receiverId)
@@ -81,17 +81,34 @@ class ConversationFragment : Fragment() {
                     return@addSnapshotListener
                 }
 
-                // Pobierz wszystkie dokumenty
                 snapshot?.documents?.forEach { document ->
                     val message = document.toObject(Message::class.java)
-                    if (message != null) {
-                        if (!messages.contains(message)) {
-                            messages.add(message)
-                        }
+                    if (message != null && !messages.contains(message)) {
+                        messages.add(message)
                     }
                 }
 
-                // Powiadom adapter o nowych wiadomościach
+                messageAdapter.notifyDataSetChanged()
+                recyclerView.scrollToPosition(messages.size - 1)
+            }
+
+        db.collection("messages")
+            .whereEqualTo("senderId", receiverId)
+            .whereEqualTo("receiverId", currentUserId)
+            .orderBy("timestamp")
+            .addSnapshotListener { snapshot, exception ->
+                if (exception != null) {
+                    Log.e("ConversationFragment", "Error loading messages", exception)
+                    return@addSnapshotListener
+                }
+
+                snapshot?.documents?.forEach { document ->
+                    val message = document.toObject(Message::class.java)
+                    if (message != null && !messages.contains(message)) {
+                        messages.add(message)
+                    }
+                }
+
                 messageAdapter.notifyDataSetChanged()
                 recyclerView.scrollToPosition(messages.size - 1)
             }

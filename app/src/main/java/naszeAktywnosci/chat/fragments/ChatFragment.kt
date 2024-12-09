@@ -44,7 +44,7 @@ class ChatFragment : Fragment() {
 
         db.collection("messages")
             .whereEqualTo("senderId", currentUserId)
-            .orderBy("timestamp", com.google.firebase.firestore.Query.Direction.DESCENDING)
+            .orderBy("timestamp", com.google.firebase.firestore.Query.Direction.ASCENDING)
             .addSnapshotListener { snapshot, exception ->
                 if (exception != null) {
                     Log.e("ChatFragment", "Error fetching sent messages: ", exception)
@@ -65,7 +65,7 @@ class ChatFragment : Fragment() {
 
                 db.collection("messages")
                     .whereEqualTo("receiverId", currentUserId)
-                    .orderBy("timestamp", com.google.firebase.firestore.Query.Direction.DESCENDING)
+                    .orderBy("timestamp", com.google.firebase.firestore.Query.Direction.ASCENDING)
                     .addSnapshotListener { snapshotReceiver, exceptionReceiver ->
                         if (exceptionReceiver != null) {
                             Log.e("ChatFragment", "Error fetching received messages: ", exceptionReceiver)
@@ -83,7 +83,6 @@ class ChatFragment : Fragment() {
                                 chatMap[chatPartnerId] = message
                             }
                         }
-
                         val chatsList = chatMap.values.toList()
                         Log.d("ChatFragment", "Loaded chats: ${chatsList.size}")
                         chatAdapter.updateData(chatsList)
