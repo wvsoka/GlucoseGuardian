@@ -1,9 +1,13 @@
 package naszeAktywnosci
 
 import android.app.Dialog
+import android.app.NotificationChannel
+import android.app.NotificationManager
 import android.content.ContentValues.TAG
+import android.content.Context
 import android.content.Intent
 import android.graphics.Color
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.widget.Button
@@ -12,6 +16,7 @@ import android.widget.PopupMenu
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.NotificationCompat
 import com.androidplot.xy.LineAndPointFormatter
 import com.androidplot.xy.SimpleXYSeries
 import com.androidplot.xy.XYGraphWidget
@@ -21,6 +26,7 @@ import com.example.googlemapsapplication.MapsActivity
 import com.google.firebase.Firebase
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.firestore
+import com.google.firebase.messaging.FirebaseMessaging
 import java.text.FieldPosition
 import java.text.Format
 import java.text.ParsePosition
@@ -30,6 +36,7 @@ import kotlinx.coroutines.launch
 import naszeAktywnosci.FirebaseData.FirestoreHandler
 import naszeAktywnosci.FirebaseData.InsulinInfo
 import naszeAktywnosci.FirebaseData.MealInfo
+import naszeAktywnosci.FirebaseData.Message
 import naszeAktywnosci.FirebaseData.UserMeasurments
 import naszeAktywnosci.chat.ChatActivity
 import naszeAktywnosci.dataActivity.GlucoseMeasurementDataActivity
@@ -97,6 +104,56 @@ class MainActivity : AppCompatActivity() {
         button24h?.setOnClickListener {
             fetchMeasurements(24)
         }
+
+        FirebaseMessaging.getInstance().subscribeToTopic("user_${userId}")
+            .addOnCompleteListener { task ->
+                var msg = "Subscribed"
+                if (!task.isSuccessful) {
+                    msg = "Subscription failed"
+                }
+                Log.d("FCM", msg)
+            }
+
+        db.collection("messages")
+            .whereEqualTo("receiverId", userId)
+            .addSnapshotListener { snapshots, e ->
+                if (e != null) {
+                    Log.w("Firestore", "Listen failed: ${e.message}", e)
+                    return@addSnapshotListener
+                }
+
+                // Znajdź najnowszą wiadomość (na podstawie timestamp)
+                val latestMessage = snapshots?.documents
+                    ?.map { it.toObject(Message::class.java) }
+                    ?.maxByOrNull { it?.timestamp ?: 0L }
+
+                if (latestMessage != null) {
+                    sendNotification(latestMessage)
+                }
+            }
+    }
+
+    private fun sendNotification(message: Message) {
+        val notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val channel = NotificationChannel(
+                "default",
+                "Default Notifications",
+                NotificationManager.IMPORTANCE_DEFAULT
+            )
+            notificationManager.createNotificationChannel(channel)
+        }
+
+        val notification = NotificationCompat.Builder(this, "default")
+            .setContentTitle("Nowa wiadomość od ${message.senderId}")
+            .setContentText(message.text)
+            .setSmallIcon(R.drawable.ic_launcher_foreground)
+            .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+            .setAutoCancel(true)
+            .build()
+
+        notificationManager.notify(message.timestamp.toInt(), notification)
     }
 
     private fun showPopupMenu() {
