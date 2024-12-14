@@ -93,13 +93,13 @@ class SearchFragment : Fragment() {
         val message = Message(
             senderId = currentUserId,
             receiverId = user.userId,
-            text = "Hello! This is the first message.",
+            text = "Hello!",
             timestamp = System.currentTimeMillis()
         )
 
         val db = FirebaseFirestore.getInstance()
         db.collection("messages").add(message).addOnSuccessListener {
-            Toast.makeText(context, "New chat started!", Toast.LENGTH_SHORT).show()
+            Toast.makeText(context, "Chat started, see in all chats", Toast.LENGTH_SHORT).show()
             startChat(user)
         }
     }

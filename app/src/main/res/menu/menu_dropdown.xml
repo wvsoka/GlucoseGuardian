@@ -24,4 +24,8 @@
         android:id="@+id/menu_insulin"
         android:icon="@drawable/ic_insulin_30"
         android:title="Insulin History" />
+    <item
+        android:id="@+id/menu_chat"
+        android:icon="@drawable/ic_chat_24"
+        android:title="Chat" />
 </menu>

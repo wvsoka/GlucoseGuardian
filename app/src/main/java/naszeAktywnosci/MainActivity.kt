@@ -145,10 +145,20 @@ class MainActivity : AppCompatActivity() {
                     openActivityRVInsulin()
                     true
                 }
+                R.id.menu_chat -> {
+                    openChatActivity()
+                    true
+                }
                 else -> false
             }
         }
         popupMenu.show()
+    }
+
+    private fun openChatActivity() {
+        val intent = Intent(this, ChatActivity::class.java)
+        intent.putExtra("uID", userId)
+        startActivity(intent)
     }
 
     private fun openActivityUserInfo(){
