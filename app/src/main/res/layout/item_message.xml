@@ -7,16 +7,32 @@
     android:padding="8dp"
     android:gravity="start">
 
-    <!-- Message text container -->
-    <TextView
-        android:id="@+id/textViewMessage"
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Sample message"
-        android:textSize="16sp"
-        android:textColor="@color/black"
-        android:background="@color/red"
-        android:padding="10dp"
-        android:layout_gravity="start"/>
+        android:orientation="vertical">
 
+        <!-- Message text -->
+        <TextView
+            android:id="@+id/textViewMessage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Sample message"
+            android:textSize="16sp"
+            android:textColor="@color/black"
+            android:background="@color/red"
+            android:padding="10dp"
+            android:layout_gravity="start" />
+
+        <!-- Timestamp text -->
+        <TextView
+            android:id="@+id/textViewTimestamp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="12:30 PM"
+            android:textSize="12sp"
+            android:textColor="@color/ap_gray"
+            android:layout_marginTop="4dp"
+            android:layout_gravity="start" />
+    </LinearLayout>
 </LinearLayout>

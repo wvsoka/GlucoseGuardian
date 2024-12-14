@@ -10,6 +10,9 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.aplikacjatestowa.R
 import naszeAktywnosci.FirebaseData.Message
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 
 class MessageAdapter(private var messages: MutableList<Message>, private val currentUserId: String) : RecyclerView.Adapter<MessageAdapter.MessageViewHolder>() {
 
@@ -21,6 +24,10 @@ class MessageAdapter(private var messages: MutableList<Message>, private val cur
     override fun onBindViewHolder(holder: MessageViewHolder, position: Int) {
         val message = messages[position]
         holder.messageTextView.text = message.text
+
+        val dateFormat = SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.getDefault())
+        val dateText = dateFormat.format(Date(message.timestamp))
+        holder.timestampTextView.text = dateText
 
         if (message.senderId == currentUserId) {
             holder.container.gravity = Gravity.END
@@ -45,6 +52,7 @@ class MessageAdapter(private var messages: MutableList<Message>, private val cur
 
     class MessageViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val messageTextView: TextView = view.findViewById(R.id.textViewMessage)
+        val timestampTextView: TextView = view.findViewById(R.id.textViewTimestamp)
         val container: LinearLayout = view.findViewById(R.id.container)
     }
 }
