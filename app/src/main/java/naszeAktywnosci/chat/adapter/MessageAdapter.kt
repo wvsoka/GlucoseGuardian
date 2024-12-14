@@ -22,13 +22,10 @@ class MessageAdapter(private var messages: MutableList<Message>, private val cur
         val message = messages[position]
         holder.messageTextView.text = message.text
 
-        // Check if the message was sent by the current user or not
         if (message.senderId == currentUserId) {
-            // Sent message: Align to the right
             holder.container.gravity = Gravity.END
             holder.messageTextView.setBackgroundResource(R.drawable.sent_message_background)
         } else {
-            // Received message: Align to the left
             holder.container.gravity = Gravity.START
             holder.messageTextView.setBackgroundResource(R.drawable.received_message_background)
         }

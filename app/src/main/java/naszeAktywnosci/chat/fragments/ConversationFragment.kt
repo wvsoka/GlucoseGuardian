@@ -43,14 +43,11 @@ class ConversationFragment : Fragment() {
         editTextMessage = rootView.findViewById(R.id.editTextMessage)
         buttonSend = rootView.findViewById(R.id.buttonSend)
 
-        // Pobranie ID odbiorcy z argumentów
         receiverId = arguments?.getString("receiverId")
         Log.d("ConversationFragment", "Fragment created with receiverId: $receiverId")
 
-        // Załaduj wiadomości
         loadMessages()
 
-        // Nasłuchuj na przycisk wyślij
         buttonSend.setOnClickListener {
             sendMessage()
         }
@@ -74,14 +71,14 @@ class ConversationFragment : Fragment() {
         db.collection("messages")
             .whereIn("senderId", listOf(currentUserId, receiverId))
             .whereIn("receiverId", listOf(currentUserId, receiverId))
-            .orderBy("timestamp")  // Upewnij się, że posortujesz je po czasie
+            .orderBy("timestamp")
             .addSnapshotListener { snapshot, exception ->
                 if (exception != null) {
                     Log.e("ConversationFragment", "Error loading messages", exception)
                     return@addSnapshotListener
                 }
 
-                messages.clear()  // Wyczyść listę przed dodaniem nowych wiadomości
+                messages.clear()
                 snapshot?.documents?.forEach { document ->
                     val message = document.toObject(Message::class.java)
                     if (message != null) {
@@ -90,7 +87,7 @@ class ConversationFragment : Fragment() {
                 }
 
                 messageAdapter.notifyDataSetChanged()
-                recyclerView.scrollToPosition(messages.size - 1)  // Przewiń do ostatniej wiadomości
+                recyclerView.scrollToPosition(messages.size - 1)
             }
     }
 
@@ -113,12 +110,10 @@ class ConversationFragment : Fragment() {
                 .addOnSuccessListener {
                     editTextMessage.text.clear()
 
-                    // Immediately update the UI after sending the message
                     messages.add(message)
                     messageAdapter.notifyItemInserted(messages.size - 1)
-                    recyclerView.scrollToPosition(messages.size - 1)  // Przewiń do nowej wiadomości
+                    recyclerView.scrollToPosition(messages.size - 1)
 
-                    // Load messages again after sending to reflect the updated data
                     loadMessages()
                 }
                 .addOnFailureListener { exception ->
