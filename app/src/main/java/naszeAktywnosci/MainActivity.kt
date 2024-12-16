@@ -121,8 +121,7 @@ class MainActivity : AppCompatActivity() {
                     Log.w("Firestore", "Listen failed: ${e.message}", e)
                     return@addSnapshotListener
                 }
-
-                // Znajdź najnowszą wiadomość (na podstawie timestamp)
+                
                 val latestMessage = snapshots?.documents
                     ?.map { it.toObject(Message::class.java) }
                     ?.maxByOrNull { it?.timestamp ?: 0L }

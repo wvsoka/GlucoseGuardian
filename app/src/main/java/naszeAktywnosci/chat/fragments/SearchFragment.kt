@@ -25,7 +25,7 @@ import naszeAktywnosci.chat.adapter.UserAdapter
 class SearchFragment : Fragment() {
     private lateinit var recyclerView: RecyclerView
     private lateinit var searchAdapter: UserAdapter
-    private var usersWithMessages: MutableList<Pair<User, Message?>> = mutableListOf() // Pair to hold user and their last message
+    private var usersWithMessages: MutableList<Pair<User, Message?>> = mutableListOf()
     private lateinit var searchEditText: EditText
 
     override fun onCreateView(
@@ -107,7 +107,7 @@ class SearchFragment : Fragment() {
                         .addOnSuccessListener { userResult ->
                             val usersMap = userResult.documents.associate { doc ->
                                 val user = doc.toObject(User::class.java)
-                                user?.userId to user // Map userId to User object
+                                user?.userId to user
                             }
 
                             for (message in filteredMessages) {
