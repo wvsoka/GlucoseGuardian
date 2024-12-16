@@ -22,7 +22,7 @@
                 android:id="@+id/username_chat"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="username"
+                android:text="Chat"
                 android:textSize="18dp"
                 android:layout_marginLeft="26dp"
                 android:textColor="@color/white"

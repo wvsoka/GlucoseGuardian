@@ -34,14 +34,12 @@ class SearchFragment : Fragment() {
     ): View? {
         val rootView = inflater.inflate(R.layout.fragment_search, container, false)
 
-        // Initialize RecyclerView and EditText
         recyclerView = rootView.findViewById(R.id.recyclerViewUsers)
         searchEditText = rootView.findViewById(R.id.searchEditText)
         searchAdapter = UserAdapter(usersWithMessages) { user -> onUserSelected(user) }
         recyclerView.layoutManager = LinearLayoutManager(context)
         recyclerView.adapter = searchAdapter
 
-        // Add TextWatcher to search input
         searchEditText.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable?) {
                 searchUsers(s.toString())
@@ -82,10 +80,56 @@ class SearchFragment : Fragment() {
     }
 
     private fun searchUsers(query: String) {
-        val filteredUsers = usersWithMessages.filter {
+        val db = FirebaseFirestore.getInstance()
+        val searchResults = mutableListOf<Pair<User, Message?>>()
+
+        val matchingUsers = usersWithMessages.filter {
             it.first.name.contains(query, ignoreCase = true)
-        }
-        searchAdapter.updateData(filteredUsers)
+        }.toMutableList()
+
+        db.collection("messages")
+            .get()
+            .addOnSuccessListener { messageResult ->
+                val filteredMessages = messageResult.documents.mapNotNull { doc ->
+                    val message = doc.toObject(Message::class.java)
+                    if (message != null && message.text.contains(query, ignoreCase = true)) {
+                        message
+                    } else {
+                        null
+                    }
+                }
+
+                if (filteredMessages.isNotEmpty()) {
+                    val userIds = filteredMessages.map { it.senderId }.distinct()
+
+                    db.collection("users").whereIn("userId", userIds)
+                        .get()
+                        .addOnSuccessListener { userResult ->
+                            val usersMap = userResult.documents.associate { doc ->
+                                val user = doc.toObject(User::class.java)
+                                user?.userId to user // Map userId to User object
+                            }
+
+                            for (message in filteredMessages) {
+                                val user = usersMap[message.senderId]
+                                if (user != null) {
+                                    searchResults.add(Pair(user, message))
+                                }
+                            }
+
+                            val combinedResults = (matchingUsers + searchResults).distinctBy { it.first.userId }
+                            searchAdapter.updateData(combinedResults)
+                        }
+                        .addOnFailureListener { e ->
+                            Log.e("SearchFragment", "Error fetching users: ${e.message}", e)
+                        }
+                } else {
+                    searchAdapter.updateData(matchingUsers)
+                }
+            }
+            .addOnFailureListener { e ->
+                Log.e("SearchFragment", "Error searching messages: ${e.message}", e)
+            }
     }
 
     private fun onUserSelected(user: User) {

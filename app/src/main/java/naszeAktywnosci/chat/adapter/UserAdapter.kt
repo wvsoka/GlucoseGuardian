@@ -9,6 +9,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.aplikacjatestowa.R
 import naszeAktywnosci.FirebaseData.Message
 import naszeAktywnosci.FirebaseData.User
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 
 class UserAdapter(
     private var usersWithMessages: List<Pair<User, Message?>>,
@@ -22,7 +25,9 @@ class UserAdapter(
 
     override fun onBindViewHolder(holder: UserViewHolder, position: Int) {
         val (user, lastMessage) = usersWithMessages[position]
-        holder.bind(user, lastMessage)
+        if (lastMessage != null) {
+            holder.bind(user, lastMessage)
+        }
     }
 
     override fun getItemCount(): Int = usersWithMessages.size
@@ -37,10 +42,12 @@ class UserAdapter(
         private val usernameTextView = view.findViewById<TextView>(R.id.usernameTextView)
         private val lastMessageTextView = view.findViewById<TextView>(R.id.lastMessageTextView)
 
-        fun bind(user: User, lastMessage: Message?) {
+        fun bind(user: User, message: Message) {
             try {
                 usernameTextView.text = user.name
-                lastMessageTextView.text = lastMessage?.text ?: "No messages yet."
+                val date = formatTimestamp(message.timestamp)
+                lastMessageTextView.text = "${message.text}\nSent: $date"
+
                 itemView.setOnClickListener {
                     Log.d("UserAdapter", "User selected: ${user.name}")
                     onUserSelected(user)
@@ -48,6 +55,12 @@ class UserAdapter(
             } catch (e: Exception) {
                 Log.e("UserAdapter", "Error binding data: ${e.message}", e)
             }
+        }
+
+        private fun formatTimestamp(timestamp: Long?): String {
+            if (timestamp == null) return "Unknown date"
+            val sdf = SimpleDateFormat("dd MMM yyyy, HH:mm", Locale.getDefault())
+            return sdf.format(Date(timestamp))
         }
     }
 }
